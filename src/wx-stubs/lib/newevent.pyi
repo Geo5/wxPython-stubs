@@ -28,7 +28,7 @@ class _PyEventSubclass(wx.PyEvent):
     """
     def __init__(self, **kwargs: object) -> None: ...
 
-class _PyCommandEventSubclass(wx.PyEvent):
+class _PyCommandEventSubclass(wx.PyCommandEvent):
     """This is a type-checking only subclass of `wx.PyCommandEvent` which is not the real run time type
     created by `NewCommandEvent()`, but improves the type checking experience.
 
