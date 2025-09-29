@@ -38,15 +38,13 @@ disable_error_code = []
 [tool.ruff]
 line-length = 100
 # Oldest supported Python version
-target-version = "py311"
+target-version = "py39"
 preview = true
 fix = true
 
 [tool.ruff.lint]
 select = ["ALL"]
 extend-safe-fixes = [
-  "UP006",
-  "UP007",
   "UP036",  # Remove unnecessary `sys.version_info` blocks
 ]
 ignore = [
@@ -82,6 +80,7 @@ ignore = [
   # Git blame is sufficient
   "TD002",  # Missing author in TODO;
   "TD003",  # Missing issue link for this TODO
+  "UP009", # Coding at start of file is generated
   "PLC0205",  # Sometimes __slots__ really is a string at runtime
   # ##
   # False-positives, but already checked by type-checkers
@@ -93,6 +92,29 @@ ignore = [
 
 [tool.ruff.lint.per-file-ignores]
 "*.pyi" = [
+  "D",
+  "B008",
+  "PYI009",
+  "PYI011",
+  "PYI014",
+  "PYI021",
+  "PYI047",
+  "PYI048",
+  "PIE790",
+  "E201",
+  "E202",
+  "E221",
+  "E227",
+  "E231",
+  "E252",
+  "E303",
+  "E402",
+  "I001",
+  "W293",
+  "UP007",
+  "UP045",
+  "F401",
+  "E265", # pyi files have generated block comments, cannot change them.
   # A lot of stubs are incomplete on purpose.
   # Some ANN204 (special method) are autofixable in stubs, but not all.
   "ANN2",  # Missing return type annotation for ...
