@@ -16,3 +16,20 @@ Copy all `*.pyi` files from Phoenix git to here:
 ```bash
 cd wx && find . -name '*.pyi' | cpio -pdmu <path-to-this-project>/src/wx-stubs/
 ```
+
+## Todos/Differences to upstream
+
+- [ ] 2 Phase etg execution: [PR #2776](https://github.com/wxWidgets/Phoenix/pull/2776)
+- [ ] Should `c`s `char` and `char*` be Python `bytes`? Currently the conversion is defined as `str`. (See [review in PR #2468](https://github.com/wxWidgets/Phoenix/pull/2468))
+- [ ] Remove `wx.` from `TypeAlias`es `_TwoInt` and similar in files other than `core.pyi`
+- [ ] Remove duplicate `wx.Colour` in some/all/? `Union`s
+- [ ] Does `SpinCtrlDouble` accept Python `Decimal`s in `SetValue(...)` and similar? If yes does this conversion apply to `c` `float64` in general and should be recorded as automatic conversion?
+- [ ] Sip generates some `c` array wrapper classes (created in etg scripts), which are recorded in type hints, but don't exists as classes in `.pyi` files
+- [ ] Function (and `@property`) names shadow classes in type hints. E.g. the following is a bad type hint on `f()`:
+```python
+class Foo: ...
+class Bar:
+    def f(self) -> Foo: ...
+    @property
+    def Foo(self) -> None: ...
+```
