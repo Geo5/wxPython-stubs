@@ -23,10 +23,13 @@ from enum import IntEnum, IntFlag, auto
 from typing import (
     Any,
     Callable,
+    Final,
     Generic,
+    Iterator,
     Literal,
     NewType,
     Optional,
+    Protocol,
     TypeVar,
     Union,
     overload,
@@ -126,13 +129,9 @@ class AuiManager(wx.EvtHandler):
         """
 
     @overload
-    def AddPane(self, window: wx.Window, direction: int=wx.LEFT, caption: str='') -> bool:
-        ...
-
+    def AddPane(self, window: wx.Window, direction: int=wx.LEFT, caption: str='') -> bool: ...
     @overload
-    def AddPane(self, window: wx.Window, pane_info: AuiPaneInfo, drop_pos: Union[wx.Point, wx._TwoInts]) -> bool:
-        ...
-
+    def AddPane(self, window: wx.Window, pane_info: AuiPaneInfo, drop_pos: Union[wx.Point, _TwoInts]) -> bool: ...
     @overload
     def AddPane(self, window: wx.Window, pane_info: AuiPaneInfo) -> bool:
         """
@@ -143,7 +142,7 @@ class AuiManager(wx.EvtHandler):
         AddPane() tells the frame manager to start managing a child window.
         """
 
-    def CalculateHintRect(self, paneWindow: wx.Window, pt: Union[wx.Point, wx._TwoInts], offset: Union[wx.Point, wx._TwoInts]) -> wx.Rect:
+    def CalculateHintRect(self, paneWindow: wx.Window, pt: Union[wx.Point, _TwoInts], offset: Union[wx.Point, _TwoInts]) -> wx.Rect:
         """
         CalculateHintRect(paneWindow, pt, offset) -> wx.Rect
         
@@ -181,7 +180,7 @@ class AuiManager(wx.EvtHandler):
         Tells the wxAuiManager to stop managing the pane specified by window.
         """
 
-    def DrawHintRect(self, paneWindow: wx.Window, pt: Union[wx.Point, wx._TwoInts], offset: Union[wx.Point, wx._TwoInts]) -> None:
+    def DrawHintRect(self, paneWindow: wx.Window, pt: Union[wx.Point, _TwoInts], offset: Union[wx.Point, _TwoInts]) -> None:
         """
         DrawHintRect(paneWindow, pt, offset) -> None
         
@@ -224,9 +223,7 @@ class AuiManager(wx.EvtHandler):
         """
 
     @overload
-    def GetPane(self, name: str) -> AuiPaneInfo:
-        ...
-
+    def GetPane(self, name: str) -> AuiPaneInfo: ...
     @overload
     def GetPane(self, window: wx.Window) -> AuiPaneInfo:
         """
@@ -341,7 +338,7 @@ class AuiManager(wx.EvtHandler):
         wxAuiManager.
         """
 
-    def ShowHint(self, rect: Union[wx.Rect, wx._FourInts]) -> None:
+    def ShowHint(self, rect: Union[wx.Rect, _FourInts]) -> None:
         """
         ShowHint(rect) -> None
         
@@ -349,7 +346,7 @@ class AuiManager(wx.EvtHandler):
         the specified rectangle.
         """
 
-    def StartPaneDrag(self, paneWindow: wx.Window, offset: Union[wx.Point, wx._TwoInts]) -> None:
+    def StartPaneDrag(self, paneWindow: wx.Window, offset: Union[wx.Point, _TwoInts]) -> None:
         """
         StartPaneDrag(paneWindow, offset) -> None
         
@@ -386,6 +383,7 @@ class AuiManager(wx.EvtHandler):
         
         Calling this method will return the wxAuiManager for a given window.
         """
+
     @property
     def AllPanes(self) -> AuiPaneInfoArray: ...
     @property
@@ -400,13 +398,13 @@ class AuiManager(wx.EvtHandler):
     def ManagedWindow(self) -> wx.Window: ...
     @ManagedWindow.setter
     def ManagedWindow(self, value: wx.Window, /) -> None: ...
-
     def ProcessDockResult(self, target: AuiPaneInfo, new_pos: AuiPaneInfo) -> bool:
         """
         ProcessDockResult(target, new_pos) -> bool
         
         ProcessDockResult() is a protected member of the wxAUI layout manager.
         """
+
 # end of class AuiManager
 
 
@@ -419,9 +417,7 @@ class AuiPaneInfo:
     """
 
     @overload
-    def __init__(self, c: AuiPaneInfo) -> None:
-        ...
-
+    def __init__(self, c: AuiPaneInfo) -> None: ...
     @overload
     def __init__(self) -> None:
         """
@@ -430,6 +426,7 @@ class AuiPaneInfo:
         
         wxAuiPaneInfo is part of the wxAUI class framework.
         """
+
     name: str
     caption: str
     icon: wx.BitmapBundle
@@ -447,13 +444,10 @@ class AuiPaneInfo:
     floating_size: wx.Size
     dock_proportion: int
     rect: wx.Rect
-
     @overload
-    def BestSize(self, x: int, y: int) -> AuiPaneInfo:
-        ...
-
+    def BestSize(self, x: int, y: int) -> AuiPaneInfo: ...
     @overload
-    def BestSize(self, size: Union[wx.Size, wx._TwoInts]) -> AuiPaneInfo:
+    def BestSize(self, size: Union[wx.Size, _TwoInts]) -> AuiPaneInfo:
         """
         BestSize(size) -> AuiPaneInfo
         BestSize(x, y) -> AuiPaneInfo
@@ -584,11 +578,9 @@ class AuiPaneInfo:
         """
 
     @overload
-    def FloatingPosition(self, x: int, y: int) -> AuiPaneInfo:
-        ...
-
+    def FloatingPosition(self, x: int, y: int) -> AuiPaneInfo: ...
     @overload
-    def FloatingPosition(self, pos: Union[wx.Point, wx._TwoInts]) -> AuiPaneInfo:
+    def FloatingPosition(self, pos: Union[wx.Point, _TwoInts]) -> AuiPaneInfo:
         """
         FloatingPosition(pos) -> AuiPaneInfo
         FloatingPosition(x, y) -> AuiPaneInfo
@@ -597,11 +589,9 @@ class AuiPaneInfo:
         """
 
     @overload
-    def FloatingSize(self, x: int, y: int) -> AuiPaneInfo:
-        ...
-
+    def FloatingSize(self, x: int, y: int) -> AuiPaneInfo: ...
     @overload
-    def FloatingSize(self, size: Union[wx.Size, wx._TwoInts]) -> AuiPaneInfo:
+    def FloatingSize(self, size: Union[wx.Size, _TwoInts]) -> AuiPaneInfo:
         """
         FloatingSize(size) -> AuiPaneInfo
         FloatingSize(x, y) -> AuiPaneInfo
@@ -821,11 +811,9 @@ class AuiPaneInfo:
         """
 
     @overload
-    def MaxSize(self, x: int, y: int) -> AuiPaneInfo:
-        ...
-
+    def MaxSize(self, x: int, y: int) -> AuiPaneInfo: ...
     @overload
-    def MaxSize(self, size: Union[wx.Size, wx._TwoInts]) -> AuiPaneInfo:
+    def MaxSize(self, size: Union[wx.Size, _TwoInts]) -> AuiPaneInfo:
         """
         MaxSize(size) -> AuiPaneInfo
         MaxSize(x, y) -> AuiPaneInfo
@@ -841,11 +829,9 @@ class AuiPaneInfo:
         """
 
     @overload
-    def MinSize(self, x: int, y: int) -> AuiPaneInfo:
-        ...
-
+    def MinSize(self, x: int, y: int) -> AuiPaneInfo: ...
     @overload
-    def MinSize(self, size: Union[wx.Size, wx._TwoInts]) -> AuiPaneInfo:
+    def MinSize(self, size: Union[wx.Size, _TwoInts]) -> AuiPaneInfo:
         """
         MinSize(size) -> AuiPaneInfo
         MinSize(x, y) -> AuiPaneInfo
@@ -976,6 +962,7 @@ class AuiPaneInfo:
         """
         IsValid() -> bool
         """
+
 # end of class AuiPaneInfo
 
 
@@ -1062,6 +1049,7 @@ class AuiManagerEvent(wx.Event):
         
         Cancels the action indicated by this event if CanVeto() is true.
         """
+
     @property
     def Button(self) -> int: ...
     @Button.setter
@@ -1088,15 +1076,14 @@ class AuiDockInfo:
     """
 
     @overload
-    def __init__(self, c: AuiDockInfo) -> None:
-        ...
-
+    def __init__(self, c: AuiDockInfo) -> None: ...
     @overload
     def __init__(self) -> None:
         """
         AuiDockInfo() -> None
         AuiDockInfo(c) -> None
         """
+
     panes: AuiPaneInfoPtrArray
     rect: wx.Rect
     dock_direction: int
@@ -1108,7 +1095,6 @@ class AuiDockInfo:
     toolbar: bool
     fixed: bool
     reserved1: bool
-
     def IsOk(self) -> bool:
         """
         IsOk() -> bool
@@ -1123,6 +1109,7 @@ class AuiDockInfo:
         """
         IsVertical() -> bool
         """
+
 # end of class AuiDockInfo
 
 
@@ -1150,6 +1137,7 @@ class AuiDockUIPart:
     typeBackground = _enum_1.typeBackground
     typePaneBorder = _enum_1.typePaneBorder
     typePaneButton = _enum_1.typePaneButton
+
     type: int
     orientation: int
     dock: AuiDockInfo
@@ -1188,6 +1176,7 @@ class AuiFloatingFrame(wx.Frame):
         Returns the embedded wxAuiManager managing this floating pane's
         contents.
         """
+
     @property
     def AuiManager(self) -> AuiManager: ...
     @property
@@ -1316,42 +1305,42 @@ class AuiDockArt:
         Create a copy of this wxAuiDockArt instance.
         """
 
-    def DrawBackground(self, dc: wx.DC, window: wx.Window, orientation: int, rect: Union[wx.Rect, wx._FourInts]) -> None:
+    def DrawBackground(self, dc: wx.DC, window: wx.Window, orientation: int, rect: Union[wx.Rect, _FourInts]) -> None:
         """
         DrawBackground(dc, window, orientation, rect) -> None
         
         Draws a background.
         """
 
-    def DrawBorder(self, dc: wx.DC, window: wx.Window, rect: Union[wx.Rect, wx._FourInts], pane: AuiPaneInfo) -> None:
+    def DrawBorder(self, dc: wx.DC, window: wx.Window, rect: Union[wx.Rect, _FourInts], pane: AuiPaneInfo) -> None:
         """
         DrawBorder(dc, window, rect, pane) -> None
         
         Draws a border.
         """
 
-    def DrawCaption(self, dc: wx.DC, window: wx.Window, text: str, rect: Union[wx.Rect, wx._FourInts], pane: AuiPaneInfo) -> None:
+    def DrawCaption(self, dc: wx.DC, window: wx.Window, text: str, rect: Union[wx.Rect, _FourInts], pane: AuiPaneInfo) -> None:
         """
         DrawCaption(dc, window, text, rect, pane) -> None
         
         Draws a caption.
         """
 
-    def DrawGripper(self, dc: wx.DC, window: wx.Window, rect: Union[wx.Rect, wx._FourInts], pane: AuiPaneInfo) -> None:
+    def DrawGripper(self, dc: wx.DC, window: wx.Window, rect: Union[wx.Rect, _FourInts], pane: AuiPaneInfo) -> None:
         """
         DrawGripper(dc, window, rect, pane) -> None
         
         Draws a gripper.
         """
 
-    def DrawPaneButton(self, dc: wx.DC, window: wx.Window, button: int, button_state: int, rect: Union[wx.Rect, wx._FourInts], pane: AuiPaneInfo) -> None:
+    def DrawPaneButton(self, dc: wx.DC, window: wx.Window, button: int, button_state: int, rect: Union[wx.Rect, _FourInts], pane: AuiPaneInfo) -> None:
         """
         DrawPaneButton(dc, window, button, button_state, rect, pane) -> None
         
         Draws a button in the pane's title bar.
         """
 
-    def DrawSash(self, dc: wx.DC, window: wx.Window, orientation: int, rect: Union[wx.Rect, wx._FourInts]) -> None:
+    def DrawSash(self, dc: wx.DC, window: wx.Window, orientation: int, rect: Union[wx.Rect, _FourInts]) -> None:
         """
         DrawSash(dc, window, orientation, rect) -> None
         
@@ -1379,7 +1368,7 @@ class AuiDockArt:
         Get the value of a certain setting.
         """
 
-    def SetColour(self, id: int, colour: Union[wx.Colour, wx.Colour, wx._ThreeInts, wx._FourInts, str, None]) -> None:
+    def SetColour(self, id: int, colour: Union[wx.Colour, _ThreeInts, _FourInts, str, None]) -> None:
         """
         SetColour(id, colour) -> None
         
@@ -1399,6 +1388,7 @@ class AuiDockArt:
         
         Set a certain setting with the value new_val.
         """
+
 # end of class AuiDockArt
 
 
@@ -1444,7 +1434,7 @@ class AuiDefaultDockArt(AuiDockArt):
         Get the colour of a certain setting.
         """
 
-    def SetColour(self, id: int, colour: Union[wx.Colour, wx.Colour, wx._ThreeInts, wx._FourInts, str, None]) -> None:
+    def SetColour(self, id: int, colour: Union[wx.Colour, _ThreeInts, _FourInts, str, None]) -> None:
         """
         SetColour(id, colour) -> None
         
@@ -1465,52 +1455,53 @@ class AuiDefaultDockArt(AuiDockArt):
         Get a font setting.
         """
 
-    def DrawSash(self, dc: wx.DC, window: wx.Window, orientation: int, rect: Union[wx.Rect, wx._FourInts]) -> None:
+    def DrawSash(self, dc: wx.DC, window: wx.Window, orientation: int, rect: Union[wx.Rect, _FourInts]) -> None:
         """
         DrawSash(dc, window, orientation, rect) -> None
         
         Draws a sash between two windows.
         """
 
-    def DrawBackground(self, dc: wx.DC, window: wx.Window, orientation: int, rect: Union[wx.Rect, wx._FourInts]) -> None:
+    def DrawBackground(self, dc: wx.DC, window: wx.Window, orientation: int, rect: Union[wx.Rect, _FourInts]) -> None:
         """
         DrawBackground(dc, window, orientation, rect) -> None
         
         Draws a background.
         """
 
-    def DrawCaption(self, dc: wx.DC, window: wx.Window, text: str, rect: Union[wx.Rect, wx._FourInts], pane: AuiPaneInfo) -> None:
+    def DrawCaption(self, dc: wx.DC, window: wx.Window, text: str, rect: Union[wx.Rect, _FourInts], pane: AuiPaneInfo) -> None:
         """
         DrawCaption(dc, window, text, rect, pane) -> None
         
         Draws a caption.
         """
 
-    def DrawGripper(self, dc: wx.DC, window: wx.Window, rect: Union[wx.Rect, wx._FourInts], pane: AuiPaneInfo) -> None:
+    def DrawGripper(self, dc: wx.DC, window: wx.Window, rect: Union[wx.Rect, _FourInts], pane: AuiPaneInfo) -> None:
         """
         DrawGripper(dc, window, rect, pane) -> None
         
         Draws a gripper.
         """
 
-    def DrawBorder(self, dc: wx.DC, window: wx.Window, rect: Union[wx.Rect, wx._FourInts], pane: AuiPaneInfo) -> None:
+    def DrawBorder(self, dc: wx.DC, window: wx.Window, rect: Union[wx.Rect, _FourInts], pane: AuiPaneInfo) -> None:
         """
         DrawBorder(dc, window, rect, pane) -> None
         
         Draws a border.
         """
 
-    def DrawPaneButton(self, dc: wx.DC, window: wx.Window, button: int, button_state: int, rect: Union[wx.Rect, wx._FourInts], pane: AuiPaneInfo) -> None:
+    def DrawPaneButton(self, dc: wx.DC, window: wx.Window, button: int, button_state: int, rect: Union[wx.Rect, _FourInts], pane: AuiPaneInfo) -> None:
         """
         DrawPaneButton(dc, window, button, button_state, rect, pane) -> None
         
         Draws a button in the pane's title bar.
         """
 
-    def DrawIcon(self, dc: wx.DC, rect: Union[wx.Rect, wx._FourInts], pane: AuiPaneInfo) -> None:
+    def DrawIcon(self, dc: wx.DC, rect: Union[wx.Rect, _FourInts], pane: AuiPaneInfo) -> None:
         """
         DrawIcon(dc, rect, pane) -> None
         """
+
 # end of class AuiDefaultDockArt
 
 #-- end-auidockart --#
@@ -1578,9 +1569,7 @@ class AuiToolBarItem:
     """
 
     @overload
-    def __init__(self, c: AuiToolBarItem) -> None:
-        ...
-
+    def __init__(self, c: AuiToolBarItem) -> None: ...
     @overload
     def __init__(self) -> None:
         """
@@ -1724,7 +1713,7 @@ class AuiToolBarItem:
         GetLongHelp() -> str
         """
 
-    def SetMinSize(self, s: Union[wx.Size, wx._TwoInts]) -> None:
+    def SetMinSize(self, s: Union[wx.Size, _TwoInts]) -> None:
         """
         SetMinSize(s) -> None
         """
@@ -1814,6 +1803,7 @@ class AuiToolBarItem:
         
         Returns whether the toolbar item can be toggled.
         """
+
     @property
     def Alignment(self) -> int: ...
     @Alignment.setter
@@ -1849,7 +1839,7 @@ class AuiToolBarItem:
     @property
     def MinSize(self) -> wx.Size: ...
     @MinSize.setter
-    def MinSize(self, value: Union[wx.Size, wx._TwoInts], /) -> None: ...
+    def MinSize(self, value: Union[wx.Size, _TwoInts], /) -> None: ...
     @property
     def Proportion(self) -> int: ...
     @Proportion.setter
@@ -1930,47 +1920,47 @@ class AuiToolBarArt:
         GetTextOrientation() -> int
         """
 
-    def DrawBackground(self, dc: wx.DC, wnd: wx.Window, rect: Union[wx.Rect, wx._FourInts]) -> None:
+    def DrawBackground(self, dc: wx.DC, wnd: wx.Window, rect: Union[wx.Rect, _FourInts]) -> None:
         """
         DrawBackground(dc, wnd, rect) -> None
         """
 
-    def DrawPlainBackground(self, dc: wx.DC, wnd: wx.Window, rect: Union[wx.Rect, wx._FourInts]) -> None:
+    def DrawPlainBackground(self, dc: wx.DC, wnd: wx.Window, rect: Union[wx.Rect, _FourInts]) -> None:
         """
         DrawPlainBackground(dc, wnd, rect) -> None
         """
 
-    def DrawLabel(self, dc: wx.DC, wnd: wx.Window, item: AuiToolBarItem, rect: Union[wx.Rect, wx._FourInts]) -> None:
+    def DrawLabel(self, dc: wx.DC, wnd: wx.Window, item: AuiToolBarItem, rect: Union[wx.Rect, _FourInts]) -> None:
         """
         DrawLabel(dc, wnd, item, rect) -> None
         """
 
-    def DrawButton(self, dc: wx.DC, wnd: wx.Window, item: AuiToolBarItem, rect: Union[wx.Rect, wx._FourInts]) -> None:
+    def DrawButton(self, dc: wx.DC, wnd: wx.Window, item: AuiToolBarItem, rect: Union[wx.Rect, _FourInts]) -> None:
         """
         DrawButton(dc, wnd, item, rect) -> None
         """
 
-    def DrawDropDownButton(self, dc: wx.DC, wnd: wx.Window, item: AuiToolBarItem, rect: Union[wx.Rect, wx._FourInts]) -> None:
+    def DrawDropDownButton(self, dc: wx.DC, wnd: wx.Window, item: AuiToolBarItem, rect: Union[wx.Rect, _FourInts]) -> None:
         """
         DrawDropDownButton(dc, wnd, item, rect) -> None
         """
 
-    def DrawControlLabel(self, dc: wx.DC, wnd: wx.Window, item: AuiToolBarItem, rect: Union[wx.Rect, wx._FourInts]) -> None:
+    def DrawControlLabel(self, dc: wx.DC, wnd: wx.Window, item: AuiToolBarItem, rect: Union[wx.Rect, _FourInts]) -> None:
         """
         DrawControlLabel(dc, wnd, item, rect) -> None
         """
 
-    def DrawSeparator(self, dc: wx.DC, wnd: wx.Window, rect: Union[wx.Rect, wx._FourInts]) -> None:
+    def DrawSeparator(self, dc: wx.DC, wnd: wx.Window, rect: Union[wx.Rect, _FourInts]) -> None:
         """
         DrawSeparator(dc, wnd, rect) -> None
         """
 
-    def DrawGripper(self, dc: wx.DC, wnd: wx.Window, rect: Union[wx.Rect, wx._FourInts]) -> None:
+    def DrawGripper(self, dc: wx.DC, wnd: wx.Window, rect: Union[wx.Rect, _FourInts]) -> None:
         """
         DrawGripper(dc, wnd, rect) -> None
         """
 
-    def DrawOverflowButton(self, dc: wx.DC, wnd: wx.Window, rect: Union[wx.Rect, wx._FourInts], state: int) -> None:
+    def DrawOverflowButton(self, dc: wx.DC, wnd: wx.Window, rect: Union[wx.Rect, _FourInts], state: int) -> None:
         """
         DrawOverflowButton(dc, wnd, rect, state) -> None
         """
@@ -1999,6 +1989,7 @@ class AuiToolBarArt:
         """
         ShowDropDown(wnd, items) -> int
         """
+
     @property
     def Flags(self) -> int: ...
     @Flags.setter
@@ -2063,47 +2054,47 @@ class AuiDefaultToolBarArt(AuiToolBarArt):
         GetTextOrientation() -> int
         """
 
-    def DrawBackground(self, dc: wx.DC, wnd: wx.Window, rect: Union[wx.Rect, wx._FourInts]) -> None:
+    def DrawBackground(self, dc: wx.DC, wnd: wx.Window, rect: Union[wx.Rect, _FourInts]) -> None:
         """
         DrawBackground(dc, wnd, rect) -> None
         """
 
-    def DrawPlainBackground(self, dc: wx.DC, wnd: wx.Window, rect: Union[wx.Rect, wx._FourInts]) -> None:
+    def DrawPlainBackground(self, dc: wx.DC, wnd: wx.Window, rect: Union[wx.Rect, _FourInts]) -> None:
         """
         DrawPlainBackground(dc, wnd, rect) -> None
         """
 
-    def DrawLabel(self, dc: wx.DC, wnd: wx.Window, item: AuiToolBarItem, rect: Union[wx.Rect, wx._FourInts]) -> None:
+    def DrawLabel(self, dc: wx.DC, wnd: wx.Window, item: AuiToolBarItem, rect: Union[wx.Rect, _FourInts]) -> None:
         """
         DrawLabel(dc, wnd, item, rect) -> None
         """
 
-    def DrawButton(self, dc: wx.DC, wnd: wx.Window, item: AuiToolBarItem, rect: Union[wx.Rect, wx._FourInts]) -> None:
+    def DrawButton(self, dc: wx.DC, wnd: wx.Window, item: AuiToolBarItem, rect: Union[wx.Rect, _FourInts]) -> None:
         """
         DrawButton(dc, wnd, item, rect) -> None
         """
 
-    def DrawDropDownButton(self, dc: wx.DC, wnd: wx.Window, item: AuiToolBarItem, rect: Union[wx.Rect, wx._FourInts]) -> None:
+    def DrawDropDownButton(self, dc: wx.DC, wnd: wx.Window, item: AuiToolBarItem, rect: Union[wx.Rect, _FourInts]) -> None:
         """
         DrawDropDownButton(dc, wnd, item, rect) -> None
         """
 
-    def DrawControlLabel(self, dc: wx.DC, wnd: wx.Window, item: AuiToolBarItem, rect: Union[wx.Rect, wx._FourInts]) -> None:
+    def DrawControlLabel(self, dc: wx.DC, wnd: wx.Window, item: AuiToolBarItem, rect: Union[wx.Rect, _FourInts]) -> None:
         """
         DrawControlLabel(dc, wnd, item, rect) -> None
         """
 
-    def DrawSeparator(self, dc: wx.DC, wnd: wx.Window, rect: Union[wx.Rect, wx._FourInts]) -> None:
+    def DrawSeparator(self, dc: wx.DC, wnd: wx.Window, rect: Union[wx.Rect, _FourInts]) -> None:
         """
         DrawSeparator(dc, wnd, rect) -> None
         """
 
-    def DrawGripper(self, dc: wx.DC, wnd: wx.Window, rect: Union[wx.Rect, wx._FourInts]) -> None:
+    def DrawGripper(self, dc: wx.DC, wnd: wx.Window, rect: Union[wx.Rect, _FourInts]) -> None:
         """
         DrawGripper(dc, wnd, rect) -> None
         """
 
-    def DrawOverflowButton(self, dc: wx.DC, wnd: wx.Window, rect: Union[wx.Rect, wx._FourInts], state: int) -> None:
+    def DrawOverflowButton(self, dc: wx.DC, wnd: wx.Window, rect: Union[wx.Rect, _FourInts], state: int) -> None:
         """
         DrawOverflowButton(dc, wnd, rect, state) -> None
         """
@@ -2132,6 +2123,7 @@ class AuiDefaultToolBarArt(AuiToolBarArt):
         """
         ShowDropDown(wnd, items) -> int
         """
+
     @property
     def Flags(self) -> int: ...
     @Flags.setter
@@ -2156,9 +2148,7 @@ class AuiToolBar(wx.Control):
     """
 
     @overload
-    def __init__(self, parent: wx.Window, id: int=wx.ID_ANY, position: Union[wx.Point, wx._TwoInts]=wx.DefaultPosition, size: Union[wx.Size, wx._TwoInts]=wx.DefaultSize, style: int=AUI_TB_DEFAULT_STYLE) -> None:
-        ...
-
+    def __init__(self, parent: wx.Window, id: int=wx.ID_ANY, position: Union[wx.Point, _TwoInts]=wx.DefaultPosition, size: Union[wx.Size, _TwoInts]=wx.DefaultSize, style: int=AUI_TB_DEFAULT_STYLE) -> None: ...
     @overload
     def __init__(self) -> None:
         """
@@ -2168,7 +2158,7 @@ class AuiToolBar(wx.Control):
         wxAuiToolBar is a dockable toolbar, part of the wxAUI class framework.
         """
 
-    def Create(self, parent: wx.Window, id: int=wx.ID_ANY, pos: Union[wx.Point, wx._TwoInts]=wx.DefaultPosition, size: Union[wx.Size, wx._TwoInts]=wx.DefaultSize, style: int=AUI_TB_DEFAULT_STYLE) -> bool:
+    def Create(self, parent: wx.Window, id: int=wx.ID_ANY, pos: Union[wx.Point, _TwoInts]=wx.DefaultPosition, size: Union[wx.Size, _TwoInts]=wx.DefaultSize, style: int=AUI_TB_DEFAULT_STYLE) -> bool:
         """
         Create(parent, id=wx.ID_ANY, pos=wx.DefaultPosition, size=wx.DefaultSize, style=AUI_TB_DEFAULT_STYLE) -> bool
         
@@ -2208,13 +2198,9 @@ class AuiToolBar(wx.Control):
         """
 
     @overload
-    def AddTool(self, toolId: int, label: str, bitmap: Union[wx.BitmapBundle, wx.Bitmap, wx.Icon], disabled_bitmap: Union[wx.BitmapBundle, wx.Bitmap, wx.Icon], kind: wx.ItemKind, short_help_string: str, long_help_string: str, client_data: wx.Object) -> AuiToolBarItem:
-        ...
-
+    def AddTool(self, toolId: int, label: str, bitmap: Union[wx.BitmapBundle, wx.Bitmap, wx.Icon], disabled_bitmap: Union[wx.BitmapBundle, wx.Bitmap, wx.Icon], kind: wx.ItemKind, short_help_string: str, long_help_string: str, client_data: wx.Object) -> AuiToolBarItem: ...
     @overload
-    def AddTool(self, toolId: int, bitmap: Union[wx.BitmapBundle, wx.Bitmap, wx.Icon], disabled_bitmap: Union[wx.BitmapBundle, wx.Bitmap, wx.Icon], toggle: bool=False, client_data: Optional[wx.Object]=None, short_help_string: str='', long_help_string: str='') -> AuiToolBarItem:
-        ...
-
+    def AddTool(self, toolId: int, bitmap: Union[wx.BitmapBundle, wx.Bitmap, wx.Icon], disabled_bitmap: Union[wx.BitmapBundle, wx.Bitmap, wx.Icon], toggle: bool=False, client_data: Optional[wx.Object]=None, short_help_string: str='', long_help_string: str='') -> AuiToolBarItem: ...
     @overload
     def AddTool(self, toolId: int, label: str, bitmap: Union[wx.BitmapBundle, wx.Bitmap, wx.Icon], short_help_string: str='', kind: wx.ItemKind=wx.ITEM_NORMAL) -> AuiToolBarItem:
         """
@@ -2348,22 +2334,18 @@ class AuiToolBar(wx.Control):
         """
 
     @overload
-    def SetMargins(self, x: int, y: int) -> None:
-        ...
-
+    def SetMargins(self, x: int, y: int) -> None: ...
     @overload
-    def SetMargins(self, left: int, right: int, top: int, bottom: int) -> None:
-        ...
-
+    def SetMargins(self, left: int, right: int, top: int, bottom: int) -> None: ...
     @overload
-    def SetMargins(self, size: Union[wx.Size, wx._TwoInts]) -> None:
+    def SetMargins(self, size: Union[wx.Size, _TwoInts]) -> None:
         """
         SetMargins(size) -> None
         SetMargins(x, y) -> None
         SetMargins(left, right, top, bottom) -> None
         """
 
-    def SetToolBitmapSize(self, size: Union[wx.Size, wx._TwoInts]) -> None:
+    def SetToolBitmapSize(self, size: Union[wx.Size, _TwoInts]) -> None:
         """
         SetToolBitmapSize(size) -> None
         """
@@ -2552,6 +2534,7 @@ class AuiToolBar(wx.Control):
         """
         GetClassDefaultAttributes(variant=wx.WINDOW_VARIANT_NORMAL) -> wx.VisualAttributes
         """
+
     @property
     def ArtProvider(self) -> AuiToolBarArt: ...
     @ArtProvider.setter
@@ -2569,7 +2552,7 @@ class AuiToolBar(wx.Control):
     @property
     def ToolBitmapSize(self) -> wx.Size: ...
     @ToolBitmapSize.setter
-    def ToolBitmapSize(self, value: Union[wx.Size, wx._TwoInts], /) -> None: ...
+    def ToolBitmapSize(self, value: Union[wx.Size, _TwoInts], /) -> None: ...
     @property
     def ToolBorderPadding(self) -> int: ...
     @ToolBorderPadding.setter
@@ -2604,9 +2587,7 @@ class AuiToolBarEvent(wx.NotifyEvent):
     """
 
     @overload
-    def __init__(self, c: AuiToolBarEvent) -> None:
-        ...
-
+    def __init__(self, c: AuiToolBarEvent) -> None: ...
     @overload
     def __init__(self, commandType: wx.EventType=wx.wxEVT_NULL, winId: int=0) -> None:
         """
@@ -2649,12 +2630,12 @@ class AuiToolBarEvent(wx.NotifyEvent):
         SetDropDownClicked(c) -> None
         """
 
-    def SetClickPoint(self, p: Union[wx.Point, wx._TwoInts]) -> None:
+    def SetClickPoint(self, p: Union[wx.Point, _TwoInts]) -> None:
         """
         SetClickPoint(p) -> None
         """
 
-    def SetItemRect(self, r: Union[wx.Rect, wx._FourInts]) -> None:
+    def SetItemRect(self, r: Union[wx.Rect, _FourInts]) -> None:
         """
         SetItemRect(r) -> None
         """
@@ -2663,14 +2644,15 @@ class AuiToolBarEvent(wx.NotifyEvent):
         """
         SetToolId(toolId) -> None
         """
+
     @property
     def ClickPoint(self) -> wx.Point: ...
     @ClickPoint.setter
-    def ClickPoint(self, value: Union[wx.Point, wx._TwoInts], /) -> None: ...
+    def ClickPoint(self, value: Union[wx.Point, _TwoInts], /) -> None: ...
     @property
     def ItemRect(self) -> wx.Rect: ...
     @ItemRect.setter
-    def ItemRect(self, value: Union[wx.Rect, wx._FourInts], /) -> None: ...
+    def ItemRect(self, value: Union[wx.Rect, _FourInts], /) -> None: ...
     @property
     def ToolId(self) -> int: ...
     @ToolId.setter
@@ -2744,9 +2726,7 @@ class AuiNotebook(wx.BookCtrlBase):
     """
 
     @overload
-    def __init__(self, parent: wx.Window, id: int=wx.ID_ANY, pos: Union[wx.Point, wx._TwoInts]=wx.DefaultPosition, size: Union[wx.Size, wx._TwoInts]=wx.DefaultSize, style: int=AUI_NB_DEFAULT_STYLE) -> None:
-        ...
-
+    def __init__(self, parent: wx.Window, id: int=wx.ID_ANY, pos: Union[wx.Point, _TwoInts]=wx.DefaultPosition, size: Union[wx.Size, _TwoInts]=wx.DefaultSize, style: int=AUI_NB_DEFAULT_STYLE) -> None: ...
     @overload
     def __init__(self) -> None:
         """
@@ -2758,9 +2738,7 @@ class AuiNotebook(wx.BookCtrlBase):
         """
 
     @overload
-    def AddPage(self, page: wx.Window, text: str, select: bool, imageId: int) -> bool:
-        ...
-
+    def AddPage(self, page: wx.Window, text: str, select: bool, imageId: int) -> bool: ...
     @overload
     def AddPage(self, page: wx.Window, caption: str, select: bool=False, bitmap: Union[wx.BitmapBundle, wx.Bitmap, wx.Icon]=wx.BitmapBundle()) -> bool:
         """
@@ -2785,7 +2763,7 @@ class AuiNotebook(wx.BookCtrlBase):
         selection.
         """
 
-    def Create(self, parent: wx.Window, id: int=wx.ID_ANY, pos: Union[wx.Point, wx._TwoInts]=wx.DefaultPosition, size: Union[wx.Size, wx._TwoInts]=wx.DefaultSize, style: int=0) -> bool:
+    def Create(self, parent: wx.Window, id: int=wx.ID_ANY, pos: Union[wx.Point, _TwoInts]=wx.DefaultPosition, size: Union[wx.Size, _TwoInts]=wx.DefaultSize, style: int=0) -> bool:
         """
         Create(parent, id=wx.ID_ANY, pos=wx.DefaultPosition, size=wx.DefaultSize, style=0) -> bool
         
@@ -2884,9 +2862,7 @@ class AuiNotebook(wx.BookCtrlBase):
         """
 
     @overload
-    def InsertPage(self, index: int, page: wx.Window, text: str, select: bool, imageId: int) -> bool:
-        ...
-
+    def InsertPage(self, index: int, page: wx.Window, text: str, select: bool, imageId: int) -> bool: ...
     @overload
     def InsertPage(self, page_idx: int, page: wx.Window, caption: str, select: bool=False, bitmap: Union[wx.BitmapBundle, wx.Bitmap, wx.Icon]=wx.BitmapBundle()) -> bool:
         """
@@ -2982,7 +2958,7 @@ class AuiNotebook(wx.BookCtrlBase):
         Sets the tab height.
         """
 
-    def SetUniformBitmapSize(self, size: Union[wx.Size, wx._TwoInts]) -> None:
+    def SetUniformBitmapSize(self, size: Union[wx.Size, _TwoInts]) -> None:
         """
         SetUniformBitmapSize(size) -> None
         
@@ -3012,7 +2988,7 @@ class AuiNotebook(wx.BookCtrlBase):
         Returns the image index for the given page.
         """
 
-    def GetTabCtrlFromPoint(self, pt: Union[wx.Point, wx._TwoInts]) -> AuiTabCtrl:
+    def GetTabCtrlFromPoint(self, pt: Union[wx.Point, _TwoInts]) -> AuiTabCtrl:
         """
         GetTabCtrlFromPoint(pt) -> AuiTabCtrl
         
@@ -3038,6 +3014,7 @@ class AuiNotebook(wx.BookCtrlBase):
         """
         GetClassDefaultAttributes(variant=wx.WINDOW_VARIANT_NORMAL) -> wx.VisualAttributes
         """
+
     @property
     def ActiveTabCtrl(self) -> AuiTabCtrl: ...
     @property
@@ -3064,6 +3041,7 @@ class AuiNotebookPage:
     A simple class which holds information about the notebook's pages and
     their state.
     """
+
     window: wx.Window
     caption: str
     tooltip: str
@@ -3078,6 +3056,7 @@ class AuiTabContainerButton:
     A simple class which holds information about wxAuiNotebook tab buttons
     and their state.
     """
+
     id: int
     curState: int
     location: int
@@ -3144,9 +3123,7 @@ class AuiTabContainer:
         """
 
     @overload
-    def SetActivePage(self, page: int) -> bool:
-        ...
-
+    def SetActivePage(self, page: int) -> bool: ...
     @overload
     def SetActivePage(self, page: wx.Window) -> bool:
         """
@@ -3214,12 +3191,12 @@ class AuiTabContainer:
         SetMeasuringFont(measuringFont) -> None
         """
 
-    def SetColour(self, colour: Union[wx.Colour, wx.Colour, wx._ThreeInts, wx._FourInts, str, None]) -> None:
+    def SetColour(self, colour: Union[wx.Colour, _ThreeInts, _FourInts, str, None]) -> None:
         """
         SetColour(colour) -> None
         """
 
-    def SetActiveColour(self, colour: Union[wx.Colour, wx.Colour, wx._ThreeInts, wx._FourInts, str, None]) -> None:
+    def SetActiveColour(self, colour: Union[wx.Colour, _ThreeInts, _FourInts, str, None]) -> None:
         """
         SetActiveColour(colour) -> None
         """
@@ -3229,7 +3206,7 @@ class AuiTabContainer:
         DoShowHide() -> None
         """
 
-    def SetRect(self, rect: Union[wx.Rect, wx._FourInts], wnd: Optional[wx.Window]=None) -> None:
+    def SetRect(self, rect: Union[wx.Rect, _FourInts], wnd: Optional[wx.Window]=None) -> None:
         """
         SetRect(rect, wnd=None) -> None
         """
@@ -3263,6 +3240,7 @@ class AuiTabContainer:
         """
         MakeTabVisible(tabPage, win) -> None
         """
+
     @property
     def ActivePage(self) -> int: ...
     @ActivePage.setter
@@ -3309,28 +3287,28 @@ class AuiTabArt:
         Clones the art object.
         """
 
-    def DrawBackground(self, dc: wx.DC, wnd: wx.Window, rect: Union[wx.Rect, wx._FourInts]) -> None:
+    def DrawBackground(self, dc: wx.DC, wnd: wx.Window, rect: Union[wx.Rect, _FourInts]) -> None:
         """
         DrawBackground(dc, wnd, rect) -> None
         
         Draws a background on the given area.
         """
 
-    def DrawButton(self, dc: wx.DC, wnd: wx.Window, in_rect: Union[wx.Rect, wx._FourInts], bitmap_id: int, button_state: int, orientation: int, out_rect: Union[wx.Rect, wx._FourInts]) -> None:
+    def DrawButton(self, dc: wx.DC, wnd: wx.Window, in_rect: Union[wx.Rect, _FourInts], bitmap_id: int, button_state: int, orientation: int, out_rect: Union[wx.Rect, _FourInts]) -> None:
         """
         DrawButton(dc, wnd, in_rect, bitmap_id, button_state, orientation, out_rect) -> None
         
         Draws a button.
         """
 
-    def DrawTab(self, dc: wx.DC, wnd: wx.Window, page: AuiNotebookPage, rect: Union[wx.Rect, wx._FourInts], close_button_state: int, out_tab_rect: Union[wx.Rect, wx._FourInts], out_button_rect: Union[wx.Rect, wx._FourInts], x_extent: int) -> None:
+    def DrawTab(self, dc: wx.DC, wnd: wx.Window, page: AuiNotebookPage, rect: Union[wx.Rect, _FourInts], close_button_state: int, out_tab_rect: Union[wx.Rect, _FourInts], out_button_rect: Union[wx.Rect, _FourInts], x_extent: int) -> None:
         """
         DrawTab(dc, wnd, page, rect, close_button_state, out_tab_rect, out_button_rect, x_extent) -> None
         
         Draws a tab.
         """
 
-    def GetBestTabCtrlSize(self, _param_0: wx.Window, _param_1: AuiNotebookPageArray, _param_2: Union[wx.Size, wx._TwoInts]) -> int:
+    def GetBestTabCtrlSize(self, _param_0: wx.Window, _param_1: AuiNotebookPageArray, _param_2: Union[wx.Size, _TwoInts]) -> int:
         """
         GetBestTabCtrlSize(_param_0, _param_1, _param_2) -> int
         
@@ -3379,26 +3357,27 @@ class AuiTabArt:
         Sets the font for drawing text for selected UI elements.
         """
 
-    def SetColour(self, colour: Union[wx.Colour, wx.Colour, wx._ThreeInts, wx._FourInts, str, None]) -> None:
+    def SetColour(self, colour: Union[wx.Colour, _ThreeInts, _FourInts, str, None]) -> None:
         """
         SetColour(colour) -> None
         
         Sets the colour of the inactive tabs.
         """
 
-    def SetActiveColour(self, colour: Union[wx.Colour, wx.Colour, wx._ThreeInts, wx._FourInts, str, None]) -> None:
+    def SetActiveColour(self, colour: Union[wx.Colour, _ThreeInts, _FourInts, str, None]) -> None:
         """
         SetActiveColour(colour) -> None
         
         Sets the colour of the selected tab.
         """
 
-    def SetSizingInfo(self, tab_ctrl_size: Union[wx.Size, wx._TwoInts], tab_count: int, wnd: Optional[wx.Window]=None) -> None:
+    def SetSizingInfo(self, tab_ctrl_size: Union[wx.Size, _TwoInts], tab_count: int, wnd: Optional[wx.Window]=None) -> None:
         """
         SetSizingInfo(tab_ctrl_size, tab_count, wnd=None) -> None
         
         Sets sizing information.
         """
+
     @property
     def IndentSize(self) -> int: ...
 # end of class AuiTabArt
@@ -3432,7 +3411,7 @@ class AuiDefaultTabArt(AuiTabArt):
         Sets flags.
         """
 
-    def SetSizingInfo(self, tab_ctrl_size: Union[wx.Size, wx._TwoInts], tab_count: int, wnd: Optional[wx.Window]=None) -> None:
+    def SetSizingInfo(self, tab_ctrl_size: Union[wx.Size, _TwoInts], tab_count: int, wnd: Optional[wx.Window]=None) -> None:
         """
         SetSizingInfo(tab_ctrl_size, tab_count, wnd=None) -> None
         
@@ -3460,35 +3439,35 @@ class AuiDefaultTabArt(AuiTabArt):
         Sets the font used for calculating measurements.
         """
 
-    def SetColour(self, colour: Union[wx.Colour, wx.Colour, wx._ThreeInts, wx._FourInts, str, None]) -> None:
+    def SetColour(self, colour: Union[wx.Colour, _ThreeInts, _FourInts, str, None]) -> None:
         """
         SetColour(colour) -> None
         
         Sets the colour of the inactive tabs.
         """
 
-    def SetActiveColour(self, colour: Union[wx.Colour, wx.Colour, wx._ThreeInts, wx._FourInts, str, None]) -> None:
+    def SetActiveColour(self, colour: Union[wx.Colour, _ThreeInts, _FourInts, str, None]) -> None:
         """
         SetActiveColour(colour) -> None
         
         Sets the colour of the selected tab.
         """
 
-    def DrawBackground(self, dc: wx.DC, wnd: wx.Window, rect: Union[wx.Rect, wx._FourInts]) -> None:
+    def DrawBackground(self, dc: wx.DC, wnd: wx.Window, rect: Union[wx.Rect, _FourInts]) -> None:
         """
         DrawBackground(dc, wnd, rect) -> None
         
         Draws a background on the given area.
         """
 
-    def DrawTab(self, dc: wx.DC, wnd: wx.Window, page: AuiNotebookPage, rect: Union[wx.Rect, wx._FourInts], close_button_state: int, out_tab_rect: Union[wx.Rect, wx._FourInts], out_button_rect: Union[wx.Rect, wx._FourInts], x_extent: int) -> None:
+    def DrawTab(self, dc: wx.DC, wnd: wx.Window, page: AuiNotebookPage, rect: Union[wx.Rect, _FourInts], close_button_state: int, out_tab_rect: Union[wx.Rect, _FourInts], out_button_rect: Union[wx.Rect, _FourInts], x_extent: int) -> None:
         """
         DrawTab(dc, wnd, page, rect, close_button_state, out_tab_rect, out_button_rect, x_extent) -> None
         
         Draws a tab.
         """
 
-    def DrawButton(self, dc: wx.DC, wnd: wx.Window, in_rect: Union[wx.Rect, wx._FourInts], bitmap_id: int, button_state: int, orientation: int, out_rect: Union[wx.Rect, wx._FourInts]) -> None:
+    def DrawButton(self, dc: wx.DC, wnd: wx.Window, in_rect: Union[wx.Rect, _FourInts], bitmap_id: int, button_state: int, orientation: int, out_rect: Union[wx.Rect, _FourInts]) -> None:
         """
         DrawButton(dc, wnd, in_rect, bitmap_id, button_state, orientation, out_rect) -> None
         
@@ -3514,12 +3493,13 @@ class AuiDefaultTabArt(AuiTabArt):
         ShowDropDown(wnd, items, activeIdx) -> int
         """
 
-    def GetBestTabCtrlSize(self, _param_0: wx.Window, _param_1: AuiNotebookPageArray, _param_2: Union[wx.Size, wx._TwoInts]) -> int:
+    def GetBestTabCtrlSize(self, _param_0: wx.Window, _param_1: AuiNotebookPageArray, _param_2: Union[wx.Size, _TwoInts]) -> int:
         """
         GetBestTabCtrlSize(_param_0, _param_1, _param_2) -> int
         
         Returns the tab control size.
         """
+
     @property
     def IndentSize(self) -> int: ...
 # end of class AuiDefaultTabArt
@@ -3553,7 +3533,7 @@ class AuiSimpleTabArt(AuiTabArt):
         Sets flags.
         """
 
-    def SetSizingInfo(self, tab_ctrl_size: Union[wx.Size, wx._TwoInts], tab_count: int, wnd: Optional[wx.Window]=None) -> None:
+    def SetSizingInfo(self, tab_ctrl_size: Union[wx.Size, _TwoInts], tab_count: int, wnd: Optional[wx.Window]=None) -> None:
         """
         SetSizingInfo(tab_ctrl_size, tab_count, wnd=None) -> None
         
@@ -3581,35 +3561,35 @@ class AuiSimpleTabArt(AuiTabArt):
         Sets the font used for calculating measurements.
         """
 
-    def SetColour(self, colour: Union[wx.Colour, wx.Colour, wx._ThreeInts, wx._FourInts, str, None]) -> None:
+    def SetColour(self, colour: Union[wx.Colour, _ThreeInts, _FourInts, str, None]) -> None:
         """
         SetColour(colour) -> None
         
         Sets the colour of the inactive tabs.
         """
 
-    def SetActiveColour(self, colour: Union[wx.Colour, wx.Colour, wx._ThreeInts, wx._FourInts, str, None]) -> None:
+    def SetActiveColour(self, colour: Union[wx.Colour, _ThreeInts, _FourInts, str, None]) -> None:
         """
         SetActiveColour(colour) -> None
         
         Sets the colour of the selected tab.
         """
 
-    def DrawBackground(self, dc: wx.DC, wnd: wx.Window, rect: Union[wx.Rect, wx._FourInts]) -> None:
+    def DrawBackground(self, dc: wx.DC, wnd: wx.Window, rect: Union[wx.Rect, _FourInts]) -> None:
         """
         DrawBackground(dc, wnd, rect) -> None
         
         Draws a background on the given area.
         """
 
-    def DrawTab(self, dc: wx.DC, wnd: wx.Window, page: AuiNotebookPage, rect: Union[wx.Rect, wx._FourInts], close_button_state: int, out_tab_rect: Union[wx.Rect, wx._FourInts], out_button_rect: Union[wx.Rect, wx._FourInts], x_extent: int) -> None:
+    def DrawTab(self, dc: wx.DC, wnd: wx.Window, page: AuiNotebookPage, rect: Union[wx.Rect, _FourInts], close_button_state: int, out_tab_rect: Union[wx.Rect, _FourInts], out_button_rect: Union[wx.Rect, _FourInts], x_extent: int) -> None:
         """
         DrawTab(dc, wnd, page, rect, close_button_state, out_tab_rect, out_button_rect, x_extent) -> None
         
         Draws a tab.
         """
 
-    def DrawButton(self, dc: wx.DC, wnd: wx.Window, in_rect: Union[wx.Rect, wx._FourInts], bitmap_id: int, button_state: int, orientation: int, out_rect: Union[wx.Rect, wx._FourInts]) -> None:
+    def DrawButton(self, dc: wx.DC, wnd: wx.Window, in_rect: Union[wx.Rect, _FourInts], bitmap_id: int, button_state: int, orientation: int, out_rect: Union[wx.Rect, _FourInts]) -> None:
         """
         DrawButton(dc, wnd, in_rect, bitmap_id, button_state, orientation, out_rect) -> None
         
@@ -3633,12 +3613,13 @@ class AuiSimpleTabArt(AuiTabArt):
         ShowDropDown(wnd, items, activeIdx) -> int
         """
 
-    def GetBestTabCtrlSize(self, _param_0: wx.Window, _param_1: AuiNotebookPageArray, _param_2: Union[wx.Size, wx._TwoInts]) -> int:
+    def GetBestTabCtrlSize(self, _param_0: wx.Window, _param_1: AuiNotebookPageArray, _param_2: Union[wx.Size, _TwoInts]) -> int:
         """
         GetBestTabCtrlSize(_param_0, _param_1, _param_2) -> int
         
         Returns the tab control size.
         """
+
     @property
     def IndentSize(self) -> int: ...
 # end of class AuiSimpleTabArt
@@ -3662,6 +3643,7 @@ class AuiNotebookEvent(wx.BookCtrlEvent):
         """
         Clone() -> wx.Event
         """
+
 # end of class AuiNotebookEvent
 
 
@@ -3686,7 +3668,7 @@ class AuiTabCtrl(wx.Control, AuiTabContainer):
     AuiTabCtrl(parent, id=wx.ID_ANY, pos=wx.DefaultPosition, size=wx.DefaultSize, style=0) -> None
     """
 
-    def __init__(self, parent: wx.Window, id: int=wx.ID_ANY, pos: Union[wx.Point, wx._TwoInts]=wx.DefaultPosition, size: Union[wx.Size, wx._TwoInts]=wx.DefaultSize, style: int=0) -> None:
+    def __init__(self, parent: wx.Window, id: int=wx.ID_ANY, pos: Union[wx.Point, _TwoInts]=wx.DefaultPosition, size: Union[wx.Size, _TwoInts]=wx.DefaultSize, style: int=0) -> None:
         """
         AuiTabCtrl(parent, id=wx.ID_ANY, pos=wx.DefaultPosition, size=wx.DefaultSize, style=0) -> None
         """
@@ -3701,6 +3683,7 @@ class AuiTabCtrl(wx.Control, AuiTabContainer):
         """
         GetClassDefaultAttributes(variant=wx.WINDOW_VARIANT_NORMAL) -> wx.VisualAttributes
         """
+
 # end of class AuiTabCtrl
 
 #-- end-auibook --#
@@ -3713,9 +3696,7 @@ class AuiMDIParentFrame(wx.Frame):
     """
 
     @overload
-    def __init__(self, parent: Optional[wx.Window], winid: int=wx.ID_ANY, title: str='', pos: Union[wx.Point, wx._TwoInts]=wx.DefaultPosition, size: Union[wx.Size, wx._TwoInts]=wx.DefaultSize, style: int=wx.DEFAULT_FRAME_STYLE|wx.VSCROLL|wx.HSCROLL, name: str=wx.FrameNameStr) -> None:
-        ...
-
+    def __init__(self, parent: Optional[wx.Window], winid: int=wx.ID_ANY, title: str='', pos: Union[wx.Point, _TwoInts]=wx.DefaultPosition, size: Union[wx.Size, _TwoInts]=wx.DefaultSize, style: int=wx.DEFAULT_FRAME_STYLE|wx.VSCROLL|wx.HSCROLL, name: str=wx.FrameNameStr) -> None: ...
     @overload
     def __init__(self) -> None:
         """
@@ -3723,7 +3704,7 @@ class AuiMDIParentFrame(wx.Frame):
         AuiMDIParentFrame(parent, winid=wx.ID_ANY, title='', pos=wx.DefaultPosition, size=wx.DefaultSize, style=wx.DEFAULT_FRAME_STYLE|wx.VSCROLL|wx.HSCROLL, name=wx.FrameNameStr) -> None
         """
 
-    def Create(self, parent: wx.Window, winid: int=wx.ID_ANY, title: str='', pos: Union[wx.Point, wx._TwoInts]=wx.DefaultPosition, size: Union[wx.Size, wx._TwoInts]=wx.DefaultSize, style: int=wx.DEFAULT_FRAME_STYLE|wx.VSCROLL|wx.HSCROLL, name: str=wx.FrameNameStr) -> bool:
+    def Create(self, parent: wx.Window, winid: int=wx.ID_ANY, title: str='', pos: Union[wx.Point, _TwoInts]=wx.DefaultPosition, size: Union[wx.Size, _TwoInts]=wx.DefaultSize, style: int=wx.DEFAULT_FRAME_STYLE|wx.VSCROLL|wx.HSCROLL, name: str=wx.FrameNameStr) -> bool:
         """
         Create(parent, winid=wx.ID_ANY, title='', pos=wx.DefaultPosition, size=wx.DefaultSize, style=wx.DEFAULT_FRAME_STYLE|wx.VSCROLL|wx.HSCROLL, name=wx.FrameNameStr) -> bool
         """
@@ -3815,6 +3796,7 @@ class AuiMDIParentFrame(wx.Frame):
         """
         GetClassDefaultAttributes(variant=wx.WINDOW_VARIANT_NORMAL) -> wx.VisualAttributes
         """
+
     @property
     def ActiveChild(self) -> AuiMDIChildFrame: ...
     @ActiveChild.setter
@@ -3841,9 +3823,7 @@ class AuiMDIChildFrame(TDIChildFrame):
     """
 
     @overload
-    def __init__(self, parent: AuiMDIParentFrame, winid: int=wx.ID_ANY, title: str='', pos: Union[wx.Point, wx._TwoInts]=wx.DefaultPosition, size: Union[wx.Size, wx._TwoInts]=wx.DefaultSize, style: int=wx.DEFAULT_FRAME_STYLE, name: str=wx.FrameNameStr) -> None:
-        ...
-
+    def __init__(self, parent: AuiMDIParentFrame, winid: int=wx.ID_ANY, title: str='', pos: Union[wx.Point, _TwoInts]=wx.DefaultPosition, size: Union[wx.Size, _TwoInts]=wx.DefaultSize, style: int=wx.DEFAULT_FRAME_STYLE, name: str=wx.FrameNameStr) -> None: ...
     @overload
     def __init__(self) -> None:
         """
@@ -3851,7 +3831,7 @@ class AuiMDIChildFrame(TDIChildFrame):
         AuiMDIChildFrame(parent, winid=wx.ID_ANY, title='', pos=wx.DefaultPosition, size=wx.DefaultSize, style=wx.DEFAULT_FRAME_STYLE, name=wx.FrameNameStr) -> None
         """
 
-    def Create(self, parent: AuiMDIParentFrame, winid: int=wx.ID_ANY, title: str='', pos: Union[wx.Point, wx._TwoInts]=wx.DefaultPosition, size: Union[wx.Size, wx._TwoInts]=wx.DefaultSize, style: int=wx.DEFAULT_FRAME_STYLE, name: str=wx.FrameNameStr) -> bool:
+    def Create(self, parent: AuiMDIParentFrame, winid: int=wx.ID_ANY, title: str='', pos: Union[wx.Point, _TwoInts]=wx.DefaultPosition, size: Union[wx.Size, _TwoInts]=wx.DefaultSize, style: int=wx.DEFAULT_FRAME_STYLE, name: str=wx.FrameNameStr) -> bool:
         """
         Create(parent, winid=wx.ID_ANY, title='', pos=wx.DefaultPosition, size=wx.DefaultSize, style=wx.DEFAULT_FRAME_STYLE, name=wx.FrameNameStr) -> bool
         """
@@ -4002,6 +3982,7 @@ class AuiMDIChildFrame(TDIChildFrame):
         """
         GetClassDefaultAttributes(variant=wx.WINDOW_VARIANT_NORMAL) -> wx.VisualAttributes
         """
+
     @property
     def Icon(self) -> wx.Icon: ...
     @Icon.setter
@@ -4036,9 +4017,7 @@ class AuiMDIClientWindow(AuiNotebook):
     """
 
     @overload
-    def __init__(self, parent: AuiMDIParentFrame, style: int=0) -> None:
-        ...
-
+    def __init__(self, parent: AuiMDIParentFrame, style: int=0) -> None: ...
     @overload
     def __init__(self) -> None:
         """
@@ -4073,6 +4052,7 @@ class AuiMDIClientWindow(AuiNotebook):
         """
         GetClassDefaultAttributes(variant=wx.WINDOW_VARIANT_NORMAL) -> wx.VisualAttributes
         """
+
     @property
     def ActiveChild(self) -> AuiMDIChildFrame: ...
     @ActiveChild.setter

@@ -23,10 +23,13 @@ from enum import IntEnum, IntFlag, auto
 from typing import (
     Any,
     Callable,
+    Final,
     Generic,
+    Iterator,
     Literal,
     NewType,
     Optional,
+    Protocol,
     TypeVar,
     Union,
     overload,
@@ -80,9 +83,7 @@ class XmlResource(wx.Object):
     """
 
     @overload
-    def __init__(self, flags: int=XRC_USE_LOCALE, domain: str='') -> None:
-        ...
-
+    def __init__(self, flags: int=XRC_USE_LOCALE, domain: str='') -> None: ...
     @overload
     def __init__(self, filemask: str, flags: int=XRC_USE_LOCALE, domain: str='') -> None:
         """
@@ -203,9 +204,7 @@ class XmlResource(wx.Object):
         """
 
     @overload
-    def LoadDialog(self, dlg: wx.Dialog, parent: wx.Window, name: str) -> bool:
-        ...
-
+    def LoadDialog(self, dlg: wx.Dialog, parent: wx.Window, name: str) -> bool: ...
     @overload
     def LoadDialog(self, parent: wx.Window, name: str) -> wx.Dialog:
         """
@@ -216,9 +215,7 @@ class XmlResource(wx.Object):
         """
 
     @overload
-    def LoadFrame(self, frame: wx.Frame, parent: wx.Window, name: str) -> bool:
-        ...
-
+    def LoadFrame(self, frame: wx.Frame, parent: wx.Window, name: str) -> bool: ...
     @overload
     def LoadFrame(self, parent: wx.Window, name: str) -> wx.Frame:
         """
@@ -243,9 +240,7 @@ class XmlResource(wx.Object):
         """
 
     @overload
-    def LoadMenuBar(self, name: str) -> wx.MenuBar:
-        ...
-
+    def LoadMenuBar(self, name: str) -> wx.MenuBar: ...
     @overload
     def LoadMenuBar(self, parent: wx.Window, name: str) -> wx.MenuBar:
         """
@@ -256,9 +251,7 @@ class XmlResource(wx.Object):
         """
 
     @overload
-    def LoadObject(self, instance: wx.Object, parent: wx.Window, name: str, classname: str) -> bool:
-        ...
-
+    def LoadObject(self, instance: wx.Object, parent: wx.Window, name: str, classname: str) -> bool: ...
     @overload
     def LoadObject(self, parent: wx.Window, name: str, classname: str) -> wx.Object:
         """
@@ -270,9 +263,7 @@ class XmlResource(wx.Object):
         """
 
     @overload
-    def LoadObjectRecursively(self, instance: wx.Object, parent: wx.Window, name: str, classname: str) -> bool:
-        ...
-
+    def LoadObjectRecursively(self, instance: wx.Object, parent: wx.Window, name: str, classname: str) -> bool: ...
     @overload
     def LoadObjectRecursively(self, parent: wx.Window, name: str, classname: str) -> wx.Object:
         """
@@ -283,9 +274,7 @@ class XmlResource(wx.Object):
         """
 
     @overload
-    def LoadPanel(self, panel: wx.Panel, parent: wx.Window, name: str) -> bool:
-        ...
-
+    def LoadPanel(self, panel: wx.Panel, parent: wx.Window, name: str) -> bool: ...
     @overload
     def LoadPanel(self, parent: wx.Window, name: str) -> wx.Panel:
         """
@@ -374,6 +363,7 @@ class XmlResource(wx.Object):
         """
 
     LoadFromString = wx.deprecated(LoadFromBuffer, 'Use LoadFromBuffer instead')
+
     @property
     def Domain(self) -> str: ...
     @Domain.setter
@@ -431,6 +421,7 @@ class XmlResourceHandler(wx.Object):
         
         Sets the parent resource.
         """
+
     @property
     def Animation(self) -> Animation: ...
     @property
@@ -467,7 +458,6 @@ class XmlResourceHandler(wx.Object):
     def Size(self) -> wx.Size: ...
     @property
     def Style(self) -> int: ...
-
     def AddStyle(self, name: str, value: int) -> None:
         """
         AddStyle(name, value) -> None
@@ -512,11 +502,9 @@ class XmlResourceHandler(wx.Object):
         """
 
     @overload
-    def GetBitmap(self, node: XmlNode, defaultArtClient: ArtClient=wx.ART_OTHER, size: Union[wx.Size, wx._TwoInts]=wx.DefaultSize) -> wx.Bitmap:
-        ...
-
+    def GetBitmap(self, node: XmlNode, defaultArtClient: ArtClient=wx.ART_OTHER, size: Union[wx.Size, _TwoInts]=wx.DefaultSize) -> wx.Bitmap: ...
     @overload
-    def GetBitmap(self, param: str="bitmap", defaultArtClient: ArtClient=wx.ART_OTHER, size: Union[wx.Size, wx._TwoInts]=wx.DefaultSize) -> wx.Bitmap:
+    def GetBitmap(self, param: str="bitmap", defaultArtClient: ArtClient=wx.ART_OTHER, size: Union[wx.Size, _TwoInts]=wx.DefaultSize) -> wx.Bitmap:
         """
         GetBitmap(param="bitmap", defaultArtClient=wx.ART_OTHER, size=wx.DefaultSize) -> wx.Bitmap
         GetBitmap(node, defaultArtClient=wx.ART_OTHER, size=wx.DefaultSize) -> wx.Bitmap
@@ -525,11 +513,9 @@ class XmlResourceHandler(wx.Object):
         """
 
     @overload
-    def GetBitmapBundle(self, node: XmlNode, defaultArtClient: ArtClient=wx.ART_OTHER, size: Union[wx.Size, wx._TwoInts]=wx.DefaultSize) -> wx.BitmapBundle:
-        ...
-
+    def GetBitmapBundle(self, node: XmlNode, defaultArtClient: ArtClient=wx.ART_OTHER, size: Union[wx.Size, _TwoInts]=wx.DefaultSize) -> wx.BitmapBundle: ...
     @overload
-    def GetBitmapBundle(self, param: str="bitmap", defaultArtClient: ArtClient=wx.ART_OTHER, size: Union[wx.Size, wx._TwoInts]=wx.DefaultSize) -> wx.BitmapBundle:
+    def GetBitmapBundle(self, param: str="bitmap", defaultArtClient: ArtClient=wx.ART_OTHER, size: Union[wx.Size, _TwoInts]=wx.DefaultSize) -> wx.BitmapBundle:
         """
         GetBitmapBundle(param="bitmap", defaultArtClient=wx.ART_OTHER, size=wx.DefaultSize) -> wx.BitmapBundle
         GetBitmapBundle(node, defaultArtClient=wx.ART_OTHER, size=wx.DefaultSize) -> wx.BitmapBundle
@@ -545,7 +531,7 @@ class XmlResourceHandler(wx.Object):
         false).
         """
 
-    def GetColour(self, param: str, defaultColour: Union[wx.Colour, wx.Colour, wx._ThreeInts, wx._FourInts, str, None]=wx.NullColour) -> wx.Colour:
+    def GetColour(self, param: str, defaultColour: Union[wx.Colour, _ThreeInts, _FourInts, str, None]=wx.NullColour) -> wx.Colour:
         """
         GetColour(param, defaultColour=wx.NullColour) -> wx.Colour
         
@@ -588,11 +574,9 @@ class XmlResourceHandler(wx.Object):
         """
 
     @overload
-    def GetIcon(self, node: XmlNode, defaultArtClient: ArtClient=wx.ART_OTHER, size: Union[wx.Size, wx._TwoInts]=wx.DefaultSize) -> wx.Icon:
-        ...
-
+    def GetIcon(self, node: XmlNode, defaultArtClient: ArtClient=wx.ART_OTHER, size: Union[wx.Size, _TwoInts]=wx.DefaultSize) -> wx.Icon: ...
     @overload
-    def GetIcon(self, param: str="icon", defaultArtClient: ArtClient=wx.ART_OTHER, size: Union[wx.Size, wx._TwoInts]=wx.DefaultSize) -> wx.Icon:
+    def GetIcon(self, param: str="icon", defaultArtClient: ArtClient=wx.ART_OTHER, size: Union[wx.Size, _TwoInts]=wx.DefaultSize) -> wx.Icon:
         """
         GetIcon(param="icon", defaultArtClient=wx.ART_OTHER, size=wx.DefaultSize) -> wx.Icon
         GetIcon(node, defaultArtClient=wx.ART_OTHER, size=wx.DefaultSize) -> wx.Icon
@@ -678,9 +662,7 @@ class XmlResourceHandler(wx.Object):
         """
 
     @overload
-    def GetParamValue(self, node: XmlNode) -> str:
-        ...
-
+    def GetParamValue(self, node: XmlNode) -> str: ...
     @overload
     def GetParamValue(self, param: str) -> str:
         """
@@ -741,9 +723,7 @@ class XmlResourceHandler(wx.Object):
         """
 
     @overload
-    def ReportError(self, message: str) -> None:
-        ...
-
+    def ReportError(self, message: str) -> None: ...
     @overload
     def ReportError(self, context: XmlNode, message: str) -> None:
         """
@@ -809,6 +789,7 @@ class XmlResourceHandler(wx.Object):
         After CreateResource has been called this will return the item's
         parent as a wxWindow.
         """
+
 # end of class XmlResourceHandler
 
 
@@ -817,19 +798,16 @@ def EmptyXmlResource(flags=XRC_USE_LOCALE, domain=""):
     """
     A compatibility wrapper for the XmlResource(flags, domain) constructor
     """
-    pass
 
 def XRCID(str_id, value_if_not_found=wx.ID_NONE):
     """
     Returns a numeric ID that is equivalent to the string ID used in an XML resource.
     """
-    pass
 
 def XRCCTRL(window, str_id, *ignoreargs):
     """
     Returns the child window associated with the string ID in an XML resource.
     """
-    pass
 
 class XmlSubclassFactory:
     """
@@ -845,6 +823,7 @@ class XmlSubclassFactory:
         """
         Create(className) -> wx.Object
         """
+
 # end of class XmlSubclassFactory
 
 

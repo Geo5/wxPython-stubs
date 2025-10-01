@@ -21,9 +21,13 @@ cd wx && find . -name '*.pyi' | cpio -pdmu <path-to-this-project>/src/wx-stubs/
 
 - [ ] 2 Phase etg execution: [PR #2776](https://github.com/wxWidgets/Phoenix/pull/2776)
 - [ ] Should `c`s `char` and `char*` be Python `bytes`? Currently the conversion is defined as `str`. (See [review in PR #2468](https://github.com/wxWidgets/Phoenix/pull/2468))
-- [ ] Remove `wx.` from `TypeAlias`es `_TwoInt` and similar in files other than `core.pyi`
-- [ ] Remove duplicate `wx.Colour` in some/all/? `Union`s
+- [ ] `{U}IntPtr` Python equivalent type
+- [x] Remove `wx.` from `TypeAlias`es `_TwoInt` and similar in files other than `core.pyi`
+- [ ] Remove `wx.` from most/all names in core.pyi (e.g. in fonts and pen related code and `wx.deprecated`)
+- [x] Remove duplicate `wx.Colour` in some/all/? `Union`s
+- [ ] Remove implementations from `.pyi` files
 - [ ] Does `SpinCtrlDouble` accept Python `Decimal`s in `SetValue(...)` and similar? If yes does this conversion apply to `c` `float64` in general and should be recorded as automatic conversion?
+- [ ] `renameClass` in etg scripts is not applied to type hints (they retain the old name)
 - [ ] Sip generates some `c` array wrapper classes (created in etg scripts), which are recorded in type hints, but don't exists as classes in `.pyi` files
 - [ ] Function (and `@property`) names shadow classes in type hints. E.g. the following is a bad type hint on `f()`:
 ```python

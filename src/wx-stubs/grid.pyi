@@ -23,10 +23,13 @@ from enum import IntEnum, IntFlag, auto
 from typing import (
     Any,
     Callable,
+    Final,
     Generic,
+    Iterator,
     Literal,
     NewType,
     Optional,
+    Protocol,
     TypeVar,
     Union,
     overload,
@@ -140,9 +143,7 @@ class GridCellCoords:
     """
 
     @overload
-    def __init__(self, row: int, col: int) -> None:
-        ...
-
+    def __init__(self, row: int, col: int) -> None: ...
     @overload
     def __init__(self) -> None:
         """
@@ -187,13 +188,8 @@ class GridCellCoords:
         Set the row and column of the coordinate.
         """
 
-    def __eq__(self, other: Union[GridCellCoords, wx._TwoInts]) -> bool:
-        """
-        """
-
-    def __ne__(self, other: Union[GridCellCoords, wx._TwoInts]) -> bool:
-        """
-        """
+    def __eq__(self, other: Union[GridCellCoords, _TwoInts]) -> bool: ...
+    def __ne__(self, other: Union[GridCellCoords, _TwoInts]) -> bool: ...
     @property
     def Col(self) -> int: ...
     @Col.setter
@@ -202,7 +198,6 @@ class GridCellCoords:
     def Row(self) -> int: ...
     @Row.setter
     def Row(self, value: int, /) -> None: ...
-
     def Get(self) -> Any:
         """
         Get() -> (row,col)
@@ -219,47 +214,16 @@ class GridCellCoords:
         with a simple statement like this: ``obj = wx.GridCellCoords(imObj)``.
         """
 
-    def __str__(self):
-        """
-        
-        """
-
-    def __repr__(self):
-        """
-        
-        """
-
-    def __len__(self):
-        """
-        
-        """
-
-    def __nonzero__(self):
-        """
-        
-        """
-
-    def __bool__(self):
-        """
-        
-        """
-
-    def __reduce__(self):
-        """
-        
-        """
-
-    def __getitem__(self, idx):
-        """
-        
-        """
-
-    def __setitem__(self, idx, val):
-        """
-        
-        """
-
+    def __str__(self): ...
+    def __repr__(self): ...
+    def __len__(self): ...
+    def __nonzero__(self): ...
+    def __bool__(self): ...
+    def __reduce__(self): ...
+    def __getitem__(self, idx): ...
+    def __setitem__(self, idx, val): ...
     __safe_for_unpickling__ = True
+
 # end of class GridCellCoords
 
 
@@ -272,9 +236,7 @@ class GridBlockCoords:
     """
 
     @overload
-    def __init__(self, topRow: int, leftCol: int, bottomRow: int, rightCol: int) -> None:
-        ...
-
+    def __init__(self, topRow: int, leftCol: int, bottomRow: int, rightCol: int) -> None: ...
     @overload
     def __init__(self) -> None:
         """
@@ -370,11 +332,9 @@ class GridBlockCoords:
         """
 
     @overload
-    def Contains(self, other: GridBlockCoords) -> bool:
-        ...
-
+    def Contains(self, other: GridBlockCoords) -> bool: ...
     @overload
-    def Contains(self, cell: Union[GridCellCoords, wx._TwoInts]) -> bool:
+    def Contains(self, cell: Union[GridCellCoords, _TwoInts]) -> bool:
         """
         Contains(cell) -> bool
         Contains(other) -> bool
@@ -397,13 +357,8 @@ class GridBlockCoords:
         Calculates the symmetric difference of the blocks.
         """
 
-    def __eq__(self, other: GridBlockCoords) -> bool:
-        """
-        """
-
-    def __ne__(self, other: GridBlockCoords) -> bool:
-        """
-        """
+    def __eq__(self, other: GridBlockCoords) -> bool: ...
+    def __ne__(self, other: GridBlockCoords) -> bool: ...
     @property
     def BottomRight(self) -> GridCellCoords: ...
     @property
@@ -424,7 +379,6 @@ class GridBlockCoords:
     def TopRow(self) -> int: ...
     @TopRow.setter
     def TopRow(self, value: int, /) -> None: ...
-
     def __bool__(self) -> bool:
         """
         __bool__() -> bool
@@ -437,15 +391,8 @@ class GridBlockCoords:
         Return the block coordinants as a tuple.
         """
 
-    def __str__(self):
-        """
-        
-        """
-
-    def __repr__(self):
-        """
-        
-        """
+    def __str__(self): ...
+    def __repr__(self): ...
 # end of class GridBlockCoords
 
 
@@ -459,6 +406,7 @@ class GridBlockDiffResult:
         """
         _getParts() -> Any
         """
+
     @property
     def m_parts(self) -> Any: ...
 # end of class GridBlockDiffResult
@@ -473,6 +421,7 @@ class GridBlocks:
         """
         Read-only forward iterator type.
         """
+
     # end of class iterator
 
 
@@ -507,6 +456,7 @@ class GridBlocks:
             obj = self._iterator._get()
             self._iterator = self._iterator._next()
             return obj
+
 # end of class GridBlocks
 
 
@@ -532,7 +482,7 @@ class GridCellRenderer(wx.SharedClientDataContainer, wx.RefCounter):
         of itself.
         """
 
-    def Draw(self, grid: Grid, attr: GridCellAttr, dc: wx.DC, rect: Union[wx.Rect, wx._FourInts], row: int, col: int, isSelected: bool) -> None:
+    def Draw(self, grid: Grid, attr: GridCellAttr, dc: wx.DC, rect: Union[wx.Rect, _FourInts], row: int, col: int, isSelected: bool) -> None:
         """
         Draw(grid, attr, dc, rect, row, col, isSelected) -> None
         
@@ -567,6 +517,7 @@ class GridCellRenderer(wx.SharedClientDataContainer, wx.RefCounter):
         Get the maximum possible size for a cell using this renderer, if
         possible.
         """
+
 # end of class GridCellRenderer
 
 
@@ -585,6 +536,7 @@ class GridCellStringRenderer(GridCellRenderer):
         This class may be used to format string data in a cell; it is the
         default for string cells.
         """
+
 # end of class GridCellStringRenderer
 
 
@@ -601,6 +553,7 @@ class GridCellAutoWrapStringRenderer(GridCellStringRenderer):
         
         This class may be used to format string data in a cell.
         """
+
 # end of class GridCellAutoWrapStringRenderer
 
 
@@ -617,6 +570,7 @@ class GridCellBoolRenderer(GridCellRenderer):
         
         This class may be used to format boolean data in a cell.
         """
+
 # end of class GridCellBoolRenderer
 
 
@@ -641,6 +595,7 @@ class GridCellDateRenderer(GridCellStringRenderer):
         Sets the strftime()-like format string which will be used to render
         the date.
         """
+
 # end of class GridCellDateRenderer
 
 
@@ -657,6 +612,7 @@ class GridCellDateTimeRenderer(GridCellDateRenderer):
         
         This class may be used to format a date/time data in a cell.
         """
+
 # end of class GridCellDateTimeRenderer
 
 
@@ -682,6 +638,7 @@ class GridCellEnumRenderer(GridCellStringRenderer):
         
         Sets the comma separated string content of the enum.
         """
+
 # end of class GridCellEnumRenderer
 
 
@@ -748,6 +705,7 @@ class GridCellFloatRenderer(GridCellStringRenderer):
         
         Sets the width.
         """
+
     @property
     def Format(self) -> int: ...
     @Format.setter
@@ -776,6 +734,7 @@ class GridCellNumberRenderer(GridCellStringRenderer):
         
         This class may be used to format integer data in a cell.
         """
+
 # end of class GridCellNumberRenderer
 
 
@@ -810,6 +769,7 @@ class GridActivationResult:
         Indicate that the editor control should be shown and the cell should
         be edited normally.
         """
+
 # end of class GridActivationResult
 
 
@@ -848,6 +808,7 @@ class GridActivationSource:
         
         Get the mouse event corresponding to the click activating the cell.
         """
+
     @property
     def KeyEvent(self) -> wx.KeyEvent: ...
     @property
@@ -939,7 +900,7 @@ class GridCellEditor(wx.SharedClientDataContainer, wx.RefCounter):
         Returns true if the edit control has been created.
         """
 
-    def PaintBackground(self, dc: wx.DC, rectCell: Union[wx.Rect, wx._FourInts], attr: GridCellAttr) -> None:
+    def PaintBackground(self, dc: wx.DC, rectCell: Union[wx.Rect, _FourInts], attr: GridCellAttr) -> None:
         """
         PaintBackground(dc, rectCell, attr) -> None
         
@@ -954,7 +915,7 @@ class GridCellEditor(wx.SharedClientDataContainer, wx.RefCounter):
         Reset the value in the control back to its starting value.
         """
 
-    def SetSize(self, rect: Union[wx.Rect, wx._FourInts]) -> None:
+    def SetSize(self, rect: Union[wx.Rect, _FourInts]) -> None:
         """
         SetSize(rect) -> None
         
@@ -1042,6 +1003,7 @@ class GridCellEditor(wx.SharedClientDataContainer, wx.RefCounter):
         
         Function which must be overridden for "activatable" editors.
         """
+
     @property
     def Control(self) -> wx.Control: ...
     @Control.setter
@@ -1073,6 +1035,7 @@ class GridCellActivatableEditor(GridCellEditor):
         
         Same method as in wxGridCellEditor, but pure virtual.
         """
+
 # end of class GridCellActivatableEditor
 
 
@@ -1121,6 +1084,7 @@ class GridCellTextEditor(GridCellEditor):
         Notice that this method shoiuld not modify the grid as the
         change could still be vetoed.
         """
+
 # end of class GridCellTextEditor
 
 
@@ -1154,6 +1118,7 @@ class GridCellDateEditor(GridCellEditor):
         Notice that this method shoiuld not modify the grid as the
         change could still be vetoed.
         """
+
 # end of class GridCellDateEditor
 
 
@@ -1187,6 +1152,7 @@ class GridCellAutoWrapStringEditor(GridCellTextEditor):
         Notice that this method shoiuld not modify the grid as the
         change could still be vetoed.
         """
+
 # end of class GridCellAutoWrapStringEditor
 
 
@@ -1238,6 +1204,7 @@ class GridCellBoolEditor(GridCellEditor):
         Notice that this method shoiuld not modify the grid as the
         change could still be vetoed.
         """
+
 # end of class GridCellBoolEditor
 
 
@@ -1280,6 +1247,7 @@ class GridCellChoiceEditor(GridCellEditor):
         Notice that this method shoiuld not modify the grid as the
         change could still be vetoed.
         """
+
 # end of class GridCellChoiceEditor
 
 
@@ -1315,6 +1283,7 @@ class GridCellEnumEditor(GridCellChoiceEditor):
         Notice that this method shoiuld not modify the grid as the
         change could still be vetoed.
         """
+
 # end of class GridCellEnumEditor
 
 
@@ -1356,6 +1325,7 @@ class GridCellFloatEditor(GridCellTextEditor):
         Notice that this method shoiuld not modify the grid as the
         change could still be vetoed.
         """
+
 # end of class GridCellFloatEditor
 
 
@@ -1396,6 +1366,7 @@ class GridCellNumberEditor(GridCellTextEditor):
         Notice that this method shoiuld not modify the grid as the
         change could still be vetoed.
         """
+
 # end of class GridCellNumberEditor
 
 
@@ -1466,6 +1437,7 @@ class GridFitMode:
         
         Pseudo-constructor for object specifying ellipsize behaviour.
         """
+
     @property
     def EllipsizeMode(self) -> wx.EllipsizeMode: ...
 # end of class GridFitMode
@@ -1496,9 +1468,7 @@ class GridCellAttr(wx.SharedClientDataContainer, wx.RefCounter):
     Merged = _AttrKind.Merged
 
     @overload
-    def __init__(self, colText: Union[wx.Colour, wx.Colour, wx._ThreeInts, wx._FourInts, str, None], colBack: Union[wx.Colour, wx.Colour, wx._ThreeInts, wx._FourInts, str, None], font: wx.Font, hAlign: int, vAlign: int) -> None:
-        ...
-
+    def __init__(self, colText: Union[wx.Colour, _ThreeInts, _FourInts, str, None], colBack: Union[wx.Colour, _ThreeInts, _FourInts, str, None], font: wx.Font, hAlign: int, vAlign: int) -> None: ...
     @overload
     def __init__(self, attrDefault: Optional[GridCellAttr]=None) -> None:
         """
@@ -1644,7 +1614,7 @@ class GridCellAttr(wx.SharedClientDataContainer, wx.RefCounter):
         Sets the alignment.
         """
 
-    def SetBackgroundColour(self, colBack: Union[wx.Colour, wx.Colour, wx._ThreeInts, wx._FourInts, str, None]) -> None:
+    def SetBackgroundColour(self, colBack: Union[wx.Colour, _ThreeInts, _FourInts, str, None]) -> None:
         """
         SetBackgroundColour(colBack) -> None
         
@@ -1684,7 +1654,7 @@ class GridCellAttr(wx.SharedClientDataContainer, wx.RefCounter):
         Sets the renderer to be used for cells with this attribute.
         """
 
-    def SetTextColour(self, colText: Union[wx.Colour, wx.Colour, wx._ThreeInts, wx._FourInts, str, None]) -> None:
+    def SetTextColour(self, colText: Union[wx.Colour, _ThreeInts, _FourInts, str, None]) -> None:
         """
         SetTextColour(colText) -> None
         
@@ -1769,10 +1739,11 @@ class GridCellAttr(wx.SharedClientDataContainer, wx.RefCounter):
         """
         GetKind() -> AttrKind
         """
+
     @property
     def BackgroundColour(self) -> wx.Colour: ...
     @BackgroundColour.setter
-    def BackgroundColour(self, value: Union[wx.Colour, wx.Colour, wx._ThreeInts, wx._FourInts, str, None], /) -> None: ...
+    def BackgroundColour(self, value: Union[wx.Colour, _ThreeInts, _FourInts, str, None], /) -> None: ...
     @property
     def FitMode(self) -> GridFitMode: ...
     @FitMode.setter
@@ -1792,7 +1763,7 @@ class GridCellAttr(wx.SharedClientDataContainer, wx.RefCounter):
     @property
     def TextColour(self) -> wx.Colour: ...
     @TextColour.setter
-    def TextColour(self, value: Union[wx.Colour, wx.Colour, wx._ThreeInts, wx._FourInts, str, None], /) -> None: ...
+    def TextColour(self, value: Union[wx.Colour, _ThreeInts, _FourInts, str, None], /) -> None: ...
 # end of class GridCellAttr
 
 
@@ -1800,6 +1771,7 @@ class GridCornerHeaderRenderer(GridHeaderLabelsRenderer):
     """
     Base class for corner header renderer.
     """
+
 # end of class GridCornerHeaderRenderer
 
 
@@ -1808,19 +1780,20 @@ class GridHeaderLabelsRenderer:
     Base class for header cells renderers.
     """
 
-    def DrawBorder(self, grid: Grid, dc: wx.DC, rect: Union[wx.Rect, wx._FourInts]) -> None:
+    def DrawBorder(self, grid: Grid, dc: wx.DC, rect: Union[wx.Rect, _FourInts]) -> None:
         """
         DrawBorder(grid, dc, rect) -> None
         
         Called by the grid to draw the border around the cell header.
         """
 
-    def DrawLabel(self, grid: Grid, dc: wx.DC, value: str, rect: Union[wx.Rect, wx._FourInts], horizAlign: int, vertAlign: int, textOrientation: int) -> None:
+    def DrawLabel(self, grid: Grid, dc: wx.DC, value: str, rect: Union[wx.Rect, _FourInts], horizAlign: int, vertAlign: int, textOrientation: int) -> None:
         """
         DrawLabel(grid, dc, value, rect, horizAlign, vertAlign, textOrientation) -> None
         
         Called by the grid to draw the specified label.
         """
+
 # end of class GridHeaderLabelsRenderer
 
 
@@ -1828,6 +1801,7 @@ class GridRowHeaderRenderer(GridHeaderLabelsRenderer):
     """
     Base class for row headers renderer.
     """
+
 # end of class GridRowHeaderRenderer
 
 
@@ -1835,6 +1809,7 @@ class GridColumnHeaderRenderer(GridHeaderLabelsRenderer):
     """
     Base class for column headers renderer.
     """
+
 # end of class GridColumnHeaderRenderer
 
 
@@ -1843,12 +1818,13 @@ class GridRowHeaderRendererDefault(GridRowHeaderRenderer):
     Default row header renderer.
     """
 
-    def DrawBorder(self, grid: Grid, dc: wx.DC, rect: Union[wx.Rect, wx._FourInts]) -> None:
+    def DrawBorder(self, grid: Grid, dc: wx.DC, rect: Union[wx.Rect, _FourInts]) -> None:
         """
         DrawBorder(grid, dc, rect) -> None
         
         Implement border drawing for the row labels.
         """
+
 # end of class GridRowHeaderRendererDefault
 
 
@@ -1857,12 +1833,13 @@ class GridColumnHeaderRendererDefault(GridColumnHeaderRenderer):
     Default column header renderer.
     """
 
-    def DrawBorder(self, grid: Grid, dc: wx.DC, rect: Union[wx.Rect, wx._FourInts]) -> None:
+    def DrawBorder(self, grid: Grid, dc: wx.DC, rect: Union[wx.Rect, _FourInts]) -> None:
         """
         DrawBorder(grid, dc, rect) -> None
         
         Implement border drawing for the column labels.
         """
+
 # end of class GridColumnHeaderRendererDefault
 
 
@@ -1871,12 +1848,13 @@ class GridCornerHeaderRendererDefault(GridCornerHeaderRenderer):
     Default corner window renderer.
     """
 
-    def DrawBorder(self, grid: Grid, dc: wx.DC, rect: Union[wx.Rect, wx._FourInts]) -> None:
+    def DrawBorder(self, grid: Grid, dc: wx.DC, rect: Union[wx.Rect, _FourInts]) -> None:
         """
         DrawBorder(grid, dc, rect) -> None
         
         Implement border drawing for the corner window.
         """
+
 # end of class GridCornerHeaderRendererDefault
 
 
@@ -1949,6 +1927,7 @@ class GridCellAttrProvider(wx.ClientDataContainer):
         
         Get the attribute to use for the specified cell.
         """
+
     @property
     def CornerRenderer(self) -> GridCornerHeaderRenderer: ...
 # end of class GridCellAttrProvider
@@ -1975,7 +1954,7 @@ class GridTableBase(wx.Object):
         May be overridden to implement testing for empty cells.
         """
 
-    def IsEmpty(self, coords: Union[GridCellCoords, wx._TwoInts]) -> bool:
+    def IsEmpty(self, coords: Union[GridCellCoords, _TwoInts]) -> bool:
         """
         IsEmpty(coords) -> bool
         
@@ -2258,35 +2237,12 @@ class GridTableBase(wx.Object):
         measuring all cells in the given column.
         """
 
-    def GetValueAsLong(self, row, col):
-        """
-        
-        """
-
-    def GetValueAsDouble(self, row, col):
-        """
-        
-        """
-
-    def GetValueAsBool(self, row, col):
-        """
-        
-        """
-
-    def SetValueAsLong(self, row, col, value):
-        """
-        
-        """
-
-    def SetValueAsDouble(self, row, col, value):
-        """
-        
-        """
-
-    def SetValueAsBool(self, row, col, value):
-        """
-        
-        """
+    def GetValueAsLong(self, row, col): ...
+    def GetValueAsDouble(self, row, col): ...
+    def GetValueAsBool(self, row, col): ...
+    def SetValueAsLong(self, row, col, value): ...
+    def SetValueAsDouble(self, row, col, value): ...
+    def SetValueAsBool(self, row, col, value): ...
     @property
     def AttrProvider(self) -> GridCellAttrProvider: ...
     @AttrProvider.setter
@@ -2320,9 +2276,7 @@ class GridTableMessage:
     """
 
     @overload
-    def __init__(self, table: GridTableBase, id: int, comInt1: int=-1, comInt2: int=-1) -> None:
-        ...
-
+    def __init__(self, table: GridTableBase, id: int, comInt1: int=-1, comInt2: int=-1) -> None: ...
     @overload
     def __init__(self) -> None:
         """
@@ -2388,6 +2342,7 @@ class GridTableMessage:
         
         Get the number of rows to be inserted/deleted.
         """
+
     @property
     def CommandInt(self) -> int: ...
     @CommandInt.setter
@@ -2417,9 +2372,7 @@ class GridStringTable(GridTableBase):
     """
 
     @overload
-    def __init__(self, numRows: int, numCols: int) -> None:
-        ...
-
+    def __init__(self, numRows: int, numCols: int) -> None: ...
     @overload
     def __init__(self) -> None:
         """
@@ -2548,6 +2501,7 @@ class GridStringTable(GridTableBase):
         
         Return the label of the grid's corner.
         """
+
     @property
     def CornerLabelValue(self) -> str: ...
     @CornerLabelValue.setter
@@ -2569,9 +2523,7 @@ class GridSizesInfo:
     """
 
     @overload
-    def __init__(self, defSize: int, allSizes: list[int]) -> None:
-        ...
-
+    def __init__(self, defSize: int, allSizes: list[int]) -> None: ...
     @overload
     def __init__(self) -> None:
         """
@@ -2581,14 +2533,15 @@ class GridSizesInfo:
         wxGridSizesInfo stores information about sizes of all wxGrid rows or
         columns.
         """
-    m_sizeDefault: int
 
+    m_sizeDefault: int
     def GetSize(self, pos: int) -> int:
         """
         GetSize(pos) -> int
         
         Get the element size.
         """
+
 # end of class GridSizesInfo
 
 
@@ -2633,9 +2586,7 @@ class Grid(wx.ScrolledCanvas):
     Tab_Leave = _TabBehaviour.Tab_Leave
 
     @overload
-    def __init__(self, parent: wx.Window, id: int=wx.ID_ANY, pos: Union[wx.Point, wx._TwoInts]=wx.DefaultPosition, size: Union[wx.Size, wx._TwoInts]=wx.DefaultSize, style: int=wx.WANTS_CHARS, name: str=GridNameStr) -> None:
-        ...
-
+    def __init__(self, parent: wx.Window, id: int=wx.ID_ANY, pos: Union[wx.Point, _TwoInts]=wx.DefaultPosition, size: Union[wx.Size, _TwoInts]=wx.DefaultSize, style: int=wx.WANTS_CHARS, name: str=GridNameStr) -> None: ...
     @overload
     def __init__(self) -> None:
         """
@@ -2646,7 +2597,7 @@ class Grid(wx.ScrolledCanvas):
         tabular data.
         """
 
-    def Create(self, parent: wx.Window, id: int=wx.ID_ANY, pos: Union[wx.Point, wx._TwoInts]=wx.DefaultPosition, size: Union[wx.Size, wx._TwoInts]=wx.DefaultSize, style: int=wx.WANTS_CHARS, name: str=GridNameStr) -> bool:
+    def Create(self, parent: wx.Window, id: int=wx.ID_ANY, pos: Union[wx.Point, _TwoInts]=wx.DefaultPosition, size: Union[wx.Size, _TwoInts]=wx.DefaultSize, style: int=wx.WANTS_CHARS, name: str=GridNameStr) -> bool:
         """
         Create(parent, id=wx.ID_ANY, pos=wx.DefaultPosition, size=wx.DefaultSize, style=wx.WANTS_CHARS, name=GridNameStr) -> bool
         
@@ -2723,7 +2674,7 @@ class Grid(wx.ScrolledCanvas):
         Returns true if drawing of grid lines is turned on, false otherwise.
         """
 
-    def SetGridLineColour(self, colour: Union[wx.Colour, wx.Colour, wx._ThreeInts, wx._FourInts, str, None]) -> None:
+    def SetGridLineColour(self, colour: Union[wx.Colour, _ThreeInts, _FourInts, str, None]) -> None:
         """
         SetGridLineColour(colour) -> None
         
@@ -2868,7 +2819,7 @@ class Grid(wx.ScrolledCanvas):
         Set the value for the (top-left) corner label.
         """
 
-    def SetLabelBackgroundColour(self, colour: Union[wx.Colour, wx.Colour, wx._ThreeInts, wx._FourInts, str, None]) -> None:
+    def SetLabelBackgroundColour(self, colour: Union[wx.Colour, _ThreeInts, _FourInts, str, None]) -> None:
         """
         SetLabelBackgroundColour(colour) -> None
         
@@ -2882,7 +2833,7 @@ class Grid(wx.ScrolledCanvas):
         Sets the font for row and column labels.
         """
 
-    def SetLabelTextColour(self, colour: Union[wx.Colour, wx.Colour, wx._ThreeInts, wx._FourInts, str, None]) -> None:
+    def SetLabelTextColour(self, colour: Union[wx.Colour, _ThreeInts, _FourInts, str, None]) -> None:
         """
         SetLabelTextColour(colour) -> None
         
@@ -2983,7 +2934,7 @@ class Grid(wx.ScrolledCanvas):
         specified location.
         """
 
-    def SetCellBackgroundColour(self, row: int, col: int, colour: Union[wx.Colour, wx.Colour, wx._ThreeInts, wx._FourInts, str, None]) -> None:
+    def SetCellBackgroundColour(self, row: int, col: int, colour: Union[wx.Colour, _ThreeInts, _FourInts, str, None]) -> None:
         """
         SetCellBackgroundColour(row, col, colour) -> None
         
@@ -2997,7 +2948,7 @@ class Grid(wx.ScrolledCanvas):
         Sets the font for text in the grid cell at the specified location.
         """
 
-    def SetCellTextColour(self, row: int, col: int, colour: Union[wx.Colour, wx.Colour, wx._ThreeInts, wx._FourInts, str, None]) -> None:
+    def SetCellTextColour(self, row: int, col: int, colour: Union[wx.Colour, _ThreeInts, _FourInts, str, None]) -> None:
         """
         SetCellTextColour(row, col, colour) -> None
         
@@ -3011,7 +2962,7 @@ class Grid(wx.ScrolledCanvas):
         Sets the default horizontal and vertical alignment for grid cell text.
         """
 
-    def SetDefaultCellBackgroundColour(self, colour: Union[wx.Colour, wx.Colour, wx._ThreeInts, wx._FourInts, str, None]) -> None:
+    def SetDefaultCellBackgroundColour(self, colour: Union[wx.Colour, _ThreeInts, _FourInts, str, None]) -> None:
         """
         SetDefaultCellBackgroundColour(colour) -> None
         
@@ -3025,7 +2976,7 @@ class Grid(wx.ScrolledCanvas):
         Sets the default font to be used for grid cell text.
         """
 
-    def SetDefaultCellTextColour(self, colour: Union[wx.Colour, wx.Colour, wx._ThreeInts, wx._FourInts, str, None]) -> None:
+    def SetDefaultCellTextColour(self, colour: Union[wx.Colour, _ThreeInts, _FourInts, str, None]) -> None:
         """
         SetDefaultCellTextColour(colour) -> None
         
@@ -3078,9 +3029,7 @@ class Grid(wx.ScrolledCanvas):
         """
 
     @overload
-    def GetCellValue(self, coords: Union[GridCellCoords, wx._TwoInts]) -> str:
-        ...
-
+    def GetCellValue(self, coords: Union[GridCellCoords, _TwoInts]) -> str: ...
     @overload
     def GetCellValue(self, row: int, col: int) -> str:
         """
@@ -3098,9 +3047,7 @@ class Grid(wx.ScrolledCanvas):
         """
 
     @overload
-    def GetDefaultEditorForCell(self, c: Union[GridCellCoords, wx._TwoInts]) -> GridCellEditor:
-        ...
-
+    def GetDefaultEditorForCell(self, c: Union[GridCellCoords, _TwoInts]) -> GridCellEditor: ...
     @overload
     def GetDefaultEditorForCell(self, row: int, col: int) -> GridCellEditor:
         """
@@ -3213,9 +3160,7 @@ class Grid(wx.ScrolledCanvas):
         """
 
     @overload
-    def SetCellValue(self, coords: Union[GridCellCoords, wx._TwoInts], s: str) -> None:
-        ...
-
+    def SetCellValue(self, coords: Union[GridCellCoords, _TwoInts], s: str) -> None: ...
     @overload
     def SetCellValue(self, row: int, col: int, s: str) -> None:
         """
@@ -3616,9 +3561,7 @@ class Grid(wx.ScrolledCanvas):
         """
 
     @overload
-    def GetCellSize(self, coords: Union[GridCellCoords, wx._TwoInts]) -> wx.Size:
-        ...
-
+    def GetCellSize(self, coords: Union[GridCellCoords, _TwoInts]) -> wx.Size: ...
     @overload
     def GetCellSize(self, row: int, col: int, num_rows: int, num_cols: int) -> CellSpan:
         """
@@ -3895,9 +3838,7 @@ class Grid(wx.ScrolledCanvas):
         """
 
     @overload
-    def GoToCell(self, coords: Union[GridCellCoords, wx._TwoInts]) -> None:
-        ...
-
+    def GoToCell(self, coords: Union[GridCellCoords, _TwoInts]) -> None: ...
     @overload
     def GoToCell(self, row: int, col: int) -> None:
         """
@@ -3984,9 +3925,7 @@ class Grid(wx.ScrolledCanvas):
         """
 
     @overload
-    def SetGridCursor(self, coords: Union[GridCellCoords, wx._TwoInts]) -> None:
-        ...
-
+    def SetGridCursor(self, coords: Union[GridCellCoords, _TwoInts]) -> None: ...
     @overload
     def SetGridCursor(self, row: int, col: int) -> None:
         """
@@ -4110,9 +4049,7 @@ class Grid(wx.ScrolledCanvas):
         """
 
     @overload
-    def IsInSelection(self, coords: Union[GridCellCoords, wx._TwoInts]) -> bool:
-        ...
-
+    def IsInSelection(self, coords: Union[GridCellCoords, _TwoInts]) -> bool: ...
     @overload
     def IsInSelection(self, row: int, col: int) -> bool:
         """
@@ -4138,9 +4075,7 @@ class Grid(wx.ScrolledCanvas):
         """
 
     @overload
-    def SelectBlock(self, topLeft: Union[GridCellCoords, wx._TwoInts], bottomRight: Union[GridCellCoords, wx._TwoInts], addToSelected: bool=False) -> None:
-        ...
-
+    def SelectBlock(self, topLeft: Union[GridCellCoords, _TwoInts], bottomRight: Union[GridCellCoords, _TwoInts], addToSelected: bool=False) -> None: ...
     @overload
     def SelectBlock(self, topRow: int, leftCol: int, bottomRow: int, rightCol: int, addToSelected: bool=False) -> None:
         """
@@ -4164,14 +4099,14 @@ class Grid(wx.ScrolledCanvas):
         Selects the specified row.
         """
 
-    def SetSelectionBackground(self, c: Union[wx.Colour, wx.Colour, wx._ThreeInts, wx._FourInts, str, None]) -> None:
+    def SetSelectionBackground(self, c: Union[wx.Colour, _ThreeInts, _FourInts, str, None]) -> None:
         """
         SetSelectionBackground(c) -> None
         
         Set the colour to be used for drawing the selection background.
         """
 
-    def SetSelectionForeground(self, c: Union[wx.Colour, wx.Colour, wx._ThreeInts, wx._FourInts, str, None]) -> None:
+    def SetSelectionForeground(self, c: Union[wx.Colour, _ThreeInts, _FourInts, str, None]) -> None:
         """
         SetSelectionForeground(c) -> None
         
@@ -4200,9 +4135,7 @@ class Grid(wx.ScrolledCanvas):
         """
 
     @overload
-    def IsVisible(self, coords: Union[GridCellCoords, wx._TwoInts], wholeCellVisible: bool=True) -> bool:
-        ...
-
+    def IsVisible(self, coords: Union[GridCellCoords, _TwoInts], wholeCellVisible: bool=True) -> bool: ...
     @overload
     def IsVisible(self, row: int, col: int, wholeCellVisible: bool=True) -> bool:
         """
@@ -4214,9 +4147,7 @@ class Grid(wx.ScrolledCanvas):
         """
 
     @overload
-    def MakeCellVisible(self, coords: Union[GridCellCoords, wx._TwoInts]) -> None:
-        ...
-
+    def MakeCellVisible(self, coords: Union[GridCellCoords, _TwoInts]) -> None: ...
     @overload
     def MakeCellVisible(self, row: int, col: int) -> None:
         """
@@ -4255,7 +4186,7 @@ class Grid(wx.ScrolledCanvas):
         Sets the number of pixels per vertical scroll increment.
         """
 
-    def BlockToDeviceRect(self, topLeft: Union[GridCellCoords, wx._TwoInts], bottomRight: Union[GridCellCoords, wx._TwoInts], gridWindow: Optional[GridWindow]=None) -> wx.Rect:
+    def BlockToDeviceRect(self, topLeft: Union[GridCellCoords, _TwoInts], bottomRight: Union[GridCellCoords, _TwoInts], gridWindow: Optional[GridWindow]=None) -> wx.Rect:
         """
         BlockToDeviceRect(topLeft, bottomRight, gridWindow=None) -> wx.Rect
         
@@ -4263,9 +4194,7 @@ class Grid(wx.ScrolledCanvas):
         """
 
     @overload
-    def CellToRect(self, coords: Union[GridCellCoords, wx._TwoInts]) -> wx.Rect:
-        ...
-
+    def CellToRect(self, coords: Union[GridCellCoords, _TwoInts]) -> wx.Rect: ...
     @overload
     def CellToRect(self, row: int, col: int) -> wx.Rect:
         """
@@ -4277,9 +4206,7 @@ class Grid(wx.ScrolledCanvas):
         """
 
     @overload
-    def CellToGridWindow(self, coords: Union[GridCellCoords, wx._TwoInts]) -> GridWindow:
-        ...
-
+    def CellToGridWindow(self, coords: Union[GridCellCoords, _TwoInts]) -> GridWindow: ...
     @overload
     def CellToGridWindow(self, row: int, col: int) -> GridWindow:
         """
@@ -4290,11 +4217,9 @@ class Grid(wx.ScrolledCanvas):
         """
 
     @overload
-    def DevicePosToGridWindow(self, x: int, y: int) -> GridWindow:
-        ...
-
+    def DevicePosToGridWindow(self, x: int, y: int) -> GridWindow: ...
     @overload
-    def DevicePosToGridWindow(self, pos: Union[wx.Point, wx._TwoInts]) -> GridWindow:
+    def DevicePosToGridWindow(self, pos: Union[wx.Point, _TwoInts]) -> GridWindow:
         """
         DevicePosToGridWindow(pos) -> GridWindow
         DevicePosToGridWindow(x, y) -> GridWindow
@@ -4311,9 +4236,7 @@ class Grid(wx.ScrolledCanvas):
         """
 
     @overload
-    def CalcGridWindowUnscrolledPosition(self, pt: Union[wx.Point, wx._TwoInts], gridWindow: GridWindow) -> wx.Point:
-        ...
-
+    def CalcGridWindowUnscrolledPosition(self, pt: Union[wx.Point, _TwoInts], gridWindow: GridWindow) -> wx.Point: ...
     @overload
     def CalcGridWindowUnscrolledPosition(self, x: int, y: int, xx: int, yy: int, gridWindow: GridWindow) -> None:
         """
@@ -4325,9 +4248,7 @@ class Grid(wx.ScrolledCanvas):
         """
 
     @overload
-    def CalcGridWindowScrolledPosition(self, pt: Union[wx.Point, wx._TwoInts], gridWindow: GridWindow) -> wx.Point:
-        ...
-
+    def CalcGridWindowScrolledPosition(self, pt: Union[wx.Point, _TwoInts], gridWindow: GridWindow) -> wx.Point: ...
     @overload
     def CalcGridWindowScrolledPosition(self, x: int, y: int, xx: int, yy: int, gridWindow: GridWindow) -> None:
         """
@@ -4355,9 +4276,7 @@ class Grid(wx.ScrolledCanvas):
         """
 
     @overload
-    def XYToCell(self, pos: Union[wx.Point, wx._TwoInts], gridWindow: Optional[GridWindow]=None) -> GridCellCoords:
-        ...
-
+    def XYToCell(self, pos: Union[wx.Point, _TwoInts], gridWindow: Optional[GridWindow]=None) -> GridCellCoords: ...
     @overload
     def XYToCell(self, x: int, y: int, gridWindow: Optional[GridWindow]=None) -> GridCellCoords:
         """
@@ -4459,9 +4378,7 @@ class Grid(wx.ScrolledCanvas):
         """
 
     @overload
-    def FreezeTo(self, coords: Union[GridCellCoords, wx._TwoInts]) -> bool:
-        ...
-
+    def FreezeTo(self, coords: Union[GridCellCoords, _TwoInts]) -> bool: ...
     @overload
     def FreezeTo(self, row: int, col: int) -> bool:
         """
@@ -4573,11 +4490,9 @@ class Grid(wx.ScrolledCanvas):
         """
 
     @overload
-    def RefreshBlock(self, topRow: int, leftCol: int, bottomRow: int, rightCol: int) -> None:
-        ...
-
+    def RefreshBlock(self, topRow: int, leftCol: int, bottomRow: int, rightCol: int) -> None: ...
     @overload
-    def RefreshBlock(self, topLeft: Union[GridCellCoords, wx._TwoInts], bottomRight: Union[GridCellCoords, wx._TwoInts]) -> None:
+    def RefreshBlock(self, topLeft: Union[GridCellCoords, _TwoInts], bottomRight: Union[GridCellCoords, _TwoInts]) -> None:
         """
         RefreshBlock(topLeft, bottomRight) -> None
         RefreshBlock(topRow, leftCol, bottomRow, rightCol) -> None
@@ -4585,7 +4500,7 @@ class Grid(wx.ScrolledCanvas):
         Redraw all the cells in the given block.
         """
 
-    def Render(self, dc: wx.DC, pos: Union[wx.Point, wx._TwoInts]=wx.DefaultPosition, size: Union[wx.Size, wx._TwoInts]=wx.DefaultSize, topLeft: Union[GridCellCoords, wx._TwoInts]=GridCellCoords(-1,-1), bottomRight: Union[GridCellCoords, wx._TwoInts]=GridCellCoords(-1,-1), style: int=GRID_DRAW_DEFAULT) -> None:
+    def Render(self, dc: wx.DC, pos: Union[wx.Point, _TwoInts]=wx.DefaultPosition, size: Union[wx.Size, _TwoInts]=wx.DefaultSize, topLeft: Union[GridCellCoords, _TwoInts]=GridCellCoords(-1,-1), bottomRight: Union[GridCellCoords, _TwoInts]=GridCellCoords(-1,-1), style: int=GRID_DRAW_DEFAULT) -> None:
         """
         Render(dc, pos=wx.DefaultPosition, size=wx.DefaultSize, topLeft=GridCellCoords(-1,-1), bottomRight=GridCellCoords(-1,-1), style=GRID_DRAW_DEFAULT) -> None
         
@@ -4772,11 +4687,9 @@ class Grid(wx.ScrolledCanvas):
         """
 
     @overload
-    def DrawTextRectangle(self, dc: wx.DC, lines: list[str], rect: Union[wx.Rect, wx._FourInts], horizontalAlignment: int=wx.ALIGN_LEFT, verticalAlignment: int=wx.ALIGN_TOP, textOrientation: int=wx.HORIZONTAL) -> None:
-        ...
-
+    def DrawTextRectangle(self, dc: wx.DC, lines: list[str], rect: Union[wx.Rect, _FourInts], horizontalAlignment: int=wx.ALIGN_LEFT, verticalAlignment: int=wx.ALIGN_TOP, textOrientation: int=wx.HORIZONTAL) -> None: ...
     @overload
-    def DrawTextRectangle(self, dc: wx.DC, text: str, rect: Union[wx.Rect, wx._FourInts], horizontalAlignment: int=wx.ALIGN_LEFT, verticalAlignment: int=wx.ALIGN_TOP, textOrientation: int=wx.HORIZONTAL) -> None:
+    def DrawTextRectangle(self, dc: wx.DC, text: str, rect: Union[wx.Rect, _FourInts], horizontalAlignment: int=wx.ALIGN_LEFT, verticalAlignment: int=wx.ALIGN_TOP, textOrientation: int=wx.HORIZONTAL) -> None:
         """
         DrawTextRectangle(dc, text, rect, horizontalAlignment=wx.ALIGN_LEFT, verticalAlignment=wx.ALIGN_TOP, textOrientation=wx.HORIZONTAL) -> None
         DrawTextRectangle(dc, lines, rect, horizontalAlignment=wx.ALIGN_LEFT, verticalAlignment=wx.ALIGN_TOP, textOrientation=wx.HORIZONTAL) -> None
@@ -4797,7 +4710,7 @@ class Grid(wx.ScrolledCanvas):
         GetCellHighlightROPenWidth() -> int
         """
 
-    def SetCellHighlightColour(self, _param_0: Union[wx.Colour, wx.Colour, wx._ThreeInts, wx._FourInts, str, None]) -> None:
+    def SetCellHighlightColour(self, _param_0: Union[wx.Colour, _ThreeInts, _FourInts, str, None]) -> None:
         """
         SetCellHighlightColour(_param_0) -> None
         """
@@ -4812,7 +4725,7 @@ class Grid(wx.ScrolledCanvas):
         SetCellHighlightROPenWidth(width) -> None
         """
 
-    def SetGridFrozenBorderColour(self, _param_0: Union[wx.Colour, wx.Colour, wx._ThreeInts, wx._FourInts, str, None]) -> None:
+    def SetGridFrozenBorderColour(self, _param_0: Union[wx.Colour, _ThreeInts, _FourInts, str, None]) -> None:
         """
         SetGridFrozenBorderColour(_param_0) -> None
         """
@@ -4837,12 +4750,13 @@ class Grid(wx.ScrolledCanvas):
     SelectRows = GridSelectRows
     SelectColumns = GridSelectColumns
     SelectRowsOrColumns = GridSelectRowsOrColumns
+
     @property
     def BatchCount(self) -> int: ...
     @property
     def CellHighlightColour(self) -> wx.Colour: ...
     @CellHighlightColour.setter
-    def CellHighlightColour(self, value: Union[wx.Colour, wx.Colour, wx._ThreeInts, wx._FourInts, str, None], /) -> None: ...
+    def CellHighlightColour(self, value: Union[wx.Colour, _ThreeInts, _FourInts, str, None], /) -> None: ...
     @property
     def CellHighlightPenWidth(self) -> int: ...
     @CellHighlightPenWidth.setter
@@ -4878,7 +4792,7 @@ class Grid(wx.ScrolledCanvas):
     @property
     def DefaultCellBackgroundColour(self) -> wx.Colour: ...
     @DefaultCellBackgroundColour.setter
-    def DefaultCellBackgroundColour(self, value: Union[wx.Colour, wx.Colour, wx._ThreeInts, wx._FourInts, str, None], /) -> None: ...
+    def DefaultCellBackgroundColour(self, value: Union[wx.Colour, _ThreeInts, _FourInts, str, None], /) -> None: ...
     @property
     def DefaultCellFitMode(self) -> GridFitMode: ...
     @DefaultCellFitMode.setter
@@ -4894,7 +4808,7 @@ class Grid(wx.ScrolledCanvas):
     @property
     def DefaultCellTextColour(self) -> wx.Colour: ...
     @DefaultCellTextColour.setter
-    def DefaultCellTextColour(self, value: Union[wx.Colour, wx.Colour, wx._ThreeInts, wx._FourInts, str, None], /) -> None: ...
+    def DefaultCellTextColour(self, value: Union[wx.Colour, _ThreeInts, _FourInts, str, None], /) -> None: ...
     @property
     def DefaultColLabelSize(self) -> int: ...
     @property
@@ -4942,7 +4856,7 @@ class Grid(wx.ScrolledCanvas):
     @property
     def GridLineColour(self) -> wx.Colour: ...
     @GridLineColour.setter
-    def GridLineColour(self, value: Union[wx.Colour, wx.Colour, wx._ThreeInts, wx._FourInts, str, None], /) -> None: ...
+    def GridLineColour(self, value: Union[wx.Colour, _ThreeInts, _FourInts, str, None], /) -> None: ...
     @property
     def GridRowLabelWindow(self) -> wx.Window: ...
     @property
@@ -4950,7 +4864,7 @@ class Grid(wx.ScrolledCanvas):
     @property
     def LabelBackgroundColour(self) -> wx.Colour: ...
     @LabelBackgroundColour.setter
-    def LabelBackgroundColour(self, value: Union[wx.Colour, wx.Colour, wx._ThreeInts, wx._FourInts, str, None], /) -> None: ...
+    def LabelBackgroundColour(self, value: Union[wx.Colour, _ThreeInts, _FourInts, str, None], /) -> None: ...
     @property
     def LabelFont(self) -> wx.Font: ...
     @LabelFont.setter
@@ -4958,7 +4872,7 @@ class Grid(wx.ScrolledCanvas):
     @property
     def LabelTextColour(self) -> wx.Colour: ...
     @LabelTextColour.setter
-    def LabelTextColour(self, value: Union[wx.Colour, wx.Colour, wx._ThreeInts, wx._FourInts, str, None], /) -> None: ...
+    def LabelTextColour(self, value: Union[wx.Colour, _ThreeInts, _FourInts, str, None], /) -> None: ...
     @property
     def NumberCols(self) -> int: ...
     @property
@@ -5002,7 +4916,7 @@ class Grid(wx.ScrolledCanvas):
     @property
     def SelectionBackground(self) -> wx.Colour: ...
     @SelectionBackground.setter
-    def SelectionBackground(self, value: Union[wx.Colour, wx.Colour, wx._ThreeInts, wx._FourInts, str, None], /) -> None: ...
+    def SelectionBackground(self, value: Union[wx.Colour, _ThreeInts, _FourInts, str, None], /) -> None: ...
     @property
     def SelectionBlockBottomRight(self) -> GridCellCoordsArray: ...
     @property
@@ -5010,7 +4924,7 @@ class Grid(wx.ScrolledCanvas):
     @property
     def SelectionForeground(self) -> wx.Colour: ...
     @SelectionForeground.setter
-    def SelectionForeground(self, value: Union[wx.Colour, wx.Colour, wx._ThreeInts, wx._FourInts, str, None], /) -> None: ...
+    def SelectionForeground(self, value: Union[wx.Colour, _ThreeInts, _FourInts, str, None], /) -> None: ...
     @property
     def SelectionMode(self) -> GridSelectionModes: ...
     @SelectionMode.setter
@@ -5023,7 +4937,6 @@ class Grid(wx.ScrolledCanvas):
     def Table(self) -> GridTableBase: ...
     @Table.setter
     def Table(self, value: GridTableBase, /) -> None: ...
-
     def CanHaveAttributes(self) -> bool:
         """
         CanHaveAttributes() -> bool
@@ -5058,6 +4971,7 @@ class Grid(wx.ScrolledCanvas):
         
         Returns the minimal size for the given column.
         """
+
 # end of class Grid
 
 
@@ -5087,15 +5001,8 @@ class GridUpdateLocker:
         default constructor.
         """
 
-    def __enter__(self):
-        """
-        
-        """
-
-    def __exit__(self, exc_type, exc_val, exc_tb):
-        """
-        
-        """
+    def __enter__(self): ...
+    def __exit__(self, exc_type, exc_val, exc_tb): ...
 # end of class GridUpdateLocker
 
 
@@ -5108,9 +5015,7 @@ class GridEvent(wx.NotifyEvent):
     """
 
     @overload
-    def __init__(self, id: int, type: wx.EventType, obj: wx.Object, row: int=-1, col: int=-1, x: int=-1, y: int=-1, sel: bool=True, kbd: wx.KeyboardState=wx.KeyboardState()) -> None:
-        ...
-
+    def __init__(self, id: int, type: wx.EventType, obj: wx.Object, row: int=-1, col: int=-1, x: int=-1, y: int=-1, sel: bool=True, kbd: wx.KeyboardState=wx.KeyboardState()) -> None: ...
     @overload
     def __init__(self) -> None:
         """
@@ -5176,6 +5081,7 @@ class GridEvent(wx.NotifyEvent):
         
         Returns true if the Shift key was down at the time of the event.
         """
+
     @property
     def Col(self) -> int: ...
     @property
@@ -5194,9 +5100,7 @@ class GridSizeEvent(wx.NotifyEvent):
     """
 
     @overload
-    def __init__(self, id: int, type: wx.EventType, obj: wx.Object, rowOrCol: int=-1, x: int=-1, y: int=-1, kbd: wx.KeyboardState=wx.KeyboardState()) -> None:
-        ...
-
+    def __init__(self, id: int, type: wx.EventType, obj: wx.Object, rowOrCol: int=-1, x: int=-1, y: int=-1, kbd: wx.KeyboardState=wx.KeyboardState()) -> None: ...
     @overload
     def __init__(self) -> None:
         """
@@ -5247,6 +5151,7 @@ class GridSizeEvent(wx.NotifyEvent):
         
         Returns true if the Shift key was down at the time of the event.
         """
+
     @property
     def Position(self) -> wx.Point: ...
     @property
@@ -5263,9 +5168,7 @@ class GridRangeSelectEvent(wx.NotifyEvent):
     """
 
     @overload
-    def __init__(self, id: int, type: wx.EventType, obj: wx.Object, topLeft: Union[GridCellCoords, wx._TwoInts], bottomRight: Union[GridCellCoords, wx._TwoInts], sel: bool=True, kbd: wx.KeyboardState=wx.KeyboardState()) -> None:
-        ...
-
+    def __init__(self, id: int, type: wx.EventType, obj: wx.Object, topLeft: Union[GridCellCoords, _TwoInts], bottomRight: Union[GridCellCoords, _TwoInts], sel: bool=True, kbd: wx.KeyboardState=wx.KeyboardState()) -> None: ...
     @overload
     def __init__(self) -> None:
         """
@@ -5351,6 +5254,7 @@ class GridRangeSelectEvent(wx.NotifyEvent):
         
         Returns true if the Shift key was down at the time of the event.
         """
+
     @property
     def BottomRightCoords(self) -> GridCellCoords: ...
     @property
@@ -5373,9 +5277,7 @@ class GridEditorCreatedEvent(wx.CommandEvent):
     """
 
     @overload
-    def __init__(self, id: int, type: wx.EventType, obj: wx.Object, row: int, col: int, ctrl: wx.Control) -> None:
-        ...
-
+    def __init__(self, id: int, type: wx.EventType, obj: wx.Object, row: int, col: int, ctrl: wx.Control) -> None: ...
     @overload
     def __init__(self) -> None:
         """
@@ -5438,6 +5340,7 @@ class GridEditorCreatedEvent(wx.CommandEvent):
         
         Sets the edit window.
         """
+
     @property
     def Col(self) -> int: ...
     @Col.setter

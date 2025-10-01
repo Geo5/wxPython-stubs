@@ -23,10 +23,13 @@ from enum import IntEnum, IntFlag, auto
 from typing import (
     Any,
     Callable,
+    Final,
     Generic,
+    Iterator,
     Literal,
     NewType,
     Optional,
+    Protocol,
     TypeVar,
     Union,
     overload,
@@ -99,9 +102,7 @@ class MediaCtrl(wx.Control):
     """
 
     @overload
-    def __init__(self, parent: wx.Window, id: int=-1, fileName: str='', pos: Union[wx.Point, wx._TwoInts]=wx.DefaultPosition, size: Union[wx.Size, wx._TwoInts]=wx.DefaultSize, style: int=0, szBackend: str='', validator: wx.Validator=wx.DefaultValidator, name: str="mediaCtrl") -> None:
-        ...
-
+    def __init__(self, parent: wx.Window, id: int=-1, fileName: str='', pos: Union[wx.Point, _TwoInts]=wx.DefaultPosition, size: Union[wx.Size, _TwoInts]=wx.DefaultSize, style: int=0, szBackend: str='', validator: wx.Validator=wx.DefaultValidator, name: str="mediaCtrl") -> None: ...
     @overload
     def __init__(self) -> None:
         """
@@ -112,7 +113,7 @@ class MediaCtrl(wx.Control):
         videos, audio files, natively through native codecs.
         """
 
-    def Create(self, parent: wx.Window, id: int=-1, fileName: str='', pos: Union[wx.Point, wx._TwoInts]=wx.DefaultPosition, size: Union[wx.Size, wx._TwoInts]=wx.DefaultSize, style: int=0, szBackend: str='', validator: wx.Validator=wx.DefaultValidator, name: str="mediaCtrl") -> bool:
+    def Create(self, parent: wx.Window, id: int=-1, fileName: str='', pos: Union[wx.Point, _TwoInts]=wx.DefaultPosition, size: Union[wx.Size, _TwoInts]=wx.DefaultSize, style: int=0, szBackend: str='', validator: wx.Validator=wx.DefaultValidator, name: str="mediaCtrl") -> bool:
         """
         Create(parent, id=-1, fileName='', pos=wx.DefaultPosition, size=wx.DefaultSize, style=0, szBackend='', validator=wx.DefaultValidator, name="mediaCtrl") -> bool
         
@@ -234,6 +235,7 @@ class MediaCtrl(wx.Control):
         
         Obtains the current position in time within the media in milliseconds.
         """
+
     @property
     def BestSize(self) -> wx.Size: ...
     @property
@@ -262,6 +264,7 @@ class MediaEvent(wx.NotifyEvent):
         
         Event wxMediaCtrl uses.
         """
+
 # end of class MediaEvent
 
 USE_MEDIACTRL: int

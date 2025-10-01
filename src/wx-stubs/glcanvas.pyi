@@ -23,10 +23,13 @@ from enum import IntEnum, IntFlag, auto
 from typing import (
     Any,
     Callable,
+    Final,
     Generic,
+    Iterator,
     Literal,
     NewType,
     Optional,
+    Protocol,
     TypeVar,
     Union,
     overload,
@@ -178,6 +181,7 @@ class GLAttribsBase:
         
         Returns the current value of the ARB-flag.
         """
+
     @property
     def Size(self) -> int: ...
 # end of class GLAttribsBase
@@ -302,6 +306,7 @@ class GLAttributes(GLAttribsBase):
         The set of attributes must end with this one; otherwise, the GPU may
         display nothing at all.
         """
+
 # end of class GLAttributes
 
 
@@ -420,6 +425,7 @@ class GLContextAttrs(GLAttribsBase):
         The set of attributes must end with this one; otherwise, the GPU may
         display nothing at all.
         """
+
 # end of class GLContextAttrs
 
 
@@ -454,6 +460,7 @@ class GLContext(wx.Object):
         Makes the OpenGL state that is represented by this rendering context
         current with the wxGLCanvas win.
         """
+
 # end of class GLContext
 
 
@@ -466,11 +473,9 @@ class GLCanvas(wx.Window):
     """
 
     @overload
-    def __init__(self, TransferThis: Windowparent, id: int=wx.ID_ANY, attribList: Optional[list[int]]=None, pos: Union[wx.Point, wx._TwoInts]=wx.DefaultPosition, size: Union[wx.Size, wx._TwoInts]=wx.DefaultSize, style: int=0, name: str="GLCanvas", palette: wx.Palette=wx.NullPalette) -> None:
-        ...
-
+    def __init__(self, TransferThis: Windowparent, id: int=wx.ID_ANY, attribList: Optional[list[int]]=None, pos: Union[wx.Point, _TwoInts]=wx.DefaultPosition, size: Union[wx.Size, _TwoInts]=wx.DefaultSize, style: int=0, name: str="GLCanvas", palette: wx.Palette=wx.NullPalette) -> None: ...
     @overload
-    def __init__(self, parent: wx.Window, dispAttrs: GLAttributes, id: int=wx.ID_ANY, pos: Union[wx.Point, wx._TwoInts]=wx.DefaultPosition, size: Union[wx.Size, wx._TwoInts]=wx.DefaultSize, style: int=0, name: str=GLCanvasName, palette: wx.Palette=wx.NullPalette) -> None:
+    def __init__(self, parent: wx.Window, dispAttrs: GLAttributes, id: int=wx.ID_ANY, pos: Union[wx.Point, _TwoInts]=wx.DefaultPosition, size: Union[wx.Size, _TwoInts]=wx.DefaultSize, style: int=0, name: str=GLCanvasName, palette: wx.Palette=wx.NullPalette) -> None:
         """
         GLCanvas(parent, dispAttrs, id=wx.ID_ANY, pos=wx.DefaultPosition, size=wx.DefaultSize, style=0, name=GLCanvasName, palette=wx.NullPalette) -> None
         GLCanvas(parent, id=wx.ID_ANY, attribList=None, pos=wx.DefaultPosition, size=wx.DefaultSize, style=0, name='GLCanvas', palette=wx.NullPalette)
@@ -512,9 +517,7 @@ class GLCanvas(wx.Window):
 
     @overload
     @staticmethod
-    def IsDisplaySupported(attribList: list[int]) -> bool:
-        ...
-
+    def IsDisplaySupported(attribList: list[int]) -> bool: ...
     @overload
     @staticmethod
     def IsDisplaySupported(dispAttrs: GLAttributes) -> bool:
@@ -538,6 +541,7 @@ class GLCanvas(wx.Window):
         """
         GetClassDefaultAttributes(variant=wx.WINDOW_VARIANT_NORMAL) -> wx.VisualAttributes
         """
+
 # end of class GLCanvas
 
 USE_GLCANVAS: int

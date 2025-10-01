@@ -23,10 +23,13 @@ from enum import IntEnum, IntFlag, auto
 from typing import (
     Any,
     Callable,
+    Final,
     Generic,
+    Iterator,
     Literal,
     NewType,
     Optional,
+    Protocol,
     TypeVar,
     Union,
     overload,
@@ -214,6 +217,7 @@ class WebViewHistoryItem:
         """
         GetTitle() -> str
         """
+
     @property
     def Title(self) -> str: ...
     @property
@@ -258,6 +262,7 @@ class WebViewHandler:
         """
         GetSecurityURL() -> str
         """
+
     @property
     def Name(self) -> str: ...
     @property
@@ -287,6 +292,7 @@ class WebViewArchiveHandler(WebViewHandler):
         """
         GetFile(uri) -> wx.FSFile
         """
+
 # end of class WebViewArchiveHandler
 
 
@@ -312,6 +318,7 @@ class WebViewFSHandler(WebViewHandler):
         """
         GetFile(uri) -> wx.FSFile
         """
+
 # end of class WebViewFSHandler
 
 
@@ -633,7 +640,7 @@ class WebView(wx.Control):
         Set how to interpret the zoom factor.
         """
 
-    def Create(self, parent: wx.Window, id: int=wx.ID_ANY, url: str=WebViewDefaultURLStr, pos: Union[wx.Point, wx._TwoInts]=wx.DefaultPosition, size: Union[wx.Size, wx._TwoInts]=wx.DefaultSize, style: int=0, name: str=WebViewNameStr) -> bool:
+    def Create(self, parent: wx.Window, id: int=wx.ID_ANY, url: str=WebViewDefaultURLStr, pos: Union[wx.Point, _TwoInts]=wx.DefaultPosition, size: Union[wx.Size, _TwoInts]=wx.DefaultSize, style: int=0, name: str=WebViewNameStr) -> bool:
         """
         Create(parent, id=wx.ID_ANY, url=WebViewDefaultURLStr, pos=wx.DefaultPosition, size=wx.DefaultSize, style=0, name=WebViewNameStr) -> bool
         
@@ -728,9 +735,7 @@ class WebView(wx.Control):
         """
 
     @overload
-    def SetPage(self, html: wx.InputStream, baseUrl: str) -> None:
-        ...
-
+    def SetPage(self, html: wx.InputStream, baseUrl: str) -> None: ...
     @overload
     def SetPage(self, html: str, baseUrl: str) -> None:
         """
@@ -749,9 +754,7 @@ class WebView(wx.Control):
 
     @overload
     @staticmethod
-    def New(parent: wx.Window, id: int=wx.ID_ANY, url: str=WebViewDefaultURLStr, pos: Union[wx.Point, wx._TwoInts]=wx.DefaultPosition, size: Union[wx.Size, wx._TwoInts]=wx.DefaultSize, backend: str=WebViewBackendDefault, style: int=0, name: str=WebViewNameStr) -> WebView:
-        ...
-
+    def New(parent: wx.Window, id: int=wx.ID_ANY, url: str=WebViewDefaultURLStr, pos: Union[wx.Point, _TwoInts]=wx.DefaultPosition, size: Union[wx.Size, _TwoInts]=wx.DefaultSize, backend: str=WebViewBackendDefault, style: int=0, name: str=WebViewNameStr) -> WebView: ...
     @overload
     @staticmethod
     def New(backend: str=WebViewBackendDefault) -> WebView:
@@ -806,6 +809,7 @@ class WebView(wx.Control):
         """
         MSWSetModernEmulationLevel(modernLevel=True) -> bool
         """
+
     @property
     def BackwardHistory(self) -> Any: ...
     @property
@@ -853,9 +857,7 @@ class WebViewEvent(wx.NotifyEvent):
     """
 
     @overload
-    def __init__(self, type: wx.EventType, id: int, href: str, target: str, flags: WebViewNavigationActionFlags=WEBVIEW_NAV_ACTION_NONE, messageHandler: str="") -> None:
-        ...
-
+    def __init__(self, type: wx.EventType, id: int, href: str, target: str, flags: WebViewNavigationActionFlags=WEBVIEW_NAV_ACTION_NONE, messageHandler: str="") -> None: ...
     @overload
     def __init__(self) -> None:
         """
@@ -901,6 +903,7 @@ class WebViewEvent(wx.NotifyEvent):
         
         Returns true the script execution failed.
         """
+
     @property
     def MessageHandler(self) -> str: ...
     @property
@@ -918,9 +921,7 @@ class WebViewFactory(wx.Object):
     """
 
     @overload
-    def Create(self, parent: wx.Window, id: int, url: str=WebViewDefaultURLStr, pos: Union[wx.Point, wx._TwoInts]=wx.DefaultPosition, size: Union[wx.Size, wx._TwoInts]=wx.DefaultSize, style: int=0, name: str=WebViewNameStr) -> WebView:
-        ...
-
+    def Create(self, parent: wx.Window, id: int, url: str=WebViewDefaultURLStr, pos: Union[wx.Point, _TwoInts]=wx.DefaultPosition, size: Union[wx.Size, _TwoInts]=wx.DefaultSize, style: int=0, name: str=WebViewNameStr) -> WebView: ...
     @overload
     def Create(self) -> WebView:
         """
@@ -944,6 +945,7 @@ class WebViewFactory(wx.Object):
         
         Retrieve the version information about this backend implementation.
         """
+
     @property
     def VersionInfo(self) -> wx.VersionInfo: ...
 # end of class WebViewFactory

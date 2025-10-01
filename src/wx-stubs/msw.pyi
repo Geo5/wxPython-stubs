@@ -23,10 +23,13 @@ from enum import IntEnum, IntFlag, auto
 from typing import (
     Any,
     Callable,
+    Final,
     Generic,
+    Iterator,
     Literal,
     NewType,
     Optional,
+    Protocol,
     TypeVar,
     Union,
     overload,
@@ -76,11 +79,9 @@ class PyAxBaseWindow(wx.Window):
     """
 
     @overload
-    def __init__(self) -> None:
-        ...
-
+    def __init__(self) -> None: ...
     @overload
-    def __init__(self, parent: wx.Window, id: int=-1, pos: Union[wx.Point, wx._TwoInts]=wx.DefaultPosition, size: Union[wx.Size, wx._TwoInts]=wx.DefaultSize, style: int=0, name: str=wx.PanelNameStr) -> None:
+    def __init__(self, parent: wx.Window, id: int=-1, pos: Union[wx.Point, _TwoInts]=wx.DefaultPosition, size: Union[wx.Size, _TwoInts]=wx.DefaultSize, style: int=0, name: str=wx.PanelNameStr) -> None:
         """
         PyAxBaseWindow(parent, id=-1, pos=wx.DefaultPosition, size=wx.DefaultSize, style=0, name=wx.PanelNameStr) -> None
         PyAxBaseWindow() -> None
@@ -97,6 +98,7 @@ class PyAxBaseWindow(wx.Window):
         """
         MSWTranslateMessage(msg) -> bool
         """
+
 # end of class PyAxBaseWindow
 
 #-- end-axbase --#

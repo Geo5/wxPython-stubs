@@ -23,10 +23,13 @@ from enum import IntEnum, IntFlag, auto
 from typing import (
     Any,
     Callable,
+    Final,
     Generic,
+    Iterator,
     Literal,
     NewType,
     Optional,
+    Protocol,
     TypeVar,
     Union,
     overload,
@@ -107,13 +110,9 @@ class XmlNode:
     """
 
     @overload
-    def __init__(self, type: XmlNodeType, name: str, content: str='', lineNo: int=-1) -> None:
-        ...
-
+    def __init__(self, type: XmlNodeType, name: str, content: str='', lineNo: int=-1) -> None: ...
     @overload
-    def __init__(self, node: XmlNode) -> None:
-        ...
-
+    def __init__(self, node: XmlNode) -> None: ...
     @overload
     def __init__(self, parent: XmlNode, type: XmlNodeType, name: str, content: str='', attrs: Optional[XmlAttribute]=None, next: Optional[XmlNode]=None, lineNo: int=-1) -> None:
         """
@@ -125,9 +124,7 @@ class XmlNode:
         """
 
     @overload
-    def AddAttribute(self, attr: XmlAttribute) -> None:
-        ...
-
+    def AddAttribute(self, attr: XmlAttribute) -> None: ...
     @overload
     def AddAttribute(self, name: str, value: str) -> None:
         """
@@ -322,6 +319,7 @@ class XmlNode:
         
         Sets the type of this node.
         """
+
     @property
     def Attributes(self) -> XmlAttribute: ...
     @property
@@ -368,9 +366,7 @@ class XmlAttribute:
     """
 
     @overload
-    def __init__(self, name: str, value: str, next: Optional[XmlAttribute]=None) -> None:
-        ...
-
+    def __init__(self, name: str, value: str, next: Optional[XmlAttribute]=None) -> None: ...
     @overload
     def __init__(self) -> None:
         """
@@ -422,6 +418,7 @@ class XmlAttribute:
         
         Sets the value of this attribute.
         """
+
     @property
     def Name(self) -> str: ...
     @Name.setter
@@ -449,17 +446,11 @@ class XmlDocument(wx.Object):
     """
 
     @overload
-    def __init__(self, doc: XmlDocument) -> None:
-        ...
-
+    def __init__(self, doc: XmlDocument) -> None: ...
     @overload
-    def __init__(self, filename: str, encoding: str="UTF-8") -> None:
-        ...
-
+    def __init__(self, filename: str, encoding: str="UTF-8") -> None: ...
     @overload
-    def __init__(self, stream: wx.InputStream, encoding: str="UTF-8") -> None:
-        ...
-
+    def __init__(self, stream: wx.InputStream, encoding: str="UTF-8") -> None: ...
     @overload
     def __init__(self) -> None:
         """
@@ -551,9 +542,7 @@ class XmlDocument(wx.Object):
         """
 
     @overload
-    def Load(self, stream: wx.InputStream, encoding: str="UTF-8", flags: int=XMLDOC_NONE) -> bool:
-        ...
-
+    def Load(self, stream: wx.InputStream, encoding: str="UTF-8", flags: int=XMLDOC_NONE) -> bool: ...
     @overload
     def Load(self, filename: str, encoding: str="UTF-8", flags: int=XMLDOC_NONE) -> bool:
         """
@@ -564,9 +553,7 @@ class XmlDocument(wx.Object):
         """
 
     @overload
-    def Save(self, stream: wx.OutputStream, indentstep: int=2) -> bool:
-        ...
-
+    def Save(self, stream: wx.OutputStream, indentstep: int=2) -> bool: ...
     @overload
     def Save(self, filename: str, indentstep: int=2) -> bool:
         """
@@ -627,6 +614,7 @@ class XmlDocument(wx.Object):
         
         Get expat library version information.
         """
+
     @property
     def Doctype(self) -> XmlDoctype: ...
     @Doctype.setter
@@ -711,6 +699,7 @@ class XmlDoctype:
         
         Returns true if the contents can produce a valid DOCTYPE string.
         """
+
     @property
     def FullString(self) -> str: ...
     @property

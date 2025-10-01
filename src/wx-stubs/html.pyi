@@ -23,10 +23,13 @@ from enum import IntEnum, IntFlag, auto
 from typing import (
     Any,
     Callable,
+    Final,
     Generic,
+    Iterator,
     Literal,
     NewType,
     Optional,
+    Protocol,
     TypeVar,
     Union,
     overload,
@@ -128,11 +131,9 @@ class HtmlSelection:
         """
 
     @overload
-    def Set(self, fromCell: HtmlCell, toCell: HtmlCell) -> None:
-        ...
-
+    def Set(self, fromCell: HtmlCell, toCell: HtmlCell) -> None: ...
     @overload
-    def Set(self, fromPos: Union[wx.Point, wx._TwoInts], fromCell: HtmlCell, toPos: Union[wx.Point, wx._TwoInts], toCell: HtmlCell) -> None:
+    def Set(self, fromPos: Union[wx.Point, _TwoInts], fromCell: HtmlCell, toPos: Union[wx.Point, _TwoInts], toCell: HtmlCell) -> None:
         """
         Set(fromPos, fromCell, toPos, toCell) -> None
         Set(fromCell, toCell) -> None
@@ -192,6 +193,7 @@ class HtmlSelection:
         """
         IsEmpty() -> bool
         """
+
     @property
     def FromCell(self) -> HtmlCell: ...
     @property
@@ -237,7 +239,7 @@ class HtmlRenderingState:
         GetSelectionState() -> HtmlSelectionState
         """
 
-    def SetFgColour(self, c: Union[wx.Colour, wx.Colour, wx._ThreeInts, wx._FourInts, str, None]) -> None:
+    def SetFgColour(self, c: Union[wx.Colour, _ThreeInts, _FourInts, str, None]) -> None:
         """
         SetFgColour(c) -> None
         """
@@ -247,7 +249,7 @@ class HtmlRenderingState:
         GetFgColour() -> wx.Colour
         """
 
-    def SetBgColour(self, c: Union[wx.Colour, wx.Colour, wx._ThreeInts, wx._FourInts, str, None]) -> None:
+    def SetBgColour(self, c: Union[wx.Colour, _ThreeInts, _FourInts, str, None]) -> None:
         """
         SetBgColour(c) -> None
         """
@@ -266,10 +268,11 @@ class HtmlRenderingState:
         """
         GetBgMode() -> int
         """
+
     @property
     def BgColour(self) -> wx.Colour: ...
     @BgColour.setter
-    def BgColour(self, value: Union[wx.Colour, wx.Colour, wx._ThreeInts, wx._FourInts, str, None], /) -> None: ...
+    def BgColour(self, value: Union[wx.Colour, _ThreeInts, _FourInts, str, None], /) -> None: ...
     @property
     def BgMode(self) -> int: ...
     @BgMode.setter
@@ -277,7 +280,7 @@ class HtmlRenderingState:
     @property
     def FgColour(self) -> wx.Colour: ...
     @FgColour.setter
-    def FgColour(self, value: Union[wx.Colour, wx.Colour, wx._ThreeInts, wx._FourInts, str, None], /) -> None: ...
+    def FgColour(self, value: Union[wx.Colour, _ThreeInts, _FourInts, str, None], /) -> None: ...
     @property
     def SelectionState(self) -> HtmlSelectionState: ...
     @SelectionState.setter
@@ -290,19 +293,20 @@ class HtmlRenderingStyle:
     wxHtmlSelection is data holder with information about text selection.
     """
 
-    def GetSelectedTextColour(self, clr: Union[wx.Colour, wx.Colour, wx._ThreeInts, wx._FourInts, str, None]) -> wx.Colour:
+    def GetSelectedTextColour(self, clr: Union[wx.Colour, _ThreeInts, _FourInts, str, None]) -> wx.Colour:
         """
         GetSelectedTextColour(clr) -> wx.Colour
         
         Returns the colour to use for the selected text.
         """
 
-    def GetSelectedTextBgColour(self, clr: Union[wx.Colour, wx.Colour, wx._ThreeInts, wx._FourInts, str, None]) -> wx.Colour:
+    def GetSelectedTextBgColour(self, clr: Union[wx.Colour, _ThreeInts, _FourInts, str, None]) -> wx.Colour:
         """
         GetSelectedTextBgColour(clr) -> wx.Colour
         
         Returns the colour to use for the selected text's background.
         """
+
 # end of class HtmlRenderingStyle
 
 
@@ -346,6 +350,7 @@ class HtmlRenderingInfo:
         """
         GetState() -> HtmlRenderingState
         """
+
     @property
     def Selection(self) -> HtmlSelection: ...
     @Selection.setter
@@ -454,7 +459,7 @@ class HtmlCell(wx.Object):
         Returns cursor to show when mouse pointer is over the cell.
         """
 
-    def GetMouseCursorAt(self, window: HtmlWindowInterface, rePos: Union[wx.Point, wx._TwoInts]) -> wx.Cursor:
+    def GetMouseCursorAt(self, window: HtmlWindowInterface, rePos: Union[wx.Point, _TwoInts]) -> wx.Cursor:
         """
         GetMouseCursorAt(window, rePos) -> wx.Cursor
         
@@ -506,7 +511,7 @@ class HtmlCell(wx.Object):
         Layouts the cell.
         """
 
-    def ProcessMouseClick(self, window: HtmlWindowInterface, pos: Union[wx.Point, wx._TwoInts], event: wx.MouseEvent) -> bool:
+    def ProcessMouseClick(self, window: HtmlWindowInterface, pos: Union[wx.Point, _TwoInts], event: wx.MouseEvent) -> bool:
         """
         ProcessMouseClick(window, pos, event) -> bool
         
@@ -564,6 +569,7 @@ class HtmlCell(wx.Object):
         """
         GetRootCell() -> HtmlCell
         """
+
     @property
     def AbsPos(self) -> wx.Point: ...
     @property
@@ -688,14 +694,14 @@ class HtmlContainerCell(HtmlCell):
         Sets the container's vertical alignment.
         """
 
-    def SetBackgroundColour(self, clr: Union[wx.Colour, wx.Colour, wx._ThreeInts, wx._FourInts, str, None]) -> None:
+    def SetBackgroundColour(self, clr: Union[wx.Colour, _ThreeInts, _FourInts, str, None]) -> None:
         """
         SetBackgroundColour(clr) -> None
         
         Sets the background colour for this container.
         """
 
-    def SetBorder(self, clr1: Union[wx.Colour, wx.Colour, wx._ThreeInts, wx._FourInts, str, None], clr2: Union[wx.Colour, wx.Colour, wx._ThreeInts, wx._FourInts, str, None], border: int=1) -> None:
+    def SetBorder(self, clr1: Union[wx.Colour, _ThreeInts, _FourInts, str, None], clr2: Union[wx.Colour, _ThreeInts, _FourInts, str, None], border: int=1) -> None:
         """
         SetBorder(clr1, clr2, border=1) -> None
         
@@ -718,9 +724,7 @@ class HtmlContainerCell(HtmlCell):
         """
 
     @overload
-    def SetWidthFloat(self, tag: HtmlTag, pixel_scale: float=1.0) -> None:
-        ...
-
+    def SetWidthFloat(self, tag: HtmlTag, pixel_scale: float=1.0) -> None: ...
     @overload
     def SetWidthFloat(self, w: int, units: int) -> None:
         """
@@ -729,6 +733,7 @@ class HtmlContainerCell(HtmlCell):
         
         Sets floating width adjustment.
         """
+
     @property
     def AlignHor(self) -> int: ...
     @AlignHor.setter
@@ -740,7 +745,7 @@ class HtmlContainerCell(HtmlCell):
     @property
     def BackgroundColour(self) -> wx.Colour: ...
     @BackgroundColour.setter
-    def BackgroundColour(self, value: Union[wx.Colour, wx.Colour, wx._ThreeInts, wx._FourInts, str, None], /) -> None: ...
+    def BackgroundColour(self, value: Union[wx.Colour, _ThreeInts, _FourInts, str, None], /) -> None: ...
 # end of class HtmlContainerCell
 
 
@@ -754,9 +759,7 @@ class HtmlLinkInfo(wx.Object):
     """
 
     @overload
-    def __init__(self, href: str, target: str='') -> None:
-        ...
-
+    def __init__(self, href: str, target: str='') -> None: ...
     @overload
     def __init__(self) -> None:
         """
@@ -795,6 +798,7 @@ class HtmlLinkInfo(wx.Object):
         Return TARGET value of the <A> tag (this value is used to specify in
         which frame should be the page pointed by GetHref() Href opened).
         """
+
     @property
     def Event(self) -> wx.MouseEvent: ...
     @property
@@ -814,13 +818,14 @@ class HtmlColourCell(HtmlCell):
     foreground.
     """
 
-    def __init__(self, clr: Union[wx.Colour, wx.Colour, wx._ThreeInts, wx._FourInts, str, None], flags: int=HTML_CLR_FOREGROUND) -> None:
+    def __init__(self, clr: Union[wx.Colour, _ThreeInts, _FourInts, str, None], flags: int=HTML_CLR_FOREGROUND) -> None:
         """
         HtmlColourCell(clr, flags=HTML_CLR_FOREGROUND) -> None
         
         This cell changes the colour of either the background or the
         foreground.
         """
+
 # end of class HtmlColourCell
 
 
@@ -839,6 +844,7 @@ class HtmlWidgetCell(HtmlCell):
         wxHtmlWidgetCell is a class that provides a connection between HTML
         cells and widgets (an object derived from wxWindow).
         """
+
 # end of class HtmlWidgetCell
 
 
@@ -857,6 +863,7 @@ class HtmlWordCell(HtmlCell):
         This html cell represents a single word or text fragment in the
         document stream.
         """
+
 # end of class HtmlWordCell
 
 
@@ -875,6 +882,7 @@ class HtmlWordWithTabsCell(HtmlWordCell):
         wxHtmlWordCell is a specialization for storing text fragments with
         embedded tab characters.
         """
+
 # end of class HtmlWordWithTabsCell
 
 
@@ -891,6 +899,7 @@ class HtmlFontCell(HtmlCell):
         
         This cell represents a font change in the document stream.
         """
+
 # end of class HtmlFontCell
 
 #-- end-htmlcell --#
@@ -923,6 +932,7 @@ class HtmlFilter(wx.Object):
         
         Reads the file and returns string with HTML document.
         """
+
 # end of class HtmlFilter
 
 #-- end-htmlfilt --#
@@ -998,6 +1008,7 @@ class HtmlTag:
         
         Parses the given string as an HTML colour.
         """
+
     @property
     def AllParams(self) -> str: ...
     @property
@@ -1053,13 +1064,13 @@ class HtmlTagHandler(wx.Object):
         
         Returns the parser associated with this tag handler.
         """
+
     @property
     def Parser(self) -> HtmlParser: ...
     @Parser.setter
     def Parser(self, value: HtmlParser, /) -> None: ...
     @property
     def SupportedTags(self) -> str: ...
-
     def ParseInner(self, tag: HtmlTag) -> None:
         """
         ParseInner(tag) -> None
@@ -1075,6 +1086,7 @@ class HtmlTagHandler(wx.Object):
         Parses given source as if it was tag's inner code (see
         wxHtmlParser::GetInnerSource).
         """
+
 # end of class HtmlTagHandler
 
 
@@ -1191,6 +1203,7 @@ class HtmlParser:
         
         Call this function to interrupt parsing from a tag handler.
         """
+
     @property
     def FS(self) -> wx.FileSystem: ...
     @FS.setter
@@ -1199,13 +1212,13 @@ class HtmlParser:
     def Product(self) -> wx.Object: ...
     @property
     def Source(self) -> str: ...
-
     def AddTag(self, tag: HtmlTag) -> None:
         """
         AddTag(tag) -> None
         
         This may (and may not) be overwritten in derived class.
         """
+
 # end of class HtmlParser
 
 #-- end-htmlpars --#
@@ -1273,7 +1286,7 @@ class HtmlWindowInterface:
         Called when the parser needs to open another URL (e.g.
         """
 
-    def HTMLCoordsToWindow(self, cell: HtmlCell, pos: Union[wx.Point, wx._TwoInts]) -> wx.Point:
+    def HTMLCoordsToWindow(self, cell: HtmlCell, pos: Union[wx.Point, _TwoInts]) -> wx.Point:
         """
         HTMLCoordsToWindow(cell, pos) -> wx.Point
         
@@ -1295,7 +1308,7 @@ class HtmlWindowInterface:
         Returns background colour to use by default.
         """
 
-    def SetHTMLBackgroundColour(self, clr: Union[wx.Colour, wx.Colour, wx._ThreeInts, wx._FourInts, str, None]) -> None:
+    def SetHTMLBackgroundColour(self, clr: Union[wx.Colour, _ThreeInts, _FourInts, str, None]) -> None:
         """
         SetHTMLBackgroundColour(clr) -> None
         
@@ -1322,10 +1335,11 @@ class HtmlWindowInterface:
         
         Returns mouse cursor of given type.
         """
+
     @property
     def HTMLBackgroundColour(self) -> wx.Colour: ...
     @HTMLBackgroundColour.setter
-    def HTMLBackgroundColour(self, value: Union[wx.Colour, wx.Colour, wx._ThreeInts, wx._FourInts, str, None], /) -> None: ...
+    def HTMLBackgroundColour(self, value: Union[wx.Colour, _ThreeInts, _FourInts, str, None], /) -> None: ...
     @property
     def HTMLWindow(self) -> wx.Window: ...
 # end of class HtmlWindowInterface
@@ -1342,9 +1356,7 @@ class HtmlWindow(wx.ScrolledWindow, HtmlWindowInterface):
     """
 
     @overload
-    def __init__(self, parent: wx.Window, id: int=wx.ID_ANY, pos: Union[wx.Point, wx._TwoInts]=wx.DefaultPosition, size: Union[wx.Size, wx._TwoInts]=wx.DefaultSize, style: int=HW_DEFAULT_STYLE, name: str="htmlWindow") -> None:
-        ...
-
+    def __init__(self, parent: wx.Window, id: int=wx.ID_ANY, pos: Union[wx.Point, _TwoInts]=wx.DefaultPosition, size: Union[wx.Size, _TwoInts]=wx.DefaultSize, style: int=HW_DEFAULT_STYLE, name: str="htmlWindow") -> None: ...
     @overload
     def __init__(self) -> None:
         """
@@ -1494,14 +1506,14 @@ class HtmlWindow(wx.ScrolledWindow, HtmlWindowInterface):
         Selects all text in the window.
         """
 
-    def SelectLine(self, pos: Union[wx.Point, wx._TwoInts]) -> None:
+    def SelectLine(self, pos: Union[wx.Point, _TwoInts]) -> None:
         """
         SelectLine(pos) -> None
         
         Selects the line of text that pos points at.
         """
 
-    def SelectWord(self, pos: Union[wx.Point, wx._TwoInts]) -> None:
+    def SelectWord(self, pos: Union[wx.Point, _TwoInts]) -> None:
         """
         SelectWord(pos) -> None
         
@@ -1552,9 +1564,7 @@ class HtmlWindow(wx.ScrolledWindow, HtmlWindowInterface):
         """
 
     @overload
-    def SetRelatedStatusBar(self, statusbar: wx.StatusBar, index: int=0) -> None:
-        ...
-
+    def SetRelatedStatusBar(self, statusbar: wx.StatusBar, index: int=0) -> None: ...
     @overload
     def SetRelatedStatusBar(self, index: int) -> None:
         """
@@ -1608,6 +1618,7 @@ class HtmlWindow(wx.ScrolledWindow, HtmlWindowInterface):
         """
         GetClassDefaultAttributes(variant=wx.WINDOW_VARIANT_NORMAL) -> wx.VisualAttributes
         """
+
     @property
     def InternalRepresentation(self) -> HtmlContainerCell: ...
     @property
@@ -1622,7 +1633,6 @@ class HtmlWindow(wx.ScrolledWindow, HtmlWindowInterface):
     def RelatedFrame(self) -> wx.Frame: ...
     @RelatedFrame.setter
     def RelatedFrame(self, value: wx.Frame, /) -> None: ...
-
     def OnCellClicked(self, cell: HtmlCell, x: int, y: int, event: wx.MouseEvent) -> bool:
         """
         OnCellClicked(cell, x, y, event) -> bool
@@ -1642,6 +1652,7 @@ class HtmlWindow(wx.ScrolledWindow, HtmlWindowInterface):
         """
         ScrollToAnchor(anchor) -> bool
         """
+
 # end of class HtmlWindow
 
 
@@ -1666,6 +1677,7 @@ class HtmlLinkEvent(wx.CommandEvent):
         Returns the wxHtmlLinkInfo which contains info about the cell clicked
         and the hyperlink it contains.
         """
+
     @property
     def LinkInfo(self) -> HtmlLinkInfo: ...
 # end of class HtmlLinkEvent
@@ -1678,7 +1690,7 @@ class HtmlCellEvent(wx.CommandEvent):
     This event class is used for the events generated by wxHtmlWindow.
     """
 
-    def __init__(self, commandType: wx.EventType, id: int, cell: HtmlCell, point: Union[wx.Point, wx._TwoInts], ev: wx.MouseEvent) -> None:
+    def __init__(self, commandType: wx.EventType, id: int, cell: HtmlCell, point: Union[wx.Point, _TwoInts], ev: wx.MouseEvent) -> None:
         """
         HtmlCellEvent(commandType, id, cell, point, ev) -> None
         
@@ -1722,6 +1734,7 @@ class HtmlCellEvent(wx.CommandEvent):
         been clicked contained a link or false otherwise (which is the
         default).
         """
+
     @property
     def Cell(self) -> HtmlCell: ...
     @property
@@ -1838,6 +1851,7 @@ class HtmlDCRenderer(wx.Object):
         
         Set size of output rectangle, in pixels.
         """
+
     @property
     def TotalHeight(self) -> int: ...
     @property
@@ -1981,6 +1995,7 @@ class HtmlEasyPrinting(wx.Object):
         
         Enable or disable showing the dialog before printing.
         """
+
     @property
     def Name(self) -> str: ...
     @Name.setter
@@ -2046,9 +2061,7 @@ class HtmlPrintout(wx.Printout):
         """
 
     @overload
-    def SetMargins(self, pageSetupData: wx.PageSetupDialogData) -> None:
-        ...
-
+    def SetMargins(self, pageSetupData: wx.PageSetupDialogData) -> None: ...
     @overload
     def SetMargins(self, top: float=25.2, bottom: float=25.2, left: float=25.2, right: float=25.2, spaces: float=5) -> None:
         """
@@ -2065,6 +2078,7 @@ class HtmlPrintout(wx.Printout):
         
         Adds a filter to the static list of filters for wxHtmlPrintout.
         """
+
 # end of class HtmlPrintout
 
 #-- end-htmlprint --#
@@ -2099,6 +2113,7 @@ class HtmlWinTagHandler(HtmlTagHandler):
         """
         GetParser() -> HtmlWinParser
         """
+
     @property
     def Parser(self) -> HtmlWinParser: ...
     @Parser.setter
@@ -2253,7 +2268,7 @@ class HtmlWinParser(HtmlParser):
         Containers).
         """
 
-    def SetActualColor(self, clr: Union[wx.Colour, wx.Colour, wx._ThreeInts, wx._FourInts, str, None]) -> None:
+    def SetActualColor(self, clr: Union[wx.Colour, _ThreeInts, _FourInts, str, None]) -> None:
         """
         SetActualColor(clr) -> None
         
@@ -2338,16 +2353,17 @@ class HtmlWinParser(HtmlParser):
         Sets actual hypertext link.
         """
 
-    def SetLinkColor(self, clr: Union[wx.Colour, wx.Colour, wx._ThreeInts, wx._FourInts, str, None]) -> None:
+    def SetLinkColor(self, clr: Union[wx.Colour, _ThreeInts, _FourInts, str, None]) -> None:
         """
         SetLinkColor(clr) -> None
         
         Sets colour of hypertext link.
         """
+
     @property
     def ActualColor(self) -> wx.Colour: ...
     @ActualColor.setter
-    def ActualColor(self, value: Union[wx.Colour, wx.Colour, wx._ThreeInts, wx._FourInts, str, None], /) -> None: ...
+    def ActualColor(self, value: Union[wx.Colour, _ThreeInts, _FourInts, str, None], /) -> None: ...
     @property
     def Align(self) -> int: ...
     @Align.setter
@@ -2395,7 +2411,7 @@ class HtmlWinParser(HtmlParser):
     @property
     def LinkColor(self) -> wx.Colour: ...
     @LinkColor.setter
-    def LinkColor(self, value: Union[wx.Colour, wx.Colour, wx._ThreeInts, wx._FourInts, str, None], /) -> None: ...
+    def LinkColor(self, value: Union[wx.Colour, _ThreeInts, _FourInts, str, None], /) -> None: ...
     @property
     def WindowInterface(self) -> HtmlWindowInterface: ...
 # end of class HtmlWinParser
@@ -2476,6 +2492,7 @@ class HtmlBookRecord:
         """
         GetFullPath(page) -> str
         """
+
     @property
     def BasePath(self) -> str: ...
     @BasePath.setter
@@ -2510,13 +2527,13 @@ class HtmlHelpDataItem:
         
         Helper class for wxHtmlHelpData.
         """
+
     level: int
     parent: HtmlHelpDataItem
     id: int
     name: str
     page: str
     book: HtmlBookRecord
-
     def GetFullPath(self) -> str:
         """
         GetFullPath() -> str
@@ -2526,6 +2543,7 @@ class HtmlHelpDataItem:
         """
         GetIndentedName() -> str
         """
+
     @property
     def FullPath(self) -> str: ...
     @property
@@ -2598,6 +2616,7 @@ class HtmlHelpData(wx.Object):
         Sets the temporary directory where binary cached versions of MS HTML
         Workshop files will be stored.
         """
+
     @property
     def BookRecArray(self) -> HtmlBookRecArray: ...
     @property
@@ -2631,9 +2650,7 @@ class HtmlHelpFrame(wx.Frame):
     """
 
     @overload
-    def __init__(self, parent: Optional[wx.Window], id: int=wx.ID_ANY, title: str='', style: int=HF_DEFAULT_STYLE, data: Optional[HtmlHelpData]=None, config: Optional[wx.ConfigBase]=None, rootpath: str='') -> None:
-        ...
-
+    def __init__(self, parent: Optional[wx.Window], id: int=wx.ID_ANY, title: str='', style: int=HF_DEFAULT_STYLE, data: Optional[HtmlHelpData]=None, config: Optional[wx.ConfigBase]=None, rootpath: str='') -> None: ...
     @overload
     def __init__(self, data: Optional[HtmlHelpData]=None) -> None:
         """
@@ -2684,6 +2701,7 @@ class HtmlHelpFrame(wx.Frame):
         """
         GetClassDefaultAttributes(variant=wx.WINDOW_VARIANT_NORMAL) -> wx.VisualAttributes
         """
+
     @property
     def Controller(self) -> HtmlHelpController: ...
     @Controller.setter
@@ -2702,9 +2720,7 @@ class HtmlHelpDialog(wx.Dialog):
     """
 
     @overload
-    def __init__(self, parent: Optional[wx.Window], id: int=wx.ID_ANY, title: str='', style: int=HF_DEFAULT_STYLE, data: Optional[HtmlHelpData]=None) -> None:
-        ...
-
+    def __init__(self, parent: Optional[wx.Window], id: int=wx.ID_ANY, title: str='', style: int=HF_DEFAULT_STYLE, data: Optional[HtmlHelpData]=None) -> None: ...
     @overload
     def __init__(self, data: Optional[HtmlHelpData]=None) -> None:
         """
@@ -2755,6 +2771,7 @@ class HtmlHelpDialog(wx.Dialog):
         """
         GetClassDefaultAttributes(variant=wx.WINDOW_VARIANT_NORMAL) -> wx.VisualAttributes
         """
+
     @property
     def Controller(self) -> HtmlHelpController: ...
     @Controller.setter
@@ -2827,9 +2844,7 @@ class HtmlHelpWindow(wx.Window):
     """
 
     @overload
-    def __init__(self, parent: wx.Window, id: int=wx.ID_ANY, pos: Union[wx.Point, wx._TwoInts]=wx.DefaultPosition, size: Union[wx.Size, wx._TwoInts]=wx.DefaultSize, style: int=wx.TAB_TRAVERSAL|wx.BORDER_NONE, helpStyle: int=HF_DEFAULT_STYLE, data: Optional[HtmlHelpData]=None) -> None:
-        ...
-
+    def __init__(self, parent: wx.Window, id: int=wx.ID_ANY, pos: Union[wx.Point, _TwoInts]=wx.DefaultPosition, size: Union[wx.Size, _TwoInts]=wx.DefaultSize, style: int=wx.TAB_TRAVERSAL|wx.BORDER_NONE, helpStyle: int=HF_DEFAULT_STYLE, data: Optional[HtmlHelpData]=None) -> None: ...
     @overload
     def __init__(self, data: Optional[HtmlHelpData]=None) -> None:
         """
@@ -2841,7 +2856,7 @@ class HtmlHelpWindow(wx.Window):
         HTML help window.
         """
 
-    def Create(self, parent: wx.Window, id: int=wx.ID_ANY, pos: Union[wx.Point, wx._TwoInts]=wx.DefaultPosition, size: Union[wx.Size, wx._TwoInts]=wx.DefaultSize, style: int=wx.TAB_TRAVERSAL|wx.BORDER_NONE, helpStyle: int=HF_DEFAULT_STYLE) -> bool:
+    def Create(self, parent: wx.Window, id: int=wx.ID_ANY, pos: Union[wx.Point, _TwoInts]=wx.DefaultPosition, size: Union[wx.Size, _TwoInts]=wx.DefaultSize, style: int=wx.TAB_TRAVERSAL|wx.BORDER_NONE, helpStyle: int=HF_DEFAULT_STYLE) -> bool:
         """
         Create(parent, id=wx.ID_ANY, pos=wx.DefaultPosition, size=wx.DefaultSize, style=wx.TAB_TRAVERSAL|wx.BORDER_NONE, helpStyle=HF_DEFAULT_STYLE) -> bool
         
@@ -2849,9 +2864,7 @@ class HtmlHelpWindow(wx.Window):
         """
 
     @overload
-    def Display(self, id: int) -> bool:
-        ...
-
+    def Display(self, id: int) -> bool: ...
     @overload
     def Display(self, x: str) -> bool:
         """
@@ -2933,13 +2946,13 @@ class HtmlHelpWindow(wx.Window):
         """
         GetClassDefaultAttributes(variant=wx.WINDOW_VARIANT_NORMAL) -> wx.VisualAttributes
         """
+
     @property
     def Controller(self) -> HtmlHelpController: ...
     @Controller.setter
     def Controller(self, value: HtmlHelpController, /) -> None: ...
     @property
     def Data(self) -> HtmlHelpData: ...
-
     def CreateSearch(self) -> None:
         """
         CreateSearch() -> None
@@ -2968,6 +2981,7 @@ class HtmlHelpWindow(wx.Window):
         
         Creates index panel.
         """
+
 # end of class HtmlHelpWindow
 
 #-- end-helpwnd --#
@@ -2988,9 +3002,7 @@ class HtmlHelpController(wx.HelpControllerBase):
     """
 
     @overload
-    def __init__(self, parentWindow: wx.Window, style: int=HF_DEFAULT_STYLE) -> None:
-        ...
-
+    def __init__(self, parentWindow: wx.Window, style: int=HF_DEFAULT_STYLE) -> None: ...
     @overload
     def __init__(self, style: int=HF_DEFAULT_STYLE, parentWindow: Optional[wx.Window]=None) -> None:
         """
@@ -3002,9 +3014,7 @@ class HtmlHelpController(wx.HelpControllerBase):
         """
 
     @overload
-    def AddBook(self, bookUrl: str, showWaitMsg: bool=False) -> bool:
-        ...
-
+    def AddBook(self, bookUrl: str, showWaitMsg: bool=False) -> bool: ...
     @overload
     def AddBook(self, bookFile: str, showWaitMsg: bool=False) -> bool:
         """
@@ -3015,9 +3025,7 @@ class HtmlHelpController(wx.HelpControllerBase):
         """
 
     @overload
-    def Display(self, id: int) -> bool:
-        ...
-
+    def Display(self, id: int) -> bool: ...
     @overload
     def Display(self, x: str) -> bool:
         """
@@ -3119,6 +3127,7 @@ class HtmlHelpController(wx.HelpControllerBase):
         
         Returns the current help dialog.
         """
+
     @property
     def Dialog(self) -> HtmlHelpDialog: ...
     @property
@@ -3127,7 +3136,6 @@ class HtmlHelpController(wx.HelpControllerBase):
     def HelpWindow(self) -> HtmlHelpWindow: ...
     @HelpWindow.setter
     def HelpWindow(self, value: HtmlHelpWindow, /) -> None: ...
-
     def CreateHelpDialog(self, data: HtmlHelpData) -> HtmlHelpDialog:
         """
         CreateHelpDialog(data) -> HtmlHelpDialog
@@ -3144,6 +3152,7 @@ class HtmlHelpController(wx.HelpControllerBase):
         This protected virtual method may be overridden so that the controller
         uses a different frame.
         """
+
 # end of class HtmlHelpController
 
 
@@ -3162,6 +3171,7 @@ class HtmlModalHelp:
         This class uses wxHtmlHelpController to display help in a modal
         dialog.
         """
+
 # end of class HtmlModalHelp
 
 #-- end-helpctrl --#
@@ -3180,11 +3190,9 @@ class HtmlListBox(wx.VListBox):
     """
 
     @overload
-    def __init__(self) -> None:
-        ...
-
+    def __init__(self) -> None: ...
     @overload
-    def __init__(self, parent: wx.Window, id: int=wx.ID_ANY, pos: Union[wx.Point, wx._TwoInts]=wx.DefaultPosition, size: Union[wx.Size, wx._TwoInts]=wx.DefaultSize, style: int=0, name: str=HtmlListBoxNameStr) -> None:
+    def __init__(self, parent: wx.Window, id: int=wx.ID_ANY, pos: Union[wx.Point, _TwoInts]=wx.DefaultPosition, size: Union[wx.Size, _TwoInts]=wx.DefaultSize, style: int=0, name: str=HtmlListBoxNameStr) -> None:
         """
         HtmlListBox(parent, id=wx.ID_ANY, pos=wx.DefaultPosition, size=wx.DefaultSize, style=0, name=HtmlListBoxNameStr) -> None
         HtmlListBox() -> None
@@ -3200,7 +3208,7 @@ class HtmlListBox(wx.VListBox):
         Returns the wxFileSystem used by the HTML parser of this object.
         """
 
-    def Create(self, parent: wx.Window, id: int=wx.ID_ANY, pos: Union[wx.Point, wx._TwoInts]=wx.DefaultPosition, size: Union[wx.Size, wx._TwoInts]=wx.DefaultSize, style: int=0, name: str=HtmlListBoxNameStr) -> bool:
+    def Create(self, parent: wx.Window, id: int=wx.ID_ANY, pos: Union[wx.Point, _TwoInts]=wx.DefaultPosition, size: Union[wx.Size, _TwoInts]=wx.DefaultSize, style: int=0, name: str=HtmlListBoxNameStr) -> bool:
         """
         Create(parent, id=wx.ID_ANY, pos=wx.DefaultPosition, size=wx.DefaultSize, style=0, name=HtmlListBoxNameStr) -> bool
         
@@ -3212,9 +3220,9 @@ class HtmlListBox(wx.VListBox):
         """
         GetClassDefaultAttributes(variant=wx.WINDOW_VARIANT_NORMAL) -> wx.VisualAttributes
         """
+
     @property
     def FileSystem(self) -> wx.FileSystem: ...
-
     def OnLinkClicked(self, n: int, link: HtmlLinkInfo) -> None:
         """
         OnLinkClicked(n, link) -> None
@@ -3222,7 +3230,7 @@ class HtmlListBox(wx.VListBox):
         Called when the user clicks on hypertext link.
         """
 
-    def GetSelectedTextBgColour(self, colBg: Union[wx.Colour, wx.Colour, wx._ThreeInts, wx._FourInts, str, None]) -> wx.Colour:
+    def GetSelectedTextBgColour(self, colBg: Union[wx.Colour, _ThreeInts, _FourInts, str, None]) -> wx.Colour:
         """
         GetSelectedTextBgColour(colBg) -> wx.Colour
         
@@ -3231,7 +3239,7 @@ class HtmlListBox(wx.VListBox):
         GetSelectedTextColour().
         """
 
-    def GetSelectedTextColour(self, colFg: Union[wx.Colour, wx.Colour, wx._ThreeInts, wx._FourInts, str, None]) -> wx.Colour:
+    def GetSelectedTextColour(self, colFg: Union[wx.Colour, _ThreeInts, _FourInts, str, None]) -> wx.Colour:
         """
         GetSelectedTextColour(colFg) -> wx.Colour
         
@@ -3255,6 +3263,7 @@ class HtmlListBox(wx.VListBox):
         the body (i.e. without html nor body tags) of the HTML fragment for
         the given item.
         """
+
 # end of class HtmlListBox
 
 SimpleHtmlListBoxNameStr: str
@@ -3269,11 +3278,9 @@ class SimpleHtmlListBox(HtmlListBox, wx.ItemContainer):
     """
 
     @overload
-    def __init__(self) -> None:
-        ...
-
+    def __init__(self) -> None: ...
     @overload
-    def __init__(self, parent: wx.Window, id: int=wx.ID_ANY, pos: Union[wx.Point, wx._TwoInts]=wx.DefaultPosition, size: Union[wx.Size, wx._TwoInts]=wx.DefaultSize, choices: list[str]=[], style: int=HLB_DEFAULT_STYLE, validator: wx.Validator=wx.DefaultValidator, name: str=SimpleHtmlListBoxNameStr) -> None:
+    def __init__(self, parent: wx.Window, id: int=wx.ID_ANY, pos: Union[wx.Point, _TwoInts]=wx.DefaultPosition, size: Union[wx.Size, _TwoInts]=wx.DefaultSize, choices: list[str]=[], style: int=HLB_DEFAULT_STYLE, validator: wx.Validator=wx.DefaultValidator, name: str=SimpleHtmlListBoxNameStr) -> None:
         """
         SimpleHtmlListBox(parent, id=wx.ID_ANY, pos=wx.DefaultPosition, size=wx.DefaultSize, choices=[], style=HLB_DEFAULT_STYLE, validator=wx.DefaultValidator, name=SimpleHtmlListBoxNameStr) -> None
         SimpleHtmlListBox() -> None
@@ -3282,7 +3289,7 @@ class SimpleHtmlListBox(HtmlListBox, wx.ItemContainer):
         HTML content in the listbox rows.
         """
 
-    def Create(self, parent: wx.Window, id: int=wx.ID_ANY, pos: Union[wx.Point, wx._TwoInts]=wx.DefaultPosition, size: Union[wx.Size, wx._TwoInts]=wx.DefaultSize, choices: list[str]=[], style: int=HLB_DEFAULT_STYLE, validator: wx.Validator=wx.DefaultValidator, name: str=SimpleHtmlListBoxNameStr) -> bool:
+    def Create(self, parent: wx.Window, id: int=wx.ID_ANY, pos: Union[wx.Point, _TwoInts]=wx.DefaultPosition, size: Union[wx.Size, _TwoInts]=wx.DefaultSize, choices: list[str]=[], style: int=HLB_DEFAULT_STYLE, validator: wx.Validator=wx.DefaultValidator, name: str=SimpleHtmlListBoxNameStr) -> bool:
         """
         Create(parent, id=wx.ID_ANY, pos=wx.DefaultPosition, size=wx.DefaultSize, choices=[], style=HLB_DEFAULT_STYLE, validator=wx.DefaultValidator, name=SimpleHtmlListBoxNameStr) -> bool
         
@@ -3294,6 +3301,7 @@ class SimpleHtmlListBox(HtmlListBox, wx.ItemContainer):
         """
         GetClassDefaultAttributes(variant=wx.WINDOW_VARIANT_NORMAL) -> wx.VisualAttributes
         """
+
 # end of class SimpleHtmlListBox
 
 #-- end-htmllbox --#

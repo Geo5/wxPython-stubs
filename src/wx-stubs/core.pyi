@@ -23,10 +23,13 @@ from enum import IntEnum, IntFlag, auto
 from typing import (
     Any,
     Callable,
+    Final,
     Generic,
+    Iterator,
     Literal,
     NewType,
     Optional,
+    Protocol,
     TypeVar,
     Union,
     overload,
@@ -59,7 +62,6 @@ Everything you need for building typical GUI applications is here.
 
 #-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 # This code block was included from src/core_ex.pyi
-from typing import Final, Literal
 from typing_extensions import deprecated as warn_deprecated
 
 from wx.__version__ import VERSION_STRING
@@ -90,7 +92,6 @@ def version() -> str:
     """
     Returns a string containing version and port info
     """
-    pass
 
 _T = TypeVar("_T")
 _P = ParamSpec("_P")
@@ -109,7 +110,6 @@ def CallAfter(callableObj: Callable[_P, Optional[_T]], *args: _P.args, **kw: _P.
     .. seealso::
         :ref:`wx.CallLater`
     """
-    pass
 
 class CallLater(Generic[_P, _T]):
     """
@@ -140,10 +140,8 @@ class CallLater(Generic[_P, _T]):
         :param args: arguments to be passed to the callable object
         :param kw: keyword arguments to be passed to the callable object
         """
-        pass
 
-    def __del__(self):
-        pass
+    def __del__(self): ...
 
     def Start(self, millis: Optional[int] = None, *args: _P.args, **kwargs: _P.kwargs) -> None:
         """
@@ -153,7 +151,6 @@ class CallLater(Generic[_P, _T]):
         :param args: arguments to be passed to the callable object
         :param kw: keywords to be passed to the callable object
         """
-        pass
 
     Restart = Start
 
@@ -161,13 +158,10 @@ class CallLater(Generic[_P, _T]):
         """
         Stop and destroy the timer.
         """
-        pass
 
-    def GetInterval(self) -> int:
-        pass
+    def GetInterval(self) -> int: ...
 
-    def IsRunning(self) -> bool:
-        pass
+    def IsRunning(self) -> bool: ...
 
     def SetArgs(self, *args: _P.args, **kwargs: _P.kwargs) -> None:
         """
@@ -179,7 +173,6 @@ class CallLater(Generic[_P, _T]):
         :param args: arguments to be passed to the callable object
         :param kw: keywords to be passed to the callable object
         """
-        pass
 
     def HasRun(self) -> bool:
         """
@@ -187,7 +180,6 @@ class CallLater(Generic[_P, _T]):
         
         :rtype: bool
         """
-        pass
 
     def GetResult(self) -> _T:
         """
@@ -196,16 +188,14 @@ class CallLater(Generic[_P, _T]):
         :rtype: a Python object
         :return: result from callable
         """
-        pass
 
     def Notify(self) -> None:
         """
         The timer has expired so call the callable.
         """
-        pass
+
     Interval = property(GetInterval)
     Result = property(GetResult)
-
 FutureCall = deprecated(CallLater, 'Use CallLater instead.')
 
 @deprecatedMsg("wxPython now always uses utf-8")
@@ -1623,6 +1613,7 @@ class RefCounter:
         
         Increments the reference count associated with this shared data.
         """
+
     @property
     def RefCount(self) -> int: ...
 # end of class RefCounter
@@ -1637,9 +1628,7 @@ class Object:
     """
 
     @overload
-    def __init__(self, other: Object) -> None:
-        ...
-
+    def __init__(self, other: Object) -> None: ...
     @overload
     def __init__(self) -> None:
         """
@@ -1715,6 +1704,7 @@ class Object:
         
         Deletes the C++ object this Python object is a proxy for.
         """
+
     @property
     def ClassInfo(self) -> ClassInfo: ...
     @property
@@ -1789,6 +1779,7 @@ class ClassInfo:
         
         Finds the wxClassInfo object for a class with the given name.
         """
+
     @property
     def BaseClassName1(self) -> str: ...
     @property
@@ -1841,6 +1832,7 @@ class ClientDataContainer:
         """
         Alias for :meth:`SetClientData`
         """
+
     ClientData = property(GetClientData, SetClientData)
 # end of class ClientDataContainer
 
@@ -1879,6 +1871,7 @@ class SharedClientDataContainer:
         
         Set the client data object.
         """
+
     @property
     def ClientData(self) -> Any: ...
     @ClientData.setter
@@ -1912,9 +1905,7 @@ class DateTime:
         """
 
         @overload
-        def __init__(self, offset: int=0) -> None:
-            ...
-
+        def __init__(self, offset: int=0) -> None: ...
         @overload
         def __init__(self, tz: DateTime.TZ) -> None:
             """
@@ -1945,6 +1936,7 @@ class DateTime:
             
             Create a time zone with the given offset in seconds.
             """
+
         @property
         def Offset(self) -> int: ...
     # end of class TimeZone
@@ -1954,6 +1946,7 @@ class DateTime:
         """
         Contains broken down date-time representation.
         """
+
         msec: int
         sec: int
         min: int
@@ -1962,7 +1955,6 @@ class DateTime:
         yday: int
         mon: DateTime.Month
         year: int
-
         def IsValid(self) -> bool:
             """
             IsValid() -> bool
@@ -1976,6 +1968,7 @@ class DateTime:
             
             Return the week day corresponding to this date.
             """
+
         @property
         def WeekDay(self) -> DateTime.WeekDay: ...
     # end of class Tm
@@ -2194,13 +2187,9 @@ class DateTime:
     Sunday_First = _WeekFlags.Sunday_First
 
     @overload
-    def __init__(self, date: Union[DateTime, datetime, date]) -> None:
-        ...
-
+    def __init__(self, date: Union[DateTime, datetime, date]) -> None: ...
     @overload
-    def __init__(self, day: int, month: DateTime.Month, year: int=Inv_Year, hour: int=0, minute: int=0, second: int=0, millisec: int=0) -> None:
-        ...
-
+    def __init__(self, day: int, month: DateTime.Month, year: int=Inv_Year, hour: int=0, minute: int=0, second: int=0, millisec: int=0) -> None: ...
     @overload
     def __init__(self) -> None:
         """
@@ -2413,9 +2402,7 @@ class DateTime:
         """
 
     @overload
-    def GetWeekDay(self, weekday: DateTime.WeekDay, n: int=1, month: DateTime.Month=Inv_Month, year: int=Inv_Year) -> DateTime:
-        ...
-
+    def GetWeekDay(self, weekday: DateTime.WeekDay, n: int=1, month: DateTime.Month=Inv_Month, year: int=Inv_Year) -> DateTime: ...
     @overload
     def GetWeekDay(self, tz: TimeZone=Local) -> DateTime.WeekDay:
         """
@@ -2527,9 +2514,7 @@ class DateTime:
         """
 
     @overload
-    def Add(self, diff: TimeSpan) -> DateTime:
-        ...
-
+    def Add(self, diff: TimeSpan) -> DateTime: ...
     @overload
     def Add(self, diff: DateSpan) -> DateTime:
         """
@@ -2540,13 +2525,9 @@ class DateTime:
         """
 
     @overload
-    def Subtract(self, diff: DateSpan) -> DateTime:
-        ...
-
+    def Subtract(self, diff: DateSpan) -> DateTime: ...
     @overload
-    def Subtract(self, dt: Union[DateTime, datetime, date]) -> TimeSpan:
-        ...
-
+    def Subtract(self, dt: Union[DateTime, datetime, date]) -> TimeSpan: ...
     @overload
     def Subtract(self, diff: TimeSpan) -> DateTime:
         """
@@ -2629,13 +2610,9 @@ class DateTime:
         """
 
     @overload
-    def ParseFormat(self, date: str, format: str) -> int:
-        ...
-
+    def ParseFormat(self, date: str, format: str) -> int: ...
     @overload
-    def ParseFormat(self, date: str) -> int:
-        ...
-
+    def ParseFormat(self, date: str) -> int: ...
     @overload
     def ParseFormat(self, date: str, format: str, dateDef: Union[DateTime, datetime, date]) -> int:
         """
@@ -3101,15 +3078,8 @@ class DateTime:
         Construct a :class:`DateTime` using the supplied parameters.
         """
 
-    def __repr__(self):
-        """
-        
-        """
-
-    def __str__(self):
-        """
-        
-        """
+    def __repr__(self): ...
+    def __str__(self): ...
     @property
     def day(self) -> int: ...
     @day.setter
@@ -3364,6 +3334,7 @@ class DateSpan:
         
         Returns a date span object corresponding to the given number of years.
         """
+
 # end of class DateSpan
 
 
@@ -3376,9 +3347,7 @@ class TimeSpan:
     """
 
     @overload
-    def __init__(self, hours: int, min: int=0, sec: int=0, msec: int=0) -> None:
-        ...
-
+    def __init__(self, hours: int, min: int=0, sec: int=0, msec: int=0) -> None: ...
     @overload
     def __init__(self) -> None:
         """
@@ -3627,6 +3596,7 @@ class TimeSpan:
         
         Returns the timespan for the given number of weeks.
         """
+
 # end of class TimeSpan
 
 DefaultDateTime: DateTime
@@ -3638,40 +3608,34 @@ def DateTimeFromTimeT(timet):
     """
     Compatibility wrapper for :meth:`DateTime.FromTimeT`
     """
-    pass
 
 @deprecated
 def DateTimeFromJDN(jdn):
     """
     Compatibility wrapper for :meth:`DateTime.FromJDN`
     """
-    pass
 
 @deprecated
 def DateTimeFromHMS(hour, minute=0, second=0, millisecond=0):
     """
     Compatibility wrapper for :meth:`DateTime.FromHMS`
     """
-    pass
 
 @deprecated
 def DateTimeFromDMY(day, month, year=DateTime.Inv_Year, hour=0, minute=0, second=0, millisecond=0):
     """
     Compatibility wrapper for :meth:`DateTime.FromDMY`
     """
-    pass
 
 def pydate2wxdate(date):
     """
     Convert a Python date or datetime to a :class:`DateTime` object
     """
-    pass
 
 def wxdate2pydate(date):
     """
     Convert a :class:`DateTime` object to a Python datetime.
     """
-    pass
 #-- end-wxdatetime --#
 #-- begin-stopwatch --#
 
@@ -3724,6 +3688,7 @@ class StopWatch:
         
         Returns elapsed time in microseconds.
         """
+
 # end of class StopWatch
 
 #-- end-stopwatch --#
@@ -3751,6 +3716,7 @@ class IdManager:
         Called directly by wxWindow::UnreserveControlId(), this function will
         unreserve an ID or range of IDs that is currently reserved.
         """
+
 # end of class IdManager
 
 
@@ -3765,13 +3731,9 @@ class WindowIDRef:
     """
 
     @overload
-    def __init__(self, id: int) -> None:
-        ...
-
+    def __init__(self, id: int) -> None: ...
     @overload
-    def __init__(self, idref: WindowIDRef) -> None:
-        ...
-
+    def __init__(self, idref: WindowIDRef) -> None: ...
     @overload
     def __init__(self) -> None:
         """
@@ -3844,15 +3806,8 @@ class WindowIDRef:
         __ge__(id) -> bool
         """
 
-    def __repr__(self):
-        """
-        
-        """
-
-    def __hash__(self):
-        """
-        
-        """
+    def __repr__(self): ...
+    def __hash__(self): ...
     @property
     def Id(self) -> int: ...
     @property
@@ -3871,7 +3826,6 @@ def NewIdRef(count=1):
     that the ID should never conflict with an in-use ID or other IDs
     generated by this function.
     """
-    pass
 #-- end-windowid --#
 #-- begin-platinfo --#
 
@@ -3975,9 +3929,7 @@ class PlatformInformation:
     """
 
     @overload
-    def __init__(self, pid: PortId, tkMajor: int=-1, tkMinor: int=-1, id: OperatingSystemId=OS_UNKNOWN, osMajor: int=-1, osMinor: int=-1, bitness: Bitness=BITNESS_INVALID, endian: Endianness=ENDIAN_INVALID) -> None:
-        ...
-
+    def __init__(self, pid: PortId, tkMajor: int=-1, tkMinor: int=-1, id: OperatingSystemId=OS_UNKNOWN, osMajor: int=-1, osMinor: int=-1, bitness: Bitness=BITNESS_INVALID, endian: Endianness=ENDIAN_INVALID) -> None: ...
     @overload
     def __init__(self) -> None:
         """
@@ -4116,9 +4068,7 @@ class PlatformInformation:
 
     @overload
     @staticmethod
-    def GetBitnessName(bitness: Bitness) -> str:
-        ...
-
+    def GetBitnessName(bitness: Bitness) -> str: ...
     @overload
     def GetBitnessName(self) -> str:
         """
@@ -4287,14 +4237,8 @@ class PlatformInformation:
         Returns true if this wxPlatformInfo describes wxUniversal build.
         """
 
-    def __ne__(self, t: PlatformInfo) -> bool:
-        """
-        """
-
-    def __eq__(self, t: PlatformInfo) -> bool:
-        """
-        """
-
+    def __ne__(self, t: PlatformInfo) -> bool: ...
+    def __eq__(self, t: PlatformInfo) -> bool: ...
     @staticmethod
     def Get() -> PlatformInfo:
         """
@@ -4303,6 +4247,7 @@ class PlatformInformation:
         Returns the global wxPlatformInfo object, initialized with the values
         for the currently running platform.
         """
+
     @property
     def ArchName(self) -> str: ...
     @property
@@ -4373,18 +4318,13 @@ class LinuxDistributionInfo:
     A structure containing information about a Linux distribution as
     returned by the lsb_release utility.
     """
+
     Id: str
     Release: str
     CodeName: str
     Description: str
-
-    def __eq__(self, ldi: LinuxDistributionInfo) -> bool:
-        """
-        """
-
-    def __ne__(self, ldi: LinuxDistributionInfo) -> bool:
-        """
-        """
+    def __eq__(self, ldi: LinuxDistributionInfo) -> bool: ...
+    def __ne__(self, ldi: LinuxDistributionInfo) -> bool: ...
 # end of class LinuxDistributionInfo
 
 
@@ -4392,6 +4332,7 @@ class PlatformId:
     """
     Defines a very broad platform categorization.
     """
+
 # end of class PlatformId
 
 
@@ -4420,11 +4361,11 @@ class VideoMode:
         Determines the sizes and locations of displays connected to the
         system.
         """
+
     w: int
     h: int
     bpp: int
     refresh: int
-
     def Matches(self, other: VideoMode) -> bool:
         """
         Matches(other) -> bool
@@ -4463,14 +4404,8 @@ class VideoMode:
         Returns true if the object has been initialized.
         """
 
-    def __eq__(self, m: VideoMode) -> bool:
-        """
-        """
-
-    def __ne__(self, mode: VideoMode) -> bool:
-        """
-        """
-
+    def __eq__(self, m: VideoMode) -> bool: ...
+    def __ne__(self, mode: VideoMode) -> bool: ...
     def __nonzero__(self) -> bool:
         """
         __nonzero__() -> bool
@@ -4480,6 +4415,7 @@ class VideoMode:
         """
         __bool__() -> bool
         """
+
     @property
     def Depth(self) -> int: ...
     @property
@@ -4503,13 +4439,9 @@ class Display:
     """
 
     @overload
-    def __init__(self, index: int) -> None:
-        ...
-
+    def __init__(self, index: int) -> None: ...
     @overload
-    def __init__(self, window: Window) -> None:
-        ...
-
+    def __init__(self, window: Window) -> None: ...
     @overload
     def __init__(self) -> None:
         """
@@ -4636,6 +4568,7 @@ class Display:
         
         Returns default display resolution for the current platform as wxSize.
         """
+
     @property
     def ClientArea(self) -> Rect: ...
     @property
@@ -6522,6 +6455,7 @@ class LanguageInfo:
     Encapsulates a wxLanguage identifier together with OS-specific
     information related to that language.
     """
+
     Language: int
     LocaleTag: str
     CanonicalName: str
@@ -6529,7 +6463,6 @@ class LanguageInfo:
     Description: str
     DescriptionNative: str
     LayoutDirection: LayoutDirection
-
     def GetLocaleName(self) -> str:
         """
         GetLocaleName() -> str
@@ -6544,6 +6477,7 @@ class LanguageInfo:
         
         Return the canonical locale name including the region, if known.
         """
+
     @property
     def CanonicalWithRegion(self) -> str: ...
     @property
@@ -6562,13 +6496,9 @@ class Locale:
     """
 
     @overload
-    def __init__(self, language: int, flags: int=LOCALE_LOAD_DEFAULT) -> None:
-        ...
-
+    def __init__(self, language: int, flags: int=LOCALE_LOAD_DEFAULT) -> None: ...
     @overload
-    def __init__(self, name: str, shortName: str='', locale: str='', bLoadDefault: bool=True) -> None:
-        ...
-
+    def __init__(self, name: str, shortName: str='', locale: str='', bLoadDefault: bool=True) -> None: ...
     @overload
     def __init__(self) -> None:
         """
@@ -6581,13 +6511,9 @@ class Locale:
         """
 
     @overload
-    def AddCatalog(self, domain: str, msgIdLanguage: Language) -> bool:
-        ...
-
+    def AddCatalog(self, domain: str, msgIdLanguage: Language) -> bool: ...
     @overload
-    def AddCatalog(self, domain: str, msgIdLanguage: Language, msgIdCharset: str) -> bool:
-        ...
-
+    def AddCatalog(self, domain: str, msgIdLanguage: Language, msgIdCharset: str) -> bool: ...
     @overload
     def AddCatalog(self, domain: str) -> bool:
         """
@@ -6635,9 +6561,7 @@ class Locale:
         """
 
     @overload
-    def GetString(self, origString: str, origString2: str, n: int, domain: str='') -> str:
-        ...
-
+    def GetString(self, origString: str, origString2: str, n: int, domain: str='') -> str: ...
     @overload
     def GetString(self, origString: str, domain: str='') -> str:
         """
@@ -6656,9 +6580,7 @@ class Locale:
         """
 
     @overload
-    def Init(self, name: str, shortName: str='', locale: str='', bLoadDefault: bool=True) -> bool:
-        ...
-
+    def Init(self, name: str, shortName: str='', locale: str='', bLoadDefault: bool=True) -> bool: ...
     @overload
     def Init(self, language: int=LANGUAGE_DEFAULT, flags: int=LOCALE_LOAD_DEFAULT) -> bool:
         """
@@ -6795,6 +6717,7 @@ class Locale:
         """
         __bool__() -> bool
         """
+
     @property
     def CanonicalName(self) -> str: ...
     @property
@@ -6852,9 +6775,7 @@ class Translations:
         """
 
     @overload
-    def SetLanguage(self, lang: str) -> None:
-        ...
-
+    def SetLanguage(self, lang: str) -> None: ...
     @overload
     def SetLanguage(self, lang: Language) -> None:
         """
@@ -6879,9 +6800,7 @@ class Translations:
         """
 
     @overload
-    def GetBestTranslation(self, domain: str, msgIdLanguage: str="en") -> str:
-        ...
-
+    def GetBestTranslation(self, domain: str, msgIdLanguage: str="en") -> str: ...
     @overload
     def GetBestTranslation(self, domain: str, msgIdLanguage: Language) -> str:
         """
@@ -6922,9 +6841,7 @@ class Translations:
         """
 
     @overload
-    def GetTranslatedString(self, origString: str, n: int, domain: str='') -> str:
-        ...
-
+    def GetTranslatedString(self, origString: str, n: int, domain: str='') -> str: ...
     @overload
     def GetTranslatedString(self, origString: str, domain: str='') -> str:
         """
@@ -6958,6 +6875,7 @@ class Translations:
         
         Sets current translations object.
         """
+
 # end of class Translations
 
 
@@ -6988,6 +6906,7 @@ class TranslationsLoader:
         
         Implements wxTranslations::GetAvailableTranslations().
         """
+
 # end of class TranslationsLoader
 
 
@@ -7005,14 +6924,14 @@ class FileTranslationsLoader(TranslationsLoader):
         will be looked up under prefix/lang/LC_MESSAGES and prefix/lang
         directories (in this order).
         """
+
 # end of class FileTranslationsLoader
 
 
 
 
 @overload
-def GetTranslation(string: str, plural: str, n: int, domain: str='', context: str='') -> str:    ...
-
+def GetTranslation(string: str, plural: str, n: int, domain: str='', context: str='') -> str: ...
 @overload
 def GetTranslation(string: str, domain: str='', context: str='') -> str:
     """
@@ -7069,13 +6988,9 @@ class PageSetupDialogData(Object):
     """
 
     @overload
-    def __init__(self, data: PageSetupDialogData) -> None:
-        ...
-
+    def __init__(self, data: PageSetupDialogData) -> None: ...
     @overload
-    def __init__(self, printData: PrintData) -> None:
-        ...
-
+    def __init__(self, printData: PrintData) -> None: ...
     @overload
     def __init__(self) -> None:
         """
@@ -7310,6 +7225,7 @@ class PageSetupDialogData(Object):
         """
         __bool__() -> bool
         """
+
     @property
     def MarginBottomRight(self) -> Point: ...
     @MarginBottomRight.setter
@@ -7351,9 +7267,7 @@ class PrintData(Object):
     """
 
     @overload
-    def __init__(self, data: PrintData) -> None:
-        ...
-
+    def __init__(self, data: PrintData) -> None: ...
     @overload
     def __init__(self) -> None:
         """
@@ -7484,9 +7398,7 @@ class PrintData(Object):
         """
 
     @overload
-    def SetPaperSize(self, sz: Union[Size, _TwoInts]) -> None:
-        ...
-
+    def SetPaperSize(self, sz: Union[Size, _TwoInts]) -> None: ...
     @overload
     def SetPaperSize(self, size: Union[Size, _TwoInts]) -> None:
         """
@@ -7554,6 +7466,7 @@ class PrintData(Object):
         """
         SetPrivData(data) -> None
         """
+
     @property
     def Bin(self) -> PrintBin: ...
     @Bin.setter
@@ -7620,13 +7533,9 @@ class PrintDialogData(Object):
     """
 
     @overload
-    def __init__(self, dialogData: PrintDialogData) -> None:
-        ...
-
+    def __init__(self, dialogData: PrintDialogData) -> None: ...
     @overload
-    def __init__(self, printData: PrintData) -> None:
-        ...
-
+    def __init__(self, printData: PrintData) -> None: ...
     @overload
     def __init__(self) -> None:
         """
@@ -7817,6 +7726,7 @@ class PrintDialogData(Object):
         """
         __bool__() -> bool
         """
+
     @property
     def AllPages(self) -> bool: ...
     @property
@@ -8011,13 +7921,9 @@ class Point:
     """
 
     @overload
-    def __init__(self, x: int, y: int) -> None:
-        ...
-
+    def __init__(self, x: int, y: int) -> None: ...
     @overload
-    def __init__(self, pt: Union[RealPoint, _TwoFloats]) -> None:
-        ...
-
+    def __init__(self, pt: Union[RealPoint, _TwoFloats]) -> None: ...
     @overload
     def __init__(self) -> None:
         """
@@ -8029,23 +7935,13 @@ class Point:
         """
 
     @overload
-    def __iadd__(self, pt: Union[Point, _TwoInts]) -> Point:
-        ...
-
+    def __iadd__(self, pt: Union[Point, _TwoInts]) -> Point: ...
     @overload
-    def __iadd__(self, sz: Union[Size, _TwoInts]) -> Point:
-        """
-        """
-
+    def __iadd__(self, sz: Union[Size, _TwoInts]) -> Point: ...
     @overload
-    def __isub__(self, pt: Union[Point, _TwoInts]) -> Point:
-        ...
-
+    def __isub__(self, pt: Union[Point, _TwoInts]) -> Point: ...
     @overload
-    def __isub__(self, sz: Union[Size, _TwoInts]) -> Point:
-        """
-        """
-
+    def __isub__(self, sz: Union[Size, _TwoInts]) -> Point: ...
     def IsFullySpecified(self) -> bool:
         """
         IsFullySpecified() -> bool
@@ -8061,9 +7957,9 @@ class Point:
         Combine this object with another one replacing the uninitialized
         values.
         """
+
     x: int
     y: int
-
     def __eq__(self, other: Union[Point, _TwoInts]) -> bool:
         """
         __eq__(other) -> bool
@@ -8090,37 +7986,15 @@ class Point:
         with a simple statement like this: ``obj = wx.Point(imObj)``.
         """
 
-    def __str__(self) -> str:
-        """
-        
-        """
-
-    def __repr__(self) -> str:
-        """
-        
-        """
-
-    def __len__(self) -> Literal[2]:
-        """
-        
-        """
-
-    def __reduce__(self) -> tuple[type[Point], _TwoInts]:
-        """
-        
-        """
-
-    def __getitem__(self, idx: Literal[0, 1]) -> int:
-        """
-        
-        """
-
-    def __setitem__(self, idx: Literal[0, 1], val: int) -> None:
-        """
-        
-        """
-
+    def __str__(self) -> str: ...
+    def __repr__(self) -> str: ...
+    def __len__(self) -> Literal[2]: ...
+    def __reduce__(self) -> tuple[type[Point], _TwoInts]: ...
+    def __iter__(self) -> Iterator[int]: ...
+    def __getitem__(self, idx: Literal[0, 1]) -> int: ...
+    def __setitem__(self, idx: Literal[0, 1], val: int) -> None: ...
     __safe_for_unpickling__ = True
+
 # end of class Point
 
 
@@ -8133,9 +8007,7 @@ class Size:
     """
 
     @overload
-    def __init__(self, width: int, height: int) -> None:
-        ...
-
+    def __init__(self, width: int, height: int) -> None: ...
     @overload
     def __init__(self) -> None:
         """
@@ -8146,17 +8018,11 @@ class Size:
         """
 
     @overload
-    def DecBy(self, size: Union[Size, _TwoInts]) -> None:
-        ...
-
+    def DecBy(self, size: Union[Size, _TwoInts]) -> None: ...
     @overload
-    def DecBy(self, dx: int, dy: int) -> None:
-        ...
-
+    def DecBy(self, dx: int, dy: int) -> None: ...
     @overload
-    def DecBy(self, d: int) -> None:
-        ...
-
+    def DecBy(self, d: int) -> None: ...
     @overload
     def DecBy(self, pt: Union[Point, _TwoInts]) -> None:
         """
@@ -8169,17 +8035,11 @@ class Size:
         """
 
     @overload
-    def IncBy(self, size: Union[Size, _TwoInts]) -> None:
-        ...
-
+    def IncBy(self, size: Union[Size, _TwoInts]) -> None: ...
     @overload
-    def IncBy(self, dx: int, dy: int) -> None:
-        ...
-
+    def IncBy(self, dx: int, dy: int) -> None: ...
     @overload
-    def IncBy(self, d: int) -> None:
-        ...
-
+    def IncBy(self, d: int) -> None: ...
     @overload
     def IncBy(self, pt: Union[Point, _TwoInts]) -> None:
         """
@@ -8191,22 +8051,10 @@ class Size:
         Increases the size in both x and y directions.
         """
 
-    def __iadd__(self, sz: Union[Size, _TwoInts]) -> Size:
-        """
-        """
-
-    def __isub__(self, sz: Union[Size, _TwoInts]) -> Size:
-        """
-        """
-
-    def __idiv__(self, factor: int) -> Size:
-        """
-        """
-
-    def __imul__(self, factor: int) -> Size:
-        """
-        """
-
+    def __iadd__(self, sz: Union[Size, _TwoInts]) -> Size: ...
+    def __isub__(self, sz: Union[Size, _TwoInts]) -> Size: ...
+    def __idiv__(self, factor: int) -> Size: ...
+    def __imul__(self, factor: int) -> Size: ...
     def DecTo(self, size: Union[Size, _TwoInts]) -> None:
         """
         DecTo(size) -> None
@@ -8289,6 +8137,7 @@ class Size:
         
         Sets the width.
         """
+
     @property
     def Height(self) -> int: ...
     @Height.setter
@@ -8313,7 +8162,6 @@ class Size:
     def y(self) -> int: ...
     @y.setter
     def y(self, value: int, /) -> None: ...
-
     def __eq__(self, other: Union[Size, _TwoInts]) -> bool:
         """
         __eq__(other) -> bool
@@ -8340,47 +8188,17 @@ class Size:
         with a simple statement like this: ``obj = wx.Size(imObj)``.
         """
 
-    def __str__(self) -> str:
-        """
-        
-        """
-
-    def __repr__(self) -> str:
-        """
-        
-        """
-
-    def __len__(self) -> Literal[2]:
-        """
-        
-        """
-
-    def __nonzero__(self) -> bool:
-        """
-        
-        """
-
-    def __bool__(self) -> bool:
-        """
-        
-        """
-
-    def __reduce__(self) -> tuple[type[Size], _TwoInts]:
-        """
-        
-        """
-
-    def __getitem__(self, idx: Literal[0, 1]) -> int:
-        """
-        
-        """
-
-    def __setitem__(self, idx: Literal[0, 1], val: int) -> None:
-        """
-        
-        """
-
+    def __str__(self) -> str: ...
+    def __repr__(self) -> str: ...
+    def __len__(self) -> Literal[2]: ...
+    def __nonzero__(self) -> bool: ...
+    def __bool__(self) -> bool: ...
+    def __reduce__(self) -> tuple[type[Size], _TwoInts]: ...
+    def __iter__(self) -> Iterator[int]: ...
+    def __getitem__(self, idx: Literal[0, 1]) -> int: ...
+    def __setitem__(self, idx: Literal[0, 1], val: int) -> None: ...
     __safe_for_unpickling__ = True
+
 # end of class Size
 
 
@@ -8396,21 +8214,13 @@ class Rect:
     """
 
     @overload
-    def __init__(self, x: int, y: int, width: int, height: int) -> None:
-        ...
-
+    def __init__(self, x: int, y: int, width: int, height: int) -> None: ...
     @overload
-    def __init__(self, pos: Union[Point, _TwoInts], size: Union[Size, _TwoInts]) -> None:
-        ...
-
+    def __init__(self, pos: Union[Point, _TwoInts], size: Union[Size, _TwoInts]) -> None: ...
     @overload
-    def __init__(self, size: Union[Size, _TwoInts]) -> None:
-        ...
-
+    def __init__(self, size: Union[Size, _TwoInts]) -> None: ...
     @overload
-    def __init__(self, topLeft: Union[Point, _TwoInts], bottomRight: Union[Point, _TwoInts]) -> None:
-        ...
-
+    def __init__(self, topLeft: Union[Point, _TwoInts], bottomRight: Union[Point, _TwoInts]) -> None: ...
     @overload
     def __init__(self) -> None:
         """
@@ -8440,13 +8250,9 @@ class Rect:
         """
 
     @overload
-    def Deflate(self, diff: Union[Size, _TwoInts]) -> Rect:
-        ...
-
+    def Deflate(self, diff: Union[Size, _TwoInts]) -> Rect: ...
     @overload
-    def Deflate(self, diff: int) -> Rect:
-        ...
-
+    def Deflate(self, diff: int) -> Rect: ...
     @overload
     def Deflate(self, dx: int, dy: int) -> Rect:
         """
@@ -8458,13 +8264,9 @@ class Rect:
         """
 
     @overload
-    def Inflate(self, diff: Union[Size, _TwoInts]) -> Rect:
-        ...
-
+    def Inflate(self, diff: Union[Size, _TwoInts]) -> Rect: ...
     @overload
-    def Inflate(self, diff: int) -> Rect:
-        ...
-
+    def Inflate(self, diff: int) -> Rect: ...
     @overload
     def Inflate(self, dx: int, dy: int) -> Rect:
         """
@@ -8476,9 +8278,7 @@ class Rect:
         """
 
     @overload
-    def Offset(self, pt: Union[Point, _TwoInts]) -> None:
-        ...
-
+    def Offset(self, pt: Union[Point, _TwoInts]) -> None: ...
     @overload
     def Offset(self, dx: int, dy: int) -> None:
         """
@@ -8496,26 +8296,16 @@ class Rect:
         and the one passed in as parameter.
         """
 
-    def __iadd__(self, r: Union[Rect, _FourInts]) -> Rect:
-        """
-        """
-
-    def __imul__(self, r: Union[Rect, _FourInts]) -> Rect:
-        """
-        """
+    def __iadd__(self, r: Union[Rect, _FourInts]) -> Rect: ...
+    def __imul__(self, r: Union[Rect, _FourInts]) -> Rect: ...
     height: int
     width: int
     x: int
     y: int
-
     @overload
-    def Contains(self, pt: Union[Point, _TwoInts]) -> bool:
-        ...
-
+    def Contains(self, pt: Union[Point, _TwoInts]) -> bool: ...
     @overload
-    def Contains(self, rect: Union[Rect, _FourInts]) -> bool:
-        ...
-
+    def Contains(self, rect: Union[Rect, _FourInts]) -> bool: ...
     @overload
     def Contains(self, x: int, y: int) -> bool:
         """
@@ -8747,6 +8537,7 @@ class Rect:
         
         Set the bottom-left point of the rectangle.
         """
+
     @property
     def Bottom(self) -> int: ...
     @Bottom.setter
@@ -8835,7 +8626,6 @@ class Rect:
     def topRight(self) -> Point: ...
     @topRight.setter
     def topRight(self, value: Union[Point, _TwoInts], /) -> None: ...
-
     def __eq__(self, other: Union[Rect, _FourInts]) -> bool:
         """
         __eq__(other) -> bool
@@ -8862,47 +8652,17 @@ class Rect:
         with a simple statement like this: ``obj = wx.Rect(imObj)``.
         """
 
-    def __str__(self) -> str:
-        """
-        
-        """
-
-    def __repr__(self) -> str:
-        """
-        
-        """
-
-    def __len__(self) -> Literal[4]:
-        """
-        
-        """
-
-    def __nonzero__(self) -> bool:
-        """
-        
-        """
-
-    def __bool__(self) -> bool:
-        """
-        
-        """
-
-    def __reduce__(self) -> tuple[type[Rect], _FourInts]:
-        """
-        
-        """
-
-    def __getitem__(self, idx: Literal[0, 1, 2, 3]) -> int:
-        """
-        
-        """
-
-    def __setitem__(self, idx: Literal[0, 1, 2, 3], val: int) -> None:
-        """
-        
-        """
-
+    def __str__(self) -> str: ...
+    def __repr__(self) -> str: ...
+    def __len__(self) -> Literal[4]: ...
+    def __nonzero__(self) -> bool: ...
+    def __bool__(self) -> bool: ...
+    def __reduce__(self) -> tuple[type[Rect], _FourInts]: ...
+    def __iter__(self) -> Iterator[int]: ...
+    def __getitem__(self, idx: Literal[0, 1, 2, 3]) -> int: ...
+    def __setitem__(self, idx: Literal[0, 1, 2, 3], val: int) -> None: ...
     __safe_for_unpickling__ = True
+
 # end of class Rect
 
 
@@ -8916,13 +8676,9 @@ class RealPoint:
     """
 
     @overload
-    def __init__(self, x: float, y: float) -> None:
-        ...
-
+    def __init__(self, x: float, y: float) -> None: ...
     @overload
-    def __init__(self, pt: Union[Point, _TwoInts]) -> None:
-        ...
-
+    def __init__(self, pt: Union[Point, _TwoInts]) -> None: ...
     @overload
     def __init__(self) -> None:
         """
@@ -8934,25 +8690,15 @@ class RealPoint:
         """
 
     @overload
-    def __iadd__(self, pt: Union[RealPoint, _TwoFloats]) -> RealPoint:
-        ...
-
+    def __iadd__(self, pt: Union[RealPoint, _TwoFloats]) -> RealPoint: ...
     @overload
-    def __iadd__(self, sz: Union[Size, _TwoInts]) -> RealPoint:
-        """
-        """
-
+    def __iadd__(self, sz: Union[Size, _TwoInts]) -> RealPoint: ...
     @overload
-    def __isub__(self, pt: Union[RealPoint, _TwoFloats]) -> RealPoint:
-        ...
-
+    def __isub__(self, pt: Union[RealPoint, _TwoFloats]) -> RealPoint: ...
     @overload
-    def __isub__(self, sz: Union[Size, _TwoInts]) -> RealPoint:
-        """
-        """
+    def __isub__(self, sz: Union[Size, _TwoInts]) -> RealPoint: ...
     x: float
     y: float
-
     def __eq__(self, other: Union[RealPoint, _TwoFloats]) -> bool:
         """
         __eq__(other) -> bool
@@ -8984,47 +8730,17 @@ class RealPoint:
         with a simple statement like this: ``obj = wx.RealPoint(imObj)``.
         """
 
-    def __str__(self) -> str:
-        """
-        
-        """
-
-    def __repr__(self) -> str:
-        """
-        
-        """
-
-    def __len__(self) -> Literal[2]:
-        """
-        
-        """
-
-    def __nonzero__(self) -> bool:
-        """
-        
-        """
-
-    def __bool__(self) -> bool:
-        """
-        
-        """
-
-    def __reduce__(self) -> tuple[type[RealPoint], _TwoFloats]:
-        """
-        
-        """
-
-    def __getitem__(self, idx: Literal[0, 1]) -> float:
-        """
-        
-        """
-
-    def __setitem__(self, idx: Literal[0, 1], val: float) -> None:
-        """
-        
-        """
-
+    def __str__(self) -> str: ...
+    def __repr__(self) -> str: ...
+    def __len__(self) -> Literal[2]: ...
+    def __nonzero__(self) -> bool: ...
+    def __bool__(self) -> bool: ...
+    def __reduce__(self) -> tuple[type[RealPoint], _TwoFloats]: ...
+    def __iter__(self) -> Iterator[float]: ...
+    def __getitem__(self, idx: Literal[0, 1]) -> float: ...
+    def __setitem__(self, idx: Literal[0, 1], val: float) -> None: ...
     __safe_for_unpickling__ = True
+
 # end of class RealPoint
 
 
@@ -9044,7 +8760,7 @@ class ColourDatabase:
         predefined set of named colours.
         """
 
-    def AddColour(self, colourName: str, colour: Union[Colour, wx.Colour, _ThreeInts, _FourInts, str, None]) -> None:
+    def AddColour(self, colourName: str, colour: Union[Colour, _ThreeInts, _FourInts, str, None]) -> None:
         """
         AddColour(colourName, colour) -> None
         
@@ -9058,17 +8774,14 @@ class ColourDatabase:
         Finds a colour given the name.
         """
 
-    def FindName(self, colour: Union[Colour, wx.Colour, _ThreeInts, _FourInts, str, None]) -> str:
+    def FindName(self, colour: Union[Colour, _ThreeInts, _FourInts, str, None]) -> str:
         """
         FindName(colour) -> str
         
         Finds a colour name given the colour.
         """
 
-    def FindColour(self, colour: str) -> Colour:
-        """
-        
-        """
+    def FindColour(self, colour: str) -> Colour: ...
 # end of class ColourDatabase
 
 
@@ -9204,17 +8917,11 @@ class Point2D:
     """
 
     @overload
-    def __init__(self, x: float, y: float) -> None:
-        ...
-
+    def __init__(self, x: float, y: float) -> None: ...
     @overload
-    def __init__(self, pt: Point2DDouble) -> None:
-        ...
-
+    def __init__(self, pt: Point2DDouble) -> None: ...
     @overload
-    def __init__(self, pt: Union[Point, _TwoInts]) -> None:
-        ...
-
+    def __init__(self, pt: Union[Point, _TwoInts]) -> None: ...
     @overload
     def __init__(self) -> None:
         """
@@ -9223,9 +8930,9 @@ class Point2D:
         Point2DDouble(pt) -> None
         Point2DDouble(pt) -> None
         """
+
     m_x: float
     m_y: float
-
     def GetFloor(self) -> tuple[int, int]:
         """
         GetFloor() -> tuple[int, int]
@@ -9281,34 +8988,13 @@ class Point2D:
         GetCrossProduct(vec) -> float
         """
 
-    def __sub__(self) -> Point2DDouble:
-        """
-        """
-
-    def __iadd__(self, pt: Point2DDouble) -> Point2DDouble:
-        """
-        """
-
-    def __isub__(self, pt: Point2DDouble) -> Point2DDouble:
-        """
-        """
-
-    def __imul__(self, pt: Point2DDouble) -> Point2DDouble:
-        """
-        """
-
-    def __idiv__(self, pt: Point2DDouble) -> Point2DDouble:
-        """
-        """
-
-    def __eq__(self, pt: Point2DDouble) -> bool:
-        """
-        """
-
-    def __ne__(self, pt: Point2DDouble) -> bool:
-        """
-        """
-
+    def __sub__(self) -> Point2DDouble: ...
+    def __iadd__(self, pt: Point2DDouble) -> Point2DDouble: ...
+    def __isub__(self, pt: Point2DDouble) -> Point2DDouble: ...
+    def __imul__(self, pt: Point2DDouble) -> Point2DDouble: ...
+    def __idiv__(self, pt: Point2DDouble) -> Point2DDouble: ...
+    def __eq__(self, pt: Point2DDouble) -> bool: ...
+    def __ne__(self, pt: Point2DDouble) -> bool: ...
     def Get(self) -> Any:
         """
         Get() -> Any
@@ -9327,47 +9013,16 @@ class Point2D:
         with a simple statement like this: ``obj = wx.Point2D(imObj)``.
         """
 
-    def __str__(self):
-        """
-        
-        """
-
-    def __repr__(self):
-        """
-        
-        """
-
-    def __len__(self):
-        """
-        
-        """
-
-    def __nonzero__(self):
-        """
-        
-        """
-
-    def __bool__(self):
-        """
-        
-        """
-
-    def __reduce__(self):
-        """
-        
-        """
-
-    def __getitem__(self, idx):
-        """
-        
-        """
-
-    def __setitem__(self, idx, val):
-        """
-        
-        """
-
+    def __str__(self): ...
+    def __repr__(self): ...
+    def __len__(self): ...
+    def __nonzero__(self): ...
+    def __bool__(self): ...
+    def __reduce__(self): ...
+    def __getitem__(self, idx): ...
+    def __setitem__(self, idx, val): ...
     __safe_for_unpickling__ = True
+
     @property
     def VectorAngle(self) -> float: ...
     @VectorAngle.setter
@@ -9386,20 +9041,18 @@ class Rect2D:
     """
 
     @overload
-    def __init__(self, x: float, y: float, w: float, h: float) -> None:
-        ...
-
+    def __init__(self, x: float, y: float, w: float, h: float) -> None: ...
     @overload
     def __init__(self) -> None:
         """
         Rect2DDouble() -> None
         Rect2DDouble(x, y, w, h) -> None
         """
+
     m_x: float
     m_y: float
     m_width: float
     m_height: float
-
     def GetPosition(self) -> Point2DDouble:
         """
         GetPosition() -> Point2DDouble
@@ -9556,9 +9209,7 @@ class Rect2D:
         """
 
     @overload
-    def Contains(self, rect: Rect2DDouble) -> bool:
-        ...
-
+    def Contains(self, rect: Rect2DDouble) -> bool: ...
     @overload
     def Contains(self, pt: Point2DDouble) -> bool:
         """
@@ -9577,9 +9228,7 @@ class Rect2D:
         """
 
     @overload
-    def Inset(self, left: float, top: float, right: float, bottom: float) -> None:
-        ...
-
+    def Inset(self, left: float, top: float, right: float, bottom: float) -> None: ...
     @overload
     def Inset(self, x: float, y: float) -> None:
         """
@@ -9604,9 +9253,7 @@ class Rect2D:
 
     @overload
     @staticmethod
-    def Intersect(src1: Rect2DDouble, src2: Rect2DDouble, dest: Rect2DDouble) -> None:
-        ...
-
+    def Intersect(src1: Rect2DDouble, src2: Rect2DDouble, dest: Rect2DDouble) -> None: ...
     @overload
     def Intersect(self, otherRect: Rect2DDouble) -> None:
         """
@@ -9625,14 +9272,10 @@ class Rect2D:
         """
 
     @overload
-    def Union(self, pt: Point2DDouble) -> None:
-        ...
-
+    def Union(self, pt: Point2DDouble) -> None: ...
     @overload
     @staticmethod
-    def Union(src1: Rect2DDouble, src2: Rect2DDouble, dest: Rect2DDouble) -> None:
-        ...
-
+    def Union(src1: Rect2DDouble, src2: Rect2DDouble, dest: Rect2DDouble) -> None: ...
     @overload
     def Union(self, otherRect: Rect2DDouble) -> None:
         """
@@ -9647,9 +9290,7 @@ class Rect2D:
         """
 
     @overload
-    def Scale(self, num: int, denum: int) -> None:
-        ...
-
+    def Scale(self, num: int, denum: int) -> None: ...
     @overload
     def Scale(self, f: float) -> None:
         """
@@ -9657,14 +9298,8 @@ class Rect2D:
         Scale(num, denum) -> None
         """
 
-    def __eq__(self, rect: Rect2DDouble) -> bool:
-        """
-        """
-
-    def __ne__(self, rect: Rect2DDouble) -> bool:
-        """
-        """
-
+    def __eq__(self, rect: Rect2DDouble) -> bool: ...
+    def __ne__(self, rect: Rect2DDouble) -> bool: ...
     def Get(self) -> Any:
         """
         Get() -> Any
@@ -9683,47 +9318,16 @@ class Rect2D:
         with a simple statement like this: ``obj = wx.Rect2D(imObj)``.
         """
 
-    def __str__(self):
-        """
-        
-        """
-
-    def __repr__(self):
-        """
-        
-        """
-
-    def __len__(self):
-        """
-        
-        """
-
-    def __nonzero__(self):
-        """
-        
-        """
-
-    def __bool__(self):
-        """
-        
-        """
-
-    def __reduce__(self):
-        """
-        
-        """
-
-    def __getitem__(self, idx):
-        """
-        
-        """
-
-    def __setitem__(self, idx, val):
-        """
-        
-        """
-
+    def __str__(self): ...
+    def __repr__(self): ...
+    def __len__(self): ...
+    def __nonzero__(self): ...
+    def __bool__(self): ...
+    def __reduce__(self): ...
+    def __getitem__(self, idx): ...
+    def __setitem__(self, idx, val): ...
     __safe_for_unpickling__ = True
+
     @property
     def Bottom(self) -> float: ...
     @Bottom.setter
@@ -9790,6 +9394,7 @@ class Matrix2D:
         
         A simple container for 2x2 matrix.
         """
+
     m_11: float
     m_12: float
     m_21: float
@@ -9818,10 +9423,7 @@ class AffineMatrix2DBase:
         Check that this matrix is identical with t.
         """
 
-    def __eq__(self, t: AffineMatrix2DBase) -> bool:
-        """
-        """
-
+    def __eq__(self, t: AffineMatrix2DBase) -> bool: ...
     def Set(self, mat2D: Matrix2D, tr: Point2DDouble) -> None:
         """
         Set(mat2D, tr) -> None
@@ -9857,10 +9459,7 @@ class AffineMatrix2DBase:
         Check if this is the identity matrix.
         """
 
-    def __ne__(self, t: AffineMatrix2DBase) -> bool:
-        """
-        """
-
+    def __ne__(self, t: AffineMatrix2DBase) -> bool: ...
     def Translate(self, dx: float, dy: float) -> None:
         """
         Translate(dx, dy) -> None
@@ -9890,9 +9489,7 @@ class AffineMatrix2DBase:
         """
 
     @overload
-    def TransformPoint(self, x: float, y: float) -> tuple[float, float]:
-        ...
-
+    def TransformPoint(self, x: float, y: float) -> tuple[float, float]: ...
     @overload
     def TransformPoint(self, p: Point2DDouble) -> Point2DDouble:
         """
@@ -9903,9 +9500,7 @@ class AffineMatrix2DBase:
         """
 
     @overload
-    def TransformDistance(self, dx: float, dy: float) -> tuple[float, float]:
-        ...
-
+    def TransformDistance(self, dx: float, dy: float) -> tuple[float, float]: ...
     @overload
     def TransformDistance(self, p: Point2DDouble) -> Point2DDouble:
         """
@@ -9914,6 +9509,7 @@ class AffineMatrix2DBase:
         
         Applies the linear part of this matrix, i.e. without translation.
         """
+
 # end of class AffineMatrix2DBase
 
 
@@ -9938,10 +9534,7 @@ class AffineMatrix2D(AffineMatrix2DBase):
         Check that this matrix is identical with t.
         """
 
-    def __eq__(self, t: AffineMatrix2DBase) -> bool:
-        """
-        """
-
+    def __eq__(self, t: AffineMatrix2DBase) -> bool: ...
     def Get(self) -> tuple[Matrix2D, Point2DDouble]:
         """
         Get() -> tuple[Matrix2D, Point2DDouble]
@@ -9977,10 +9570,7 @@ class AffineMatrix2D(AffineMatrix2DBase):
         Check if this is the identity matrix.
         """
 
-    def __ne__(self, t: AffineMatrix2DBase) -> bool:
-        """
-        """
-
+    def __ne__(self, t: AffineMatrix2DBase) -> bool: ...
     def Translate(self, dx: float, dy: float) -> None:
         """
         Translate(dx, dy) -> None
@@ -10010,9 +9600,7 @@ class AffineMatrix2D(AffineMatrix2DBase):
         """
 
     @overload
-    def TransformPoint(self, x: float, y: float) -> tuple[float, float]:
-        ...
-
+    def TransformPoint(self, x: float, y: float) -> tuple[float, float]: ...
     @overload
     def TransformPoint(self, p: Point2DDouble) -> Point2DDouble:
         """
@@ -10023,9 +9611,7 @@ class AffineMatrix2D(AffineMatrix2DBase):
         """
 
     @overload
-    def TransformDistance(self, dx: float, dy: float) -> tuple[float, float]:
-        ...
-
+    def TransformDistance(self, dx: float, dy: float) -> tuple[float, float]: ...
     @overload
     def TransformDistance(self, p: Point2DDouble) -> Point2DDouble:
         """
@@ -10034,6 +9620,7 @@ class AffineMatrix2D(AffineMatrix2DBase):
         
         Applies the linear part of this matrix, i.e. without translation.
         """
+
 # end of class AffineMatrix2D
 
 #-- end-affinematrix2d --#
@@ -10049,9 +9636,7 @@ class Position:
     """
 
     @overload
-    def __init__(self, row: int, col: int) -> None:
-        ...
-
+    def __init__(self, row: int, col: int) -> None: ...
     @overload
     def __init__(self) -> None:
         """
@@ -10062,50 +9647,24 @@ class Position:
         rows and columns such as wxGridBagSizer, or wxHVScrolledWindow.
         """
 
-    def __eq__(self, pos: Union[Position, _TwoInts]) -> bool:
-        """
-        """
-
-    def __ne__(self, pos: Union[Position, _TwoInts]) -> bool:
-        """
-        """
-
+    def __eq__(self, pos: Union[Position, _TwoInts]) -> bool: ...
+    def __ne__(self, pos: Union[Position, _TwoInts]) -> bool: ...
     @overload
-    def __iadd__(self, size: Union[Size, _TwoInts]) -> Position:
-        ...
-
+    def __iadd__(self, size: Union[Size, _TwoInts]) -> Position: ...
     @overload
-    def __iadd__(self, pos: Union[Position, _TwoInts]) -> Position:
-        """
-        """
-
+    def __iadd__(self, pos: Union[Position, _TwoInts]) -> Position: ...
     @overload
-    def __isub__(self, size: Union[Size, _TwoInts]) -> Position:
-        ...
-
+    def __isub__(self, size: Union[Size, _TwoInts]) -> Position: ...
     @overload
-    def __isub__(self, pos: Union[Position, _TwoInts]) -> Position:
-        """
-        """
-
+    def __isub__(self, pos: Union[Position, _TwoInts]) -> Position: ...
     @overload
-    def __add__(self, size: Union[Size, _TwoInts]) -> Position:
-        ...
-
+    def __add__(self, size: Union[Size, _TwoInts]) -> Position: ...
     @overload
-    def __add__(self, pos: Union[Position, _TwoInts]) -> Position:
-        """
-        """
-
+    def __add__(self, pos: Union[Position, _TwoInts]) -> Position: ...
     @overload
-    def __sub__(self, size: Union[Size, _TwoInts]) -> Position:
-        ...
-
+    def __sub__(self, size: Union[Size, _TwoInts]) -> Position: ...
     @overload
-    def __sub__(self, pos: Union[Position, _TwoInts]) -> Position:
-        """
-        """
-
+    def __sub__(self, pos: Union[Position, _TwoInts]) -> Position: ...
     def GetCol(self) -> int:
         """
         GetCol() -> int
@@ -10164,47 +9723,16 @@ class Position:
         with a simple statement like this: ``obj = wx.Position(imObj)``.
         """
 
-    def __str__(self):
-        """
-        
-        """
-
-    def __repr__(self):
-        """
-        
-        """
-
-    def __len__(self):
-        """
-        
-        """
-
-    def __nonzero__(self):
-        """
-        
-        """
-
-    def __bool__(self):
-        """
-        
-        """
-
-    def __reduce__(self):
-        """
-        
-        """
-
-    def __getitem__(self, idx):
-        """
-        
-        """
-
-    def __setitem__(self, idx, val):
-        """
-        
-        """
-
+    def __str__(self): ...
+    def __repr__(self): ...
+    def __len__(self): ...
+    def __nonzero__(self): ...
+    def __bool__(self): ...
+    def __reduce__(self): ...
+    def __getitem__(self, idx): ...
+    def __setitem__(self, idx, val): ...
     __safe_for_unpickling__ = True
+
     @property
     def Col(self) -> int: ...
     @Col.setter
@@ -10249,17 +9777,11 @@ class Colour(Object):
     """
 
     @overload
-    def __init__(self, red: int, green: int, blue: int, alpha: int=ALPHA_OPAQUE) -> None:
-        ...
-
+    def __init__(self, red: int, green: int, blue: int, alpha: int=ALPHA_OPAQUE) -> None: ...
     @overload
-    def __init__(self, colRGB: int) -> None:
-        ...
-
+    def __init__(self, colRGB: int) -> None: ...
     @overload
-    def __init__(self, colour: Union[Colour, wx.Colour, _ThreeInts, _FourInts, str, None]) -> None:
-        ...
-
+    def __init__(self, colour: Union[Colour, _ThreeInts, _FourInts, str, None]) -> None: ...
     @overload
     def __init__(self) -> None:
         """
@@ -10302,13 +9824,9 @@ class Colour(Object):
         """
 
     @overload
-    def Set(self, RGB: int) -> None:
-        ...
-
+    def Set(self, RGB: int) -> None: ...
     @overload
-    def Set(self, str: str) -> bool:
-        ...
-
+    def Set(self, str: str) -> bool: ...
     @overload
     def Set(self, red: int, green: int, blue: int, alpha: int=ALPHA_OPAQUE) -> None:
         """
@@ -10411,19 +9929,11 @@ class Colour(Object):
         Returns true if the color can be described using RGB values, i.e.
         """
 
-    def __ne__(self, colour: Union[Colour, wx.Colour, _ThreeInts, _FourInts, str, None]) -> bool:
-        """
-        """
-
-    def __eq__(self, colour: Union[Colour, wx.Colour, _ThreeInts, _FourInts, str, None]) -> bool:
-        """
-        """
-
+    def __ne__(self, colour: Union[Colour, _ThreeInts, _FourInts, str, None]) -> bool: ...
+    def __eq__(self, colour: Union[Colour, _ThreeInts, _FourInts, str, None]) -> bool: ...
     @overload
     @staticmethod
-    def MakeDisabled(r: int, g: int, b: int, brightness: int=255) -> tuple[int, int, int]:
-        ...
-
+    def MakeDisabled(r: int, g: int, b: int, brightness: int=255) -> tuple[int, int, int]: ...
     @overload
     def MakeDisabled(self, brightness: int=255) -> Colour:
         """
@@ -10435,9 +9945,7 @@ class Colour(Object):
 
     @overload
     @staticmethod
-    def ChangeLightness(r: int, g: int, b: int, ialpha: int) -> tuple[int, int, int]:
-        ...
-
+    def ChangeLightness(r: int, g: int, b: int, ialpha: int) -> tuple[int, int, int]: ...
     @overload
     def ChangeLightness(self, ialpha: int) -> Colour:
         """
@@ -10457,9 +9965,7 @@ class Colour(Object):
 
     @overload
     @staticmethod
-    def MakeGrey(r: int, g: int, b: int, weight_r: float, weight_g: float, weight_b: float) -> tuple[int, int, int]:
-        ...
-
+    def MakeGrey(r: int, g: int, b: int, weight_r: float, weight_g: float, weight_b: float) -> tuple[int, int, int]: ...
     @overload
     @staticmethod
     def MakeGrey(r: int, g: int, b: int) -> tuple[int, int, int]:
@@ -10478,6 +9984,7 @@ class Colour(Object):
         
         Blend colour, taking alpha into account.
         """
+
     @property
     def Pixel(self) -> IntPtr: ...
     @property
@@ -10496,8 +10003,7 @@ class Colour(Object):
     def blue(self) -> int: ...
     @property
     def alpha(self) -> int: ...
-
-    def _copyFrom(self, other: Union[Colour, wx.Colour, _ThreeInts, _FourInts, str, None]) -> None:
+    def _copyFrom(self, other: Union[Colour, _ThreeInts, _FourInts, str, None]) -> None:
         """
         _copyFrom(other) -> None
         
@@ -10521,36 +10027,12 @@ class Colour(Object):
         with a simple statement like this: ``obj = wx.Colour(imObj)``.
         """
 
-    def __str__(self):
-        """
-        
-        """
-
-    def __repr__(self):
-        """
-        
-        """
-
-    def __len__(self):
-        """
-        
-        """
-
-    def __reduce__(self):
-        """
-        
-        """
-
-    def __getitem__(self, idx):
-        """
-        
-        """
-
-    def __setitem__(self, idx, val):
-        """
-        
-        """
-
+    def __str__(self): ...
+    def __repr__(self): ...
+    def __len__(self): ...
+    def __reduce__(self): ...
+    def __getitem__(self, idx): ...
+    def __setitem__(self, idx, val): ...
     __safe_for_unpickling__ = True
 
     def __nonzero__(self) -> bool:
@@ -10562,6 +10044,7 @@ class Colour(Object):
         """
         __bool__() -> bool
         """
+
 # end of class Colour
 
 NullColour: Colour
@@ -10667,6 +10150,7 @@ class StreamBase:
         
         Resets the stream state.
         """
+
     @property
     def LastError(self) -> StreamError: ...
     @property
@@ -10731,9 +10215,7 @@ class InputStream(StreamBase):
         """
 
     @overload
-    def Read(self, stream_out: OutputStream) -> InputStream:
-        ...
-
+    def Read(self, stream_out: OutputStream) -> InputStream: ...
     @overload
     def Read(self, buffer: Any, size: int) -> InputStream:
         """
@@ -10766,9 +10248,7 @@ class InputStream(StreamBase):
         """
 
     @overload
-    def Ungetch(self, c: str) -> bool:
-        ...
-
+    def Ungetch(self, c: str) -> bool: ...
     @overload
     def Ungetch(self, buffer: Any, size: int) -> int:
         """
@@ -10804,9 +10284,7 @@ class InputStream(StreamBase):
         """
 
     @overload
-    def read(self, size: int) -> Any:
-        ...
-
+    def read(self, size: int) -> Any: ...
     @overload
     def read(self) -> Any:
         """
@@ -10815,9 +10293,7 @@ class InputStream(StreamBase):
         """
 
     @overload
-    def readline(self, size: int) -> Any:
-        ...
-
+    def readline(self, size: int) -> Any: ...
     @overload
     def readline(self) -> Any:
         """
@@ -10826,15 +10302,14 @@ class InputStream(StreamBase):
         """
 
     @overload
-    def readlines(self, sizehint: int) -> Any:
-        ...
-
+    def readlines(self, sizehint: int) -> Any: ...
     @overload
     def readlines(self) -> Any:
         """
         readlines() -> Any
         readlines(sizehint) -> Any
         """
+
     @property
     def C(self) -> int: ...
 # end of class InputStream
@@ -10893,9 +10368,7 @@ class OutputStream(StreamBase):
         """
 
     @overload
-    def Write(self, stream_in: InputStream) -> OutputStream:
-        ...
-
+    def Write(self, stream_in: InputStream) -> OutputStream: ...
     @overload
     def Write(self, buffer: Any, size: int) -> OutputStream:
         """
@@ -10941,6 +10414,7 @@ class OutputStream(StreamBase):
         """
         write(data) -> Any
         """
+
 # end of class OutputStream
 
 #-- end-stream --#
@@ -11056,6 +10530,7 @@ class FileSystem(Object):
         
         Converts URL into a well-formed filename.
         """
+
     @property
     def Path(self) -> str: ...
 # end of class FileSystem
@@ -11116,6 +10591,7 @@ class FSFile(Object):
         
         Returns pointer to the stream.
         """
+
     @property
     def Anchor(self) -> str: ...
     @property
@@ -11213,6 +10689,7 @@ class FileSystemHandler(Object):
         
         Returns the right location string extracted from location.
         """
+
 # end of class FileSystemHandler
 
 
@@ -11234,19 +10711,13 @@ class MemoryFSHandler(FileSystemHandler):
 
     @overload
     @staticmethod
-    def AddFile(filename: str, bitmap: Bitmap, type: BitmapType) -> None:
-        ...
-
+    def AddFile(filename: str, bitmap: Bitmap, type: BitmapType) -> None: ...
     @overload
     @staticmethod
-    def AddFile(filename: str, textdata: str) -> None:
-        ...
-
+    def AddFile(filename: str, textdata: str) -> None: ...
     @overload
     @staticmethod
-    def AddFile(filename: str, binarydata: PyBuffer) -> None:
-        ...
-
+    def AddFile(filename: str, binarydata: PyBuffer) -> None: ...
     @overload
     @staticmethod
     def AddFile(filename: str, image: Image, type: BitmapType) -> None:
@@ -11261,9 +10732,7 @@ class MemoryFSHandler(FileSystemHandler):
 
     @overload
     @staticmethod
-    def AddFileWithMimeType(filename: str, binarydata: PyBuffer, mimetype: str) -> None:
-        ...
-
+    def AddFileWithMimeType(filename: str, binarydata: PyBuffer, mimetype: str) -> None: ...
     @overload
     @staticmethod
     def AddFileWithMimeType(filename: str, textdata: str, mimetype: str) -> None:
@@ -11282,6 +10751,7 @@ class MemoryFSHandler(FileSystemHandler):
         
         Removes a file from memory FS and frees the occupied memory.
         """
+
 # end of class MemoryFSHandler
 
 
@@ -11303,6 +10773,7 @@ class ArchiveFSHandler(FileSystemHandler):
         """
         Cleanup() -> None
         """
+
 # end of class ArchiveFSHandler
 
 
@@ -11319,6 +10790,7 @@ class FilterFSHandler(FileSystemHandler):
         
         Filter file system handler.
         """
+
 # end of class FilterFSHandler
 
 
@@ -11335,6 +10807,7 @@ class InternetFSHandler(FileSystemHandler):
         
         A file system handler for accessing files from internet servers.
         """
+
 # end of class InternetFSHandler
 
 
@@ -11439,6 +10912,7 @@ class Image(Object):
             A simple class which stores hue, saturation and value as doubles in
             the range 0.0-1.0.
             """
+
         hue: float
         saturation: float
         value: float
@@ -11460,6 +10934,7 @@ class Image(Object):
             A simple class which stores red, green and blue values as 8 bit
             unsigned integers in the range of 0-255.
             """
+
         red: int
         green: int
         blue: int
@@ -11467,45 +10942,25 @@ class Image(Object):
 
 
     @overload
-    def __init__(self, width: int, height: int, clear: bool=True) -> None:
-        ...
-
+    def __init__(self, width: int, height: int, clear: bool=True) -> None: ...
     @overload
-    def __init__(self, sz: Union[Size, _TwoInts], clear: bool=True) -> None:
-        ...
-
+    def __init__(self, sz: Union[Size, _TwoInts], clear: bool=True) -> None: ...
     @overload
-    def __init__(self, name: str, type: BitmapType=BITMAP_TYPE_ANY, index: int=-1) -> None:
-        ...
-
+    def __init__(self, name: str, type: BitmapType=BITMAP_TYPE_ANY, index: int=-1) -> None: ...
     @overload
-    def __init__(self, name: str, mimetype: str, index: int=-1) -> None:
-        ...
-
+    def __init__(self, name: str, mimetype: str, index: int=-1) -> None: ...
     @overload
-    def __init__(self, stream: InputStream, type: BitmapType=BITMAP_TYPE_ANY, index: int=-1) -> None:
-        ...
-
+    def __init__(self, stream: InputStream, type: BitmapType=BITMAP_TYPE_ANY, index: int=-1) -> None: ...
     @overload
-    def __init__(self, stream: InputStream, mimetype: str, index: int=-1) -> None:
-        ...
-
+    def __init__(self, stream: InputStream, mimetype: str, index: int=-1) -> None: ...
     @overload
-    def __init__(self, width: int, height: int, data: PyBuffer) -> None:
-        ...
-
+    def __init__(self, width: int, height: int, data: PyBuffer) -> None: ...
     @overload
-    def __init__(self, width: int, height: int, data: PyBuffer, alpha: PyBuffer) -> None:
-        ...
-
+    def __init__(self, width: int, height: int, data: PyBuffer, alpha: PyBuffer) -> None: ...
     @overload
-    def __init__(self, size: Union[Size, _TwoInts], data: PyBuffer) -> None:
-        ...
-
+    def __init__(self, size: Union[Size, _TwoInts], data: PyBuffer) -> None: ...
     @overload
-    def __init__(self, size: Union[Size, _TwoInts], data: PyBuffer, alpha: PyBuffer) -> None:
-        ...
-
+    def __init__(self, size: Union[Size, _TwoInts], data: PyBuffer, alpha: PyBuffer) -> None: ...
     @overload
     def __init__(self) -> None:
         """
@@ -11532,25 +10987,15 @@ class Image(Object):
         """
 
     @overload
-    def Create(self, sz: Union[Size, _TwoInts], clear: bool=True) -> bool:
-        ...
-
+    def Create(self, sz: Union[Size, _TwoInts], clear: bool=True) -> bool: ...
     @overload
-    def Create(self, width: int, height: int, data: PyBuffer) -> bool:
-        ...
-
+    def Create(self, width: int, height: int, data: PyBuffer) -> bool: ...
     @overload
-    def Create(self, width: int, height: int, data: PyBuffer, alpha: PyBuffer) -> bool:
-        ...
-
+    def Create(self, width: int, height: int, data: PyBuffer, alpha: PyBuffer) -> bool: ...
     @overload
-    def Create(self, size: Union[Size, _TwoInts], data: PyBuffer) -> bool:
-        ...
-
+    def Create(self, size: Union[Size, _TwoInts], data: PyBuffer) -> bool: ...
     @overload
-    def Create(self, size: Union[Size, _TwoInts], data: PyBuffer, alpha: PyBuffer) -> bool:
-        ...
-
+    def Create(self, size: Union[Size, _TwoInts], data: PyBuffer, alpha: PyBuffer) -> bool: ...
     @overload
     def Create(self, width: int, height: int, clear: bool=True) -> bool:
         """
@@ -11714,9 +11159,7 @@ class Image(Object):
         """
 
     @overload
-    def ConvertAlphaToMask(self, mr: int, mg: int, mb: int, threshold: int=IMAGE_ALPHA_THRESHOLD) -> bool:
-        ...
-
+    def ConvertAlphaToMask(self, mr: int, mg: int, mb: int, threshold: int=IMAGE_ALPHA_THRESHOLD) -> bool: ...
     @overload
     def ConvertAlphaToMask(self, threshold: int=IMAGE_ALPHA_THRESHOLD) -> bool:
         """
@@ -11727,9 +11170,7 @@ class Image(Object):
         """
 
     @overload
-    def ConvertToGreyscale(self) -> Image:
-        ...
-
+    def ConvertToGreyscale(self) -> Image: ...
     @overload
     def ConvertToGreyscale(self, weight_r: float, weight_g: float, weight_b: float) -> Image:
         """
@@ -11775,9 +11216,7 @@ class Image(Object):
         """
 
     @overload
-    def GetAlpha(self) -> Any:
-        ...
-
+    def GetAlpha(self) -> Any: ...
     @overload
     def GetAlpha(self, x: int, y: int) -> int:
         """
@@ -11940,17 +11379,11 @@ class Image(Object):
         """
 
     @overload
-    def LoadFile(self, name: str, type: BitmapType=BITMAP_TYPE_ANY, index: int=-1) -> bool:
-        ...
-
+    def LoadFile(self, name: str, type: BitmapType=BITMAP_TYPE_ANY, index: int=-1) -> bool: ...
     @overload
-    def LoadFile(self, name: str, mimetype: str, index: int=-1) -> bool:
-        ...
-
+    def LoadFile(self, name: str, mimetype: str, index: int=-1) -> bool: ...
     @overload
-    def LoadFile(self, stream: InputStream, mimetype: str, index: int=-1) -> bool:
-        ...
-
+    def LoadFile(self, stream: InputStream, mimetype: str, index: int=-1) -> bool: ...
     @overload
     def LoadFile(self, stream: InputStream, type: BitmapType=BITMAP_TYPE_ANY, index: int=-1) -> bool:
         """
@@ -11963,21 +11396,13 @@ class Image(Object):
         """
 
     @overload
-    def SaveFile(self, name: str, type: BitmapType) -> bool:
-        ...
-
+    def SaveFile(self, name: str, type: BitmapType) -> bool: ...
     @overload
-    def SaveFile(self, name: str, mimetype: str) -> bool:
-        ...
-
+    def SaveFile(self, name: str, mimetype: str) -> bool: ...
     @overload
-    def SaveFile(self, name: str) -> bool:
-        ...
-
+    def SaveFile(self, name: str) -> bool: ...
     @overload
-    def SaveFile(self, stream: OutputStream, type: BitmapType) -> bool:
-        ...
-
+    def SaveFile(self, stream: OutputStream, type: BitmapType) -> bool: ...
     @overload
     def SaveFile(self, stream: OutputStream, mimetype: str) -> bool:
         """
@@ -11991,9 +11416,7 @@ class Image(Object):
         """
 
     @overload
-    def SetAlpha(self, alpha: PyBuffer) -> None:
-        ...
-
+    def SetAlpha(self, alpha: PyBuffer) -> None: ...
     @overload
     def SetAlpha(self, x: int, y: int, alpha: int) -> None:
         """
@@ -12011,9 +11434,7 @@ class Image(Object):
         """
 
     @overload
-    def SetData(self, data: PyBuffer, new_width: int, new_height: int) -> None:
-        ...
-
+    def SetData(self, data: PyBuffer, new_width: int, new_height: int) -> None: ...
     @overload
     def SetData(self, data: PyBuffer) -> None:
         """
@@ -12054,9 +11475,7 @@ class Image(Object):
         """
 
     @overload
-    def SetOption(self, name: str, value: int) -> None:
-        ...
-
+    def SetOption(self, name: str, value: int) -> None: ...
     @overload
     def SetOption(self, name: str, value: str) -> None:
         """
@@ -12074,9 +11493,7 @@ class Image(Object):
         """
 
     @overload
-    def SetRGB(self, rect: Union[Rect, _FourInts], red: int, green: int, blue: int) -> None:
-        ...
-
+    def SetRGB(self, rect: Union[Rect, _FourInts], red: int, green: int, blue: int) -> None: ...
     @overload
     def SetRGB(self, x: int, y: int, r: int, g: int, b: int) -> None:
         """
@@ -12119,14 +11536,10 @@ class Image(Object):
 
     @overload
     @staticmethod
-    def FindHandler(extension: str, imageType: BitmapType) -> ImageHandler:
-        ...
-
+    def FindHandler(extension: str, imageType: BitmapType) -> ImageHandler: ...
     @overload
     @staticmethod
-    def FindHandler(imageType: BitmapType) -> ImageHandler:
-        ...
-
+    def FindHandler(imageType: BitmapType) -> ImageHandler: ...
     @overload
     @staticmethod
     def FindHandler(name: str) -> ImageHandler:
@@ -12172,9 +11585,7 @@ class Image(Object):
 
     @overload
     @staticmethod
-    def GetImageCount(stream: InputStream, type: BitmapType=BITMAP_TYPE_ANY) -> int:
-        ...
-
+    def GetImageCount(stream: InputStream, type: BitmapType=BITMAP_TYPE_ANY) -> int: ...
     @overload
     @staticmethod
     def GetImageCount(filename: str, type: BitmapType=BITMAP_TYPE_ANY) -> int:
@@ -12196,9 +11607,7 @@ class Image(Object):
 
     @overload
     @staticmethod
-    def CanRead(stream: InputStream) -> bool:
-        ...
-
+    def CanRead(stream: InputStream) -> bool: ...
     @overload
     @staticmethod
     def CanRead(filename: str) -> bool:
@@ -12264,9 +11673,7 @@ class Image(Object):
         """
 
     @overload
-    def SetDataBuffer(self, data: PyBuffer, new_width: int, new_height: int) -> None:
-        ...
-
+    def SetDataBuffer(self, data: PyBuffer, new_width: int, new_height: int) -> None: ...
     @overload
     def SetDataBuffer(self, data: PyBuffer) -> None:
         """
@@ -12323,6 +11730,7 @@ class Image(Object):
         out effects). If factor_alpha is given but the original image has no
         alpha channel then a alpha channel will be added.
         """
+
     @property
     def Width(self) -> int: ...
     @property
@@ -12337,7 +11745,6 @@ class Image(Object):
     def Type(self) -> BitmapType: ...
     @Type.setter
     def Type(self, value: BitmapType, /) -> None: ...
-
     def ConvertToRegion(self, R: int=-1, G: int=-1, B: int=-1, tolerance: int=0) -> Region:
         """
         ConvertToRegion(R=-1, G=-1, B=-1, tolerance=0) -> Region
@@ -12345,6 +11752,7 @@ class Image(Object):
         Create a :class:`wx.Region` where the transparent areas match the
         given RGB values.
         """
+
 # end of class Image
 
 
@@ -12368,6 +11776,7 @@ class ImageHistogram:
         """
         MakeKey(r, g, b) -> int
         """
+
 # end of class ImageHistogram
 
 
@@ -12388,9 +11797,7 @@ class ImageHandler(Object):
         """
 
     @overload
-    def CanRead(self, filename: str) -> bool:
-        ...
-
+    def CanRead(self, filename: str) -> bool: ...
     @overload
     def CanRead(self, stream: InputStream) -> bool:
         """
@@ -12493,6 +11900,7 @@ class ImageHandler(Object):
         
         Sets the bitmap type for the handler.
         """
+
     @property
     def AltExtensions(self) -> list[str]: ...
     @AltExtensions.setter
@@ -12513,7 +11921,6 @@ class ImageHandler(Object):
     def Type(self) -> BitmapType: ...
     @Type.setter
     def Type(self, value: BitmapType, /) -> None: ...
-
     def DoGetImageCount(self, stream: InputStream) -> int:
         """
         DoGetImageCount(stream) -> int
@@ -12529,6 +11936,7 @@ class ImageHandler(Object):
         Called to test if this handler can read an image from the given
         stream.
         """
+
 # end of class ImageHandler
 
 
@@ -12560,6 +11968,7 @@ class TIFFHandler(ImageHandler):
         Called to test if this handler can read an image from the given
         stream.
         """
+
 # end of class TIFFHandler
 
 
@@ -12605,6 +12014,7 @@ class GIFHandler(ImageHandler):
         Called to test if this handler can read an image from the given
         stream.
         """
+
 # end of class GIFHandler
 
 
@@ -12643,6 +12053,7 @@ class IFFHandler(ImageHandler):
         Called to test if this handler can read an image from the given
         stream.
         """
+
 # end of class IFFHandler
 
 
@@ -12690,6 +12101,7 @@ class JPEGHandler(ImageHandler):
         Called to test if this handler can read an image from the given
         stream.
         """
+
 # end of class JPEGHandler
 
 
@@ -12728,6 +12140,7 @@ class PCXHandler(ImageHandler):
         Called to test if this handler can read an image from the given
         stream.
         """
+
 # end of class PCXHandler
 
 
@@ -12766,6 +12179,7 @@ class PNGHandler(ImageHandler):
         Called to test if this handler can read an image from the given
         stream.
         """
+
 # end of class PNGHandler
 
 
@@ -12804,6 +12218,7 @@ class PNMHandler(ImageHandler):
         Called to test if this handler can read an image from the given
         stream.
         """
+
 # end of class PNMHandler
 
 
@@ -12842,6 +12257,7 @@ class TGAHandler(ImageHandler):
         Called to test if this handler can read an image from the given
         stream.
         """
+
 # end of class TGAHandler
 
 
@@ -12880,6 +12296,7 @@ class XPMHandler(ImageHandler):
         Called to test if this handler can read an image from the given
         stream.
         """
+
 # end of class XPMHandler
 
 
@@ -12897,35 +12314,30 @@ def EmptyImage(width=0, height=0, clear=True):
     """
     A compatibility wrapper for the wx.Image(width, height) constructor
     """
-    pass
 
 @deprecated
 def ImageFromBitmap(bitmap):
     """
     Create a :class:`Image` from a :class:`wx.Bitmap`
     """
-    pass
 
 @deprecated
 def ImageFromStream(stream, type=BITMAP_TYPE_ANY, index=-1):
     """
     Load an image from a stream (file-like object)
     """
-    pass
 
 @deprecated
 def ImageFromData(width, height, data):
     """
     Compatibility wrapper for creating an image from RGB data
     """
-    pass
 
 @deprecated
 def ImageFromDataWithAlpha(width, height, data, alpha):
     """
     Compatibility wrapper for creating an image from RGB and Alpha data
     """
-    pass
 
 def ImageFromBuffer(width, height, dataBuffer, alphaBuffer=None):
     """
@@ -12952,7 +12364,6 @@ def ImageFromBuffer(width, height, dataBuffer, alphaBuffer=None):
     the objects used for the data and alpha buffers in a way that would cause
     them to change size.
     """
-    pass
 
 IMAGE_OPTION_QUALITY = "quality"
 IMAGE_OPTION_FILENAME = "FileName"
@@ -13014,6 +12425,7 @@ class GDIObject(Object):
         This class allows platforms to implement functionality to optimise GDI
         objects, such as wxPen, wxBrush and wxFont.
         """
+
 # end of class GDIObject
 
 #-- end-gdiobj --#
@@ -13049,41 +12461,23 @@ class Bitmap(GDIObject):
     """
 
     @overload
-    def __init__(self, bitmap: Bitmap) -> None:
-        ...
-
+    def __init__(self, bitmap: Bitmap) -> None: ...
     @overload
-    def __init__(self, bits: str, width: int, height: int, depth: int=1) -> None:
-        ...
-
+    def __init__(self, bits: str, width: int, height: int, depth: int=1) -> None: ...
     @overload
-    def __init__(self, width: int, height: int, depth: int=BITMAP_SCREEN_DEPTH) -> None:
-        ...
-
+    def __init__(self, width: int, height: int, depth: int=BITMAP_SCREEN_DEPTH) -> None: ...
     @overload
-    def __init__(self, sz: Union[Size, _TwoInts], depth: int=BITMAP_SCREEN_DEPTH) -> None:
-        ...
-
+    def __init__(self, sz: Union[Size, _TwoInts], depth: int=BITMAP_SCREEN_DEPTH) -> None: ...
     @overload
-    def __init__(self, width: int, height: int, dc: DC) -> None:
-        ...
-
+    def __init__(self, width: int, height: int, dc: DC) -> None: ...
     @overload
-    def __init__(self, name: str, type: BitmapType=BITMAP_TYPE_ANY) -> None:
-        ...
-
+    def __init__(self, name: str, type: BitmapType=BITMAP_TYPE_ANY) -> None: ...
     @overload
-    def __init__(self, img: Image, depth: int=BITMAP_SCREEN_DEPTH) -> None:
-        ...
-
+    def __init__(self, img: Image, depth: int=BITMAP_SCREEN_DEPTH) -> None: ...
     @overload
-    def __init__(self, img: Image, dc: DC) -> None:
-        ...
-
+    def __init__(self, img: Image, dc: DC) -> None: ...
     @overload
-    def __init__(self, listOfBytes: Any) -> None:
-        ...
-
+    def __init__(self, listOfBytes: Any) -> None: ...
     @overload
     def __init__(self) -> None:
         """
@@ -13124,13 +12518,9 @@ class Bitmap(GDIObject):
         """
 
     @overload
-    def Create(self, sz: Union[Size, _TwoInts], depth: int=BITMAP_SCREEN_DEPTH) -> bool:
-        ...
-
+    def Create(self, sz: Union[Size, _TwoInts], depth: int=BITMAP_SCREEN_DEPTH) -> bool: ...
     @overload
-    def Create(self, width: int, height: int, dc: DC) -> bool:
-        ...
-
+    def Create(self, width: int, height: int, dc: DC) -> bool: ...
     @overload
     def Create(self, width: int, height: int, depth: int=BITMAP_SCREEN_DEPTH) -> bool:
         """
@@ -13142,9 +12532,7 @@ class Bitmap(GDIObject):
         """
 
     @overload
-    def CreateWithDIPSize(self, width: int, height: int, scale: float, depth: int=BITMAP_SCREEN_DEPTH) -> bool:
-        ...
-
+    def CreateWithDIPSize(self, width: int, height: int, scale: float, depth: int=BITMAP_SCREEN_DEPTH) -> bool: ...
     @overload
     def CreateWithDIPSize(self, size: Union[Size, _TwoInts], scale: float, depth: int=BITMAP_SCREEN_DEPTH) -> bool:
         """
@@ -13364,7 +12752,7 @@ class Bitmap(GDIObject):
         Rescale the given bitmap to the requested size.
         """
 
-    def SetMaskColour(self, colour: Union[Colour, wx.Colour, _ThreeInts, _FourInts, str, None]) -> None:
+    def SetMaskColour(self, colour: Union[Colour, _ThreeInts, _FourInts, str, None]) -> None:
         """
         SetMaskColour(colour) -> None
         
@@ -13518,6 +12906,7 @@ class Bitmap(GDIObject):
         Like :meth:`NewFromPNGData`, but with a simpler API accepting a Python
         buffer-compatible object.
         """
+
     @property
     def DIPSize(self) -> Size: ...
     @property
@@ -13579,17 +12968,11 @@ class Mask(Object):
     """
 
     @overload
-    def __init__(self, bitmap: Bitmap, index: int) -> None:
-        ...
-
+    def __init__(self, bitmap: Bitmap, index: int) -> None: ...
     @overload
-    def __init__(self, bitmap: Bitmap) -> None:
-        ...
-
+    def __init__(self, bitmap: Bitmap) -> None: ...
     @overload
-    def __init__(self, bitmap: Bitmap, colour: Union[Colour, wx.Colour, _ThreeInts, _FourInts, str, None]) -> None:
-        ...
-
+    def __init__(self, bitmap: Bitmap, colour: Union[Colour, _ThreeInts, _FourInts, str, None]) -> None: ...
     @overload
     def __init__(self) -> None:
         """
@@ -13608,6 +12991,7 @@ class Mask(Object):
         
         Returns the mask as a monochrome bitmap.
         """
+
     @property
     def Bitmap(self) -> Bitmap: ...
 # end of class Mask
@@ -13619,35 +13003,30 @@ def BitmapFromBuffer(width, height, dataBuffer, alphaBuffer=None):
     """
     A compatibility wrapper for :meth:`wx.Bitmap.FromBuffer` and :meth:`wx.Bitmap.FromBufferAndAlpha`
     """
-    pass
 
 @deprecated
 def BitmapFromBufferRGBA(width, height, dataBuffer):
     """
     A compatibility wrapper for :meth:`wx.Bitmap.FromBufferRGBA`
     """
-    pass
 
 @deprecated
 def EmptyBitmapRGBA(width, height, red=0, green=0, blue=0, alpha=0):
     """
     A compatibility wrapper for :meth:`wx.Bitmap.FromRGBA`
     """
-    pass
 
 @deprecated
 def EmptyBitmap(width, height, depth=BITMAP_SCREEN_DEPTH):
     """
     A compatibility wrapper for the wx.Bitmap(width, height, depth) constructor
     """
-    pass
 
 @deprecated
 def BitmapFromImage(image):
     """
     A compatibility wrapper for the wx.Bitmap(wx.Image) constructor
     """
-    pass
 #-- end-bitmap --#
 #-- begin-bmpbndl --#
 
@@ -13663,21 +13042,13 @@ class BitmapBundle:
     """
 
     @overload
-    def __init__(self, bitmap: Bitmap) -> None:
-        ...
-
+    def __init__(self, bitmap: Bitmap) -> None: ...
     @overload
-    def __init__(self, icon: Icon) -> None:
-        ...
-
+    def __init__(self, icon: Icon) -> None: ...
     @overload
-    def __init__(self, image: Image) -> None:
-        ...
-
+    def __init__(self, image: Image) -> None: ...
     @overload
-    def __init__(self, other: Union[BitmapBundle, wx.Bitmap, wx.Icon]) -> None:
-        ...
-
+    def __init__(self, other: Union[BitmapBundle, Bitmap, Icon]) -> None: ...
     @overload
     def __init__(self) -> None:
         """
@@ -13767,7 +13138,7 @@ class BitmapBundle:
         window.
         """
 
-    def IsSameAs(self, other: Union[BitmapBundle, wx.Bitmap, wx.Icon]) -> bool:
+    def IsSameAs(self, other: Union[BitmapBundle, Bitmap, Icon]) -> bool:
         """
         IsSameAs(other) -> bool
         
@@ -13776,9 +13147,7 @@ class BitmapBundle:
 
     @overload
     @staticmethod
-    def FromBitmaps(bitmap1: Bitmap, bitmap2: Bitmap) -> BitmapBundle:
-        ...
-
+    def FromBitmaps(bitmap1: Bitmap, bitmap2: Bitmap) -> BitmapBundle: ...
     @overload
     @staticmethod
     def FromBitmaps(bitmaps: VectorwxBitmap) -> BitmapBundle:
@@ -13831,9 +13200,7 @@ class BitmapBundle:
 
     @overload
     @staticmethod
-    def FromFiles(fullpathname: str) -> BitmapBundle:
-        ...
-
+    def FromFiles(fullpathname: str) -> BitmapBundle: ...
     @overload
     @staticmethod
     def FromFiles(path: str, filename: str, extension: str="png") -> BitmapBundle:
@@ -13846,9 +13213,7 @@ class BitmapBundle:
 
     @overload
     @staticmethod
-    def FromSVG(data: Byte, len: int, sizeDef: Union[Size, _TwoInts]) -> BitmapBundle:
-        ...
-
+    def FromSVG(data: Byte, len: int, sizeDef: Union[Size, _TwoInts]) -> BitmapBundle: ...
     @overload
     @staticmethod
     def FromSVG(data: str, sizeDef: Union[Size, _TwoInts]) -> BitmapBundle:
@@ -13876,6 +13241,7 @@ class BitmapBundle:
         Create a bundle from the SVG image loaded from an application
         resource.
         """
+
     @property
     def DefaultSize(self) -> Size: ...
 # end of class BitmapBundle
@@ -13907,9 +13273,9 @@ class BitmapBundleImpl(RefCounter):
         
         Retrieve the bitmap of exactly the given size.
         """
+
     @property
     def DefaultSize(self) -> Size: ...
-
     def DoGetPreferredSize(self, scale: float) -> Size:
         """
         DoGetPreferredSize(scale) -> Size
@@ -13932,6 +13298,7 @@ class BitmapBundleImpl(RefCounter):
         
         Return information about the available bitmaps.
         """
+
 # end of class BitmapBundleImpl
 
 #-- end-bmpbndl --#
@@ -13951,21 +13318,13 @@ class Icon(GDIObject):
     """
 
     @overload
-    def __init__(self, icon: Icon) -> None:
-        ...
-
+    def __init__(self, icon: Icon) -> None: ...
     @overload
-    def __init__(self, name: str, type: BitmapType=BITMAP_TYPE_ANY, desiredWidth: int=-1, desiredHeight: int=-1) -> None:
-        ...
-
+    def __init__(self, name: str, type: BitmapType=BITMAP_TYPE_ANY, desiredWidth: int=-1, desiredHeight: int=-1) -> None: ...
     @overload
-    def __init__(self, loc: IconLocation) -> None:
-        ...
-
+    def __init__(self, loc: IconLocation) -> None: ...
     @overload
-    def __init__(self, bmp: Bitmap) -> None:
-        ...
-
+    def __init__(self, bmp: Bitmap) -> None: ...
     @overload
     def __init__(self) -> None:
         """
@@ -14097,6 +13456,7 @@ class Icon(GDIObject):
         """
         SetHandle(handle) -> None
         """
+
     @property
     def Depth(self) -> int: ...
     @Depth.setter
@@ -14132,7 +13492,6 @@ def EmptyIcon():
     """
     A compatibility wrapper for the :class:`Icon` constructor
     """
-    pass
 #-- end-icon --#
 #-- begin-iconloc --#
 
@@ -14146,9 +13505,7 @@ class IconLocation:
     """
 
     @overload
-    def __init__(self, filename: str, num: int=0) -> None:
-        ...
-
+    def __init__(self, filename: str, num: int=0) -> None: ...
     @overload
     def __init__(self) -> None:
         """
@@ -14196,6 +13553,7 @@ class IconLocation:
         """
         SetIndex(num) -> None
         """
+
     @property
     def FileName(self) -> str: ...
     @FileName.setter
@@ -14229,21 +13587,13 @@ class IconBundle(GDIObject):
     FALLBACK_NEAREST_LARGER = _enum_29.FALLBACK_NEAREST_LARGER
 
     @overload
-    def __init__(self, file: str, type: BitmapType=BITMAP_TYPE_ANY) -> None:
-        ...
-
+    def __init__(self, file: str, type: BitmapType=BITMAP_TYPE_ANY) -> None: ...
     @overload
-    def __init__(self, stream: InputStream, type: BitmapType=BITMAP_TYPE_ANY) -> None:
-        ...
-
+    def __init__(self, stream: InputStream, type: BitmapType=BITMAP_TYPE_ANY) -> None: ...
     @overload
-    def __init__(self, icon: Icon) -> None:
-        ...
-
+    def __init__(self, icon: Icon) -> None: ...
     @overload
-    def __init__(self, ic: IconBundle) -> None:
-        ...
-
+    def __init__(self, ic: IconBundle) -> None: ...
     @overload
     def __init__(self) -> None:
         """
@@ -14257,13 +13607,9 @@ class IconBundle(GDIObject):
         """
 
     @overload
-    def AddIcon(self, stream: InputStream, type: BitmapType=BITMAP_TYPE_ANY) -> None:
-        ...
-
+    def AddIcon(self, stream: InputStream, type: BitmapType=BITMAP_TYPE_ANY) -> None: ...
     @overload
-    def AddIcon(self, icon: Icon) -> None:
-        ...
-
+    def AddIcon(self, icon: Icon) -> None: ...
     @overload
     def AddIcon(self, file: str, type: BitmapType=BITMAP_TYPE_ANY) -> None:
         """
@@ -14277,9 +13623,7 @@ class IconBundle(GDIObject):
         """
 
     @overload
-    def GetIcon(self, size: int=DefaultCoord, flags: int=FALLBACK_SYSTEM) -> Icon:
-        ...
-
+    def GetIcon(self, size: int=DefaultCoord, flags: int=FALLBACK_SYSTEM) -> Icon: ...
     @overload
     def GetIcon(self, size: Union[Size, _TwoInts], flags: int=FALLBACK_SYSTEM) -> Icon:
         """
@@ -14319,6 +13663,7 @@ class IconBundle(GDIObject):
         (in which case a call to GetIcon() with default parameter should
         return a valid icon).
         """
+
     @property
     def Icon(self) -> Icon: ...
     @property
@@ -14650,13 +13995,9 @@ class FontInfo:
     """
 
     @overload
-    def __init__(self, pointSize: float) -> None:
-        ...
-
+    def __init__(self, pointSize: float) -> None: ...
     @overload
-    def __init__(self, pixelSize: Union[Size, _TwoInts]) -> None:
-        ...
-
+    def __init__(self, pixelSize: Union[Size, _TwoInts]) -> None: ...
     @overload
     def __init__(self) -> None:
         """
@@ -14768,6 +14109,7 @@ class FontInfo:
         
         Get the symbolic weight closest to the given raw weight value.
         """
+
 # end of class FontInfo
 
 
@@ -14785,29 +14127,17 @@ class Font(GDIObject):
     """
 
     @overload
-    def __init__(self, font: Font) -> None:
-        ...
-
+    def __init__(self, font: Font) -> None: ...
     @overload
-    def __init__(self, fontInfo: FontInfo) -> None:
-        ...
-
+    def __init__(self, fontInfo: FontInfo) -> None: ...
     @overload
-    def __init__(self, pointSize: int, family: FontFamily, style: FontStyle, weight: FontWeight, underline: bool=False, faceName: str='', encoding: FontEncoding=FONTENCODING_DEFAULT) -> None:
-        ...
-
+    def __init__(self, pointSize: int, family: FontFamily, style: FontStyle, weight: FontWeight, underline: bool=False, faceName: str='', encoding: FontEncoding=FONTENCODING_DEFAULT) -> None: ...
     @overload
-    def __init__(self, pixelSize: Union[Size, _TwoInts], family: FontFamily, style: FontStyle, weight: FontWeight, underline: bool=False, faceName: str='', encoding: FontEncoding=FONTENCODING_DEFAULT) -> None:
-        ...
-
+    def __init__(self, pixelSize: Union[Size, _TwoInts], family: FontFamily, style: FontStyle, weight: FontWeight, underline: bool=False, faceName: str='', encoding: FontEncoding=FONTENCODING_DEFAULT) -> None: ...
     @overload
-    def __init__(self, nativeInfoString: str) -> None:
-        ...
-
+    def __init__(self, nativeInfoString: str) -> None: ...
     @overload
-    def __init__(self, nativeInfo: NativeFontInfo) -> None:
-        ...
-
+    def __init__(self, nativeInfo: NativeFontInfo) -> None: ...
     @overload
     def __init__(self) -> None:
         """
@@ -15074,9 +14404,7 @@ class Font(GDIObject):
         """
 
     @overload
-    def SetNativeFontInfo(self, info: NativeFontInfo) -> None:
-        ...
-
+    def SetNativeFontInfo(self, info: NativeFontInfo) -> None: ...
     @overload
     def SetNativeFontInfo(self, info: str) -> bool:
         """
@@ -15168,29 +14496,19 @@ class Font(GDIObject):
 
     @overload
     @staticmethod
-    def New(pointSize: int, family: FontFamily, flags: int=FONTFLAG_DEFAULT, faceName: str='', encoding: FontEncoding=FONTENCODING_DEFAULT) -> Font:
-        ...
-
+    def New(pointSize: int, family: FontFamily, flags: int=FONTFLAG_DEFAULT, faceName: str='', encoding: FontEncoding=FONTENCODING_DEFAULT) -> Font: ...
     @overload
     @staticmethod
-    def New(pixelSize: Union[Size, _TwoInts], family: FontFamily, style: FontStyle, weight: FontWeight, underline: bool=False, faceName: str='', encoding: FontEncoding=FONTENCODING_DEFAULT) -> Font:
-        ...
-
+    def New(pixelSize: Union[Size, _TwoInts], family: FontFamily, style: FontStyle, weight: FontWeight, underline: bool=False, faceName: str='', encoding: FontEncoding=FONTENCODING_DEFAULT) -> Font: ...
     @overload
     @staticmethod
-    def New(pixelSize: Union[Size, _TwoInts], family: FontFamily, flags: int=FONTFLAG_DEFAULT, faceName: str='', encoding: FontEncoding=FONTENCODING_DEFAULT) -> Font:
-        ...
-
+    def New(pixelSize: Union[Size, _TwoInts], family: FontFamily, flags: int=FONTFLAG_DEFAULT, faceName: str='', encoding: FontEncoding=FONTENCODING_DEFAULT) -> Font: ...
     @overload
     @staticmethod
-    def New(nativeInfo: NativeFontInfo) -> Font:
-        ...
-
+    def New(nativeInfo: NativeFontInfo) -> Font: ...
     @overload
     @staticmethod
-    def New(nativeInfoString: str) -> Font:
-        ...
-
+    def New(nativeInfoString: str) -> Font: ...
     @overload
     @staticmethod
     def New(pointSize: int, family: FontFamily, style: FontStyle, weight: FontWeight, underline: bool=False, faceName: str='', encoding: FontEncoding=FONTENCODING_DEFAULT) -> Font:
@@ -15206,14 +14524,8 @@ class Font(GDIObject):
         constructor and returns a new font object allocated on the heap.
         """
 
-    def __ne__(self, font: Font) -> bool:
-        """
-        """
-
-    def __eq__(self, font: Font) -> bool:
-        """
-        """
-
+    def __ne__(self, font: Font) -> bool: ...
+    def __eq__(self, font: Font) -> bool: ...
     @staticmethod
     def GetDefaultEncoding() -> FontEncoding:
         """
@@ -15237,6 +14549,7 @@ class Font(GDIObject):
         
         Get the raw weight value corresponding to the given symbolic constant.
         """
+
     @property
     def Encoding(self) -> FontEncoding: ...
     @Encoding.setter
@@ -15273,7 +14586,6 @@ class Font(GDIObject):
     def Weight(self) -> FontWeight: ...
     @Weight.setter
     def Weight(self, value: FontWeight, /) -> None: ...
-
     def __nonzero__(self) -> bool:
         """
         __nonzero__() -> bool
@@ -15321,15 +14633,8 @@ class Font(GDIObject):
         For internal use only.
         """
 
-    def SetNoAntiAliasing(self, no=True):
-        """
-        
-        """
-
-    def GetNoAntiAliasing(self):
-        """
-        
-        """
+    def SetNoAntiAliasing(self, no=True): ...
+    def GetNoAntiAliasing(self): ...
 # end of class Font
 
 
@@ -15348,9 +14653,7 @@ class FontList:
         """
 
     @overload
-    def FindOrCreateFont(self, fontInfo: FontInfo) -> Font:
-        ...
-
+    def FindOrCreateFont(self, fontInfo: FontInfo) -> Font: ...
     @overload
     def FindOrCreateFont(self, point_size: int, family: FontFamily, style: FontStyle, weight: FontWeight, underline: bool=False, facename: str='', encoding: FontEncoding=FONTENCODING_DEFAULT) -> Font:
         """
@@ -15360,6 +14663,7 @@ class FontList:
         Finds a font of the given specification, or creates one and adds it to
         the list.
         """
+
 # end of class FontList
 
 NullFont: Font
@@ -15406,9 +14710,7 @@ class NativeFontInfo:
     """
 
     @overload
-    def __init__(self, info: NativeFontInfo) -> None:
-        ...
-
+    def __init__(self, info: NativeFontInfo) -> None: ...
     @overload
     def __init__(self) -> None:
         """
@@ -15508,9 +14810,7 @@ class NativeFontInfo:
         """
 
     @overload
-    def SetFaceName(self, facenames: list[str]) -> None:
-        ...
-
+    def SetFaceName(self, facenames: list[str]) -> None: ...
     @overload
     def SetFaceName(self, facename: str) -> bool:
         """
@@ -15552,6 +14852,7 @@ class NativeFontInfo:
         """
         __str__() -> str
         """
+
     @property
     def Encoding(self) -> FontEncoding: ...
     @Encoding.setter
@@ -15675,7 +14976,7 @@ class PenInfo:
     fixed order to wxPen constructors.
     """
 
-    def __init__(self, colour: Union[Colour, wx.Colour, _ThreeInts, _FourInts, str, None]=Colour(), width: int=1, style: PenStyle=PENSTYLE_SOLID) -> None:
+    def __init__(self, colour: Union[Colour, _ThreeInts, _FourInts, str, None]=Colour(), width: int=1, style: PenStyle=PENSTYLE_SOLID) -> None:
         """
         PenInfo(colour=Colour(), width=1, style=PENSTYLE_SOLID) -> None
         
@@ -15685,7 +14986,7 @@ class PenInfo:
         fixed order to wxPen constructors.
         """
 
-    def Colour(self, col: Union[Colour, wx.Colour, _ThreeInts, _FourInts, str, None]) -> PenInfo:
+    def Colour(self, col: Union[Colour, _ThreeInts, _FourInts, str, None]) -> PenInfo:
         """
         Colour(col) -> PenInfo
         """
@@ -15775,6 +15076,7 @@ class PenInfo:
         """
         GetWidth() -> int
         """
+
 # end of class PenInfo
 
 
@@ -15789,17 +15091,11 @@ class Pen(GDIObject):
     """
 
     @overload
-    def __init__(self, info: PenInfo) -> None:
-        ...
-
+    def __init__(self, info: PenInfo) -> None: ...
     @overload
-    def __init__(self, colour: Union[Colour, wx.Colour, _ThreeInts, _FourInts, str, None], width: int=1, style: PenStyle=PENSTYLE_SOLID) -> None:
-        ...
-
+    def __init__(self, colour: Union[Colour, _ThreeInts, _FourInts, str, None], width: int=1, style: PenStyle=PENSTYLE_SOLID) -> None: ...
     @overload
-    def __init__(self, pen: Pen) -> None:
-        ...
-
+    def __init__(self, pen: Pen) -> None: ...
     @overload
     def __init__(self) -> None:
         """
@@ -15812,11 +15108,9 @@ class Pen(GDIObject):
         """
 
     @overload
-    def SetColour(self, red: int, green: int, blue: int) -> None:
-        ...
-
+    def SetColour(self, red: int, green: int, blue: int) -> None: ...
     @overload
-    def SetColour(self, colour: Union[Colour, wx.Colour, _ThreeInts, _FourInts, str, None]) -> None:
+    def SetColour(self, colour: Union[Colour, _ThreeInts, _FourInts, str, None]) -> None:
         """
         SetColour(colour) -> None
         SetColour(red, green, blue) -> None
@@ -15955,13 +15249,8 @@ class Pen(GDIObject):
         Sets the pen width.
         """
 
-    def __ne__(self, pen: Pen) -> bool:
-        """
-        """
-
-    def __eq__(self, pen: Pen) -> bool:
-        """
-        """
+    def __ne__(self, pen: Pen) -> bool: ...
+    def __eq__(self, pen: Pen) -> bool: ...
     @property
     def Cap(self) -> PenCap: ...
     @Cap.setter
@@ -15969,7 +15258,7 @@ class Pen(GDIObject):
     @property
     def Colour(self) -> Colour: ...
     @Colour.setter
-    def Colour(self, value: Union[Colour, wx.Colour, _ThreeInts, _FourInts, str, None], /) -> None: ...
+    def Colour(self, value: Union[Colour, _ThreeInts, _FourInts, str, None], /) -> None: ...
     @property
     def Dashes(self) -> list[int]: ...
     @Dashes.setter
@@ -15994,13 +15283,13 @@ class Pen(GDIObject):
     def Width(self) -> int: ...
     @Width.setter
     def Width(self, value: int, /) -> None: ...
-
     def _copyFrom(self, other: Pen) -> None:
         """
         _copyFrom(other) -> None
         
         For internal use only.
         """
+
 # end of class Pen
 
 
@@ -16018,13 +15307,14 @@ class PenList:
         There is only one instance of this class: wxThePenList.
         """
 
-    def FindOrCreatePen(self, colour: Union[Colour, wx.Colour, _ThreeInts, _FourInts, str, None], width: int=1, style: PenStyle=PENSTYLE_SOLID) -> Pen:
+    def FindOrCreatePen(self, colour: Union[Colour, _ThreeInts, _FourInts, str, None], width: int=1, style: PenStyle=PENSTYLE_SOLID) -> Pen:
         """
         FindOrCreatePen(colour, width=1, style=PENSTYLE_SOLID) -> Pen
         
         Finds a pen with the specified attributes and returns it, else creates
         a new pen, adds it to the pen list, and returns it.
         """
+
 # end of class PenList
 
 NullPen: Pen
@@ -16095,17 +15385,11 @@ class Brush(GDIObject):
     """
 
     @overload
-    def __init__(self, colour: Union[Colour, wx.Colour, _ThreeInts, _FourInts, str, None], style: BrushStyle=BRUSHSTYLE_SOLID) -> None:
-        ...
-
+    def __init__(self, colour: Union[Colour, _ThreeInts, _FourInts, str, None], style: BrushStyle=BRUSHSTYLE_SOLID) -> None: ...
     @overload
-    def __init__(self, stippleBitmap: Bitmap) -> None:
-        ...
-
+    def __init__(self, stippleBitmap: Bitmap) -> None: ...
     @overload
-    def __init__(self, brush: Brush) -> None:
-        ...
-
+    def __init__(self, brush: Brush) -> None: ...
     @overload
     def __init__(self) -> None:
         """
@@ -16118,11 +15402,9 @@ class Brush(GDIObject):
         """
 
     @overload
-    def SetColour(self, red: int, green: int, blue: int) -> None:
-        ...
-
+    def SetColour(self, red: int, green: int, blue: int) -> None: ...
     @overload
-    def SetColour(self, colour: Union[Colour, wx.Colour, _ThreeInts, _FourInts, str, None]) -> None:
+    def SetColour(self, colour: Union[Colour, _ThreeInts, _FourInts, str, None]) -> None:
         """
         SetColour(colour) -> None
         SetColour(red, green, blue) -> None
@@ -16193,14 +15475,8 @@ class Brush(GDIObject):
         Sets the brush style.
         """
 
-    def __ne__(self, brush: Brush) -> bool:
-        """
-        """
-
-    def __eq__(self, brush: Brush) -> bool:
-        """
-        """
-
+    def __ne__(self, brush: Brush) -> bool: ...
+    def __eq__(self, brush: Brush) -> bool: ...
     def __nonzero__(self) -> bool:
         """
         __nonzero__() -> bool
@@ -16215,10 +15491,11 @@ class Brush(GDIObject):
         """
         MacSetTheme(macThemeBrushID) -> None
         """
+
     @property
     def Colour(self) -> Colour: ...
     @Colour.setter
-    def Colour(self, value: Union[Colour, wx.Colour, _ThreeInts, _FourInts, str, None], /) -> None: ...
+    def Colour(self, value: Union[Colour, _ThreeInts, _FourInts, str, None], /) -> None: ...
     @property
     def Stipple(self) -> Bitmap: ...
     @Stipple.setter
@@ -16227,13 +15504,13 @@ class Brush(GDIObject):
     def Style(self) -> BrushStyle: ...
     @Style.setter
     def Style(self, value: BrushStyle, /) -> None: ...
-
     def _copyFrom(self, other: Brush) -> None:
         """
         _copyFrom(other) -> None
         
         For internal use only.
         """
+
 # end of class Brush
 
 
@@ -16242,13 +15519,14 @@ class BrushList:
     A brush list is a list containing all brushes which have been created.
     """
 
-    def FindOrCreateBrush(self, colour: Union[Colour, wx.Colour, _ThreeInts, _FourInts, str, None], style: BrushStyle=BRUSHSTYLE_SOLID) -> Brush:
+    def FindOrCreateBrush(self, colour: Union[Colour, _ThreeInts, _FourInts, str, None], style: BrushStyle=BRUSHSTYLE_SOLID) -> Brush:
         """
         FindOrCreateBrush(colour, style=BRUSHSTYLE_SOLID) -> Brush
         
         Finds a brush with the specified attributes and returns it, else
         creates a new brush, adds it to the brush list, and returns it.
         """
+
 # end of class BrushList
 
 NullBrush: Brush
@@ -16292,21 +15570,13 @@ class Cursor(GDIObject):
     """
 
     @overload
-    def __init__(self, cursorName: str, type: BitmapType=BITMAP_TYPE_ANY, hotSpotX: int=0, hotSpotY: int=0) -> None:
-        ...
-
+    def __init__(self, cursorName: str, type: BitmapType=BITMAP_TYPE_ANY, hotSpotX: int=0, hotSpotY: int=0) -> None: ...
     @overload
-    def __init__(self, cursorId: StockCursor) -> None:
-        ...
-
+    def __init__(self, cursorId: StockCursor) -> None: ...
     @overload
-    def __init__(self, image: Image) -> None:
-        ...
-
+    def __init__(self, image: Image) -> None: ...
     @overload
-    def __init__(self, cursor: Cursor) -> None:
-        ...
-
+    def __init__(self, cursor: Cursor) -> None: ...
     @overload
     def __init__(self) -> None:
         """
@@ -16365,6 +15635,7 @@ class Cursor(GDIObject):
         
         For internal use only.
         """
+
     @property
     def Handle(self) -> int: ...
     @Handle.setter
@@ -16406,9 +15677,7 @@ class RegionIterator(Object):
     """
 
     @overload
-    def __init__(self, region: Region) -> None:
-        ...
-
+    def __init__(self, region: Region) -> None: ...
     @overload
     def __init__(self) -> None:
         """
@@ -16478,9 +15747,7 @@ class RegionIterator(Object):
         """
 
     @overload
-    def Reset(self, region: Region) -> None:
-        ...
-
+    def Reset(self, region: Region) -> None: ...
     @overload
     def Reset(self) -> None:
         """
@@ -16512,6 +15779,7 @@ class RegionIterator(Object):
         
         Move the iterator to the next rectangle in the region.
         """
+
     @property
     def H(self) -> int: ...
     @property
@@ -16545,33 +15813,19 @@ class Region(GDIObject):
     """
 
     @overload
-    def __init__(self, x: int, y: int, width: int, height: int) -> None:
-        ...
-
+    def __init__(self, x: int, y: int, width: int, height: int) -> None: ...
     @overload
-    def __init__(self, topLeft: Union[Point, _TwoInts], bottomRight: Union[Point, _TwoInts]) -> None:
-        ...
-
+    def __init__(self, topLeft: Union[Point, _TwoInts], bottomRight: Union[Point, _TwoInts]) -> None: ...
     @overload
-    def __init__(self, rect: Union[Rect, _FourInts]) -> None:
-        ...
-
+    def __init__(self, rect: Union[Rect, _FourInts]) -> None: ...
     @overload
-    def __init__(self, region: Region) -> None:
-        ...
-
+    def __init__(self, region: Region) -> None: ...
     @overload
-    def __init__(self, bmp: Bitmap) -> None:
-        ...
-
+    def __init__(self, bmp: Bitmap) -> None: ...
     @overload
-    def __init__(self, bmp: Bitmap, transColour: Union[Colour, wx.Colour, _ThreeInts, _FourInts, str, None], tolerance: int=0) -> None:
-        ...
-
+    def __init__(self, bmp: Bitmap, transColour: Union[Colour, _ThreeInts, _FourInts, str, None], tolerance: int=0) -> None: ...
     @overload
-    def __init__(self, points: Any, fillStyle: PolygonFillMode=ODDEVEN_RULE) -> None:
-        ...
-
+    def __init__(self, points: Any, fillStyle: PolygonFillMode=ODDEVEN_RULE) -> None: ...
     @overload
     def __init__(self) -> None:
         """
@@ -16596,9 +15850,7 @@ class Region(GDIObject):
         """
 
     @overload
-    def Offset(self, pt: Union[Point, _TwoInts]) -> bool:
-        ...
-
+    def Offset(self, pt: Union[Point, _TwoInts]) -> bool: ...
     @overload
     def Offset(self, x: int, y: int) -> bool:
         """
@@ -16617,17 +15869,11 @@ class Region(GDIObject):
         """
 
     @overload
-    def Contains(self, pt: Union[Point, _TwoInts]) -> RegionContain:
-        ...
-
+    def Contains(self, pt: Union[Point, _TwoInts]) -> RegionContain: ...
     @overload
-    def Contains(self, x: int, y: int, width: int, height: int) -> RegionContain:
-        ...
-
+    def Contains(self, x: int, y: int, width: int, height: int) -> RegionContain: ...
     @overload
-    def Contains(self, rect: Union[Rect, _FourInts]) -> RegionContain:
-        ...
-
+    def Contains(self, rect: Union[Rect, _FourInts]) -> RegionContain: ...
     @overload
     def Contains(self, x: int, y: int) -> RegionContain:
         """
@@ -16649,13 +15895,9 @@ class Region(GDIObject):
         """
 
     @overload
-    def Intersect(self, rect: Union[Rect, _FourInts]) -> bool:
-        ...
-
+    def Intersect(self, rect: Union[Rect, _FourInts]) -> bool: ...
     @overload
-    def Intersect(self, region: Region) -> bool:
-        ...
-
+    def Intersect(self, region: Region) -> bool: ...
     @overload
     def Intersect(self, x: int, y: int, width: int, height: int) -> bool:
         """
@@ -16683,9 +15925,7 @@ class Region(GDIObject):
         """
 
     @overload
-    def Subtract(self, region: Region) -> bool:
-        ...
-
+    def Subtract(self, region: Region) -> bool: ...
     @overload
     def Subtract(self, rect: Union[Rect, _FourInts]) -> bool:
         """
@@ -16696,21 +15936,13 @@ class Region(GDIObject):
         """
 
     @overload
-    def Union(self, rect: Union[Rect, _FourInts]) -> bool:
-        ...
-
+    def Union(self, rect: Union[Rect, _FourInts]) -> bool: ...
     @overload
-    def Union(self, region: Region) -> bool:
-        ...
-
+    def Union(self, region: Region) -> bool: ...
     @overload
-    def Union(self, bmp: Bitmap) -> bool:
-        ...
-
+    def Union(self, bmp: Bitmap) -> bool: ...
     @overload
-    def Union(self, bmp: Bitmap, transColour: Union[Colour, wx.Colour, _ThreeInts, _FourInts, str, None], tolerance: int=0) -> bool:
-        ...
-
+    def Union(self, bmp: Bitmap, transColour: Union[Colour, _ThreeInts, _FourInts, str, None], tolerance: int=0) -> bool: ...
     @overload
     def Union(self, x: int, y: int, width: int, height: int) -> bool:
         """
@@ -16725,13 +15957,9 @@ class Region(GDIObject):
         """
 
     @overload
-    def Xor(self, rect: Union[Rect, _FourInts]) -> bool:
-        ...
-
+    def Xor(self, rect: Union[Rect, _FourInts]) -> bool: ...
     @overload
-    def Xor(self, region: Region) -> bool:
-        ...
-
+    def Xor(self, region: Region) -> bool: ...
     @overload
     def Xor(self, x: int, y: int, width: int, height: int) -> bool:
         """
@@ -16762,6 +15990,7 @@ class Region(GDIObject):
                 self._iterator.Next()
             return rect
         __next__ = next  # for Python 3
+
     @property
     def Box(self) -> Rect: ...
 # end of class Region
@@ -16837,6 +16066,7 @@ class FontMetrics:
         
         Simple collection of various font metrics.
         """
+
     height: int
     ascent: int
     descent: int
@@ -16921,9 +16151,7 @@ class DC(Object):
         """
 
     @overload
-    def DeviceToLogical(self, pt: Union[Point, _TwoInts]) -> Point:
-        ...
-
+    def DeviceToLogical(self, pt: Union[Point, _TwoInts]) -> Point: ...
     @overload
     def DeviceToLogical(self, x: int, y: int) -> Point:
         """
@@ -16936,9 +16164,7 @@ class DC(Object):
         """
 
     @overload
-    def DeviceToLogicalRel(self, dim: Union[Size, _TwoInts]) -> Size:
-        ...
-
+    def DeviceToLogicalRel(self, dim: Union[Size, _TwoInts]) -> Size: ...
     @overload
     def DeviceToLogicalRel(self, x: int, y: int) -> Size:
         """
@@ -16951,9 +16177,7 @@ class DC(Object):
         """
 
     @overload
-    def LogicalToDevice(self, pt: Union[Point, _TwoInts]) -> Point:
-        ...
-
+    def LogicalToDevice(self, pt: Union[Point, _TwoInts]) -> Point: ...
     @overload
     def LogicalToDevice(self, x: int, y: int) -> Point:
         """
@@ -16966,9 +16190,7 @@ class DC(Object):
         """
 
     @overload
-    def LogicalToDeviceRel(self, dim: Union[Size, _TwoInts]) -> Size:
-        ...
-
+    def LogicalToDeviceRel(self, dim: Union[Size, _TwoInts]) -> Size: ...
     @overload
     def LogicalToDeviceRel(self, x: int, y: int) -> Size:
         """
@@ -16988,9 +16210,7 @@ class DC(Object):
         """
 
     @overload
-    def DrawArc(self, ptStart: Union[Point, _TwoInts], ptEnd: Union[Point, _TwoInts], centre: Union[Point, _TwoInts]) -> None:
-        ...
-
+    def DrawArc(self, ptStart: Union[Point, _TwoInts], ptEnd: Union[Point, _TwoInts], centre: Union[Point, _TwoInts]) -> None: ...
     @overload
     def DrawArc(self, xStart: int, yStart: int, xEnd: int, yEnd: int, xc: int, yc: int) -> None:
         """
@@ -17001,9 +16221,7 @@ class DC(Object):
         """
 
     @overload
-    def DrawBitmap(self, bmp: Bitmap, pt: Union[Point, _TwoInts], useMask: bool=False) -> None:
-        ...
-
+    def DrawBitmap(self, bmp: Bitmap, pt: Union[Point, _TwoInts], useMask: bool=False) -> None: ...
     @overload
     def DrawBitmap(self, bitmap: Bitmap, x: int, y: int, useMask: bool=False) -> None:
         """
@@ -17014,9 +16232,7 @@ class DC(Object):
         """
 
     @overload
-    def DrawCheckMark(self, rect: Union[Rect, _FourInts]) -> None:
-        ...
-
+    def DrawCheckMark(self, rect: Union[Rect, _FourInts]) -> None: ...
     @overload
     def DrawCheckMark(self, x: int, y: int, width: int, height: int) -> None:
         """
@@ -17027,9 +16243,7 @@ class DC(Object):
         """
 
     @overload
-    def DrawCircle(self, pt: Union[Point, _TwoInts], radius: int) -> None:
-        ...
-
+    def DrawCircle(self, pt: Union[Point, _TwoInts], radius: int) -> None: ...
     @overload
     def DrawCircle(self, x: int, y: int, radius: int) -> None:
         """
@@ -17040,13 +16254,9 @@ class DC(Object):
         """
 
     @overload
-    def DrawEllipse(self, pt: Union[Point, _TwoInts], size: Union[Size, _TwoInts]) -> None:
-        ...
-
+    def DrawEllipse(self, pt: Union[Point, _TwoInts], size: Union[Size, _TwoInts]) -> None: ...
     @overload
-    def DrawEllipse(self, rect: Union[Rect, _FourInts]) -> None:
-        ...
-
+    def DrawEllipse(self, rect: Union[Rect, _FourInts]) -> None: ...
     @overload
     def DrawEllipse(self, x: int, y: int, width: int, height: int) -> None:
         """
@@ -17059,9 +16269,7 @@ class DC(Object):
         """
 
     @overload
-    def DrawEllipticArc(self, pt: Union[Point, _TwoInts], sz: Union[Size, _TwoInts], sa: float, ea: float) -> None:
-        ...
-
+    def DrawEllipticArc(self, pt: Union[Point, _TwoInts], sz: Union[Size, _TwoInts], sa: float, ea: float) -> None: ...
     @overload
     def DrawEllipticArc(self, x: int, y: int, width: int, height: int, start: float, end: float) -> None:
         """
@@ -17072,9 +16280,7 @@ class DC(Object):
         """
 
     @overload
-    def DrawIcon(self, icon: Icon, pt: Union[Point, _TwoInts]) -> None:
-        ...
-
+    def DrawIcon(self, icon: Icon, pt: Union[Point, _TwoInts]) -> None: ...
     @overload
     def DrawIcon(self, icon: Icon, x: int, y: int) -> None:
         """
@@ -17086,9 +16292,7 @@ class DC(Object):
         """
 
     @overload
-    def DrawLabel(self, text: str, rect: Union[Rect, _FourInts], alignment: int=ALIGN_LEFT|ALIGN_TOP, indexAccel: int=-1) -> None:
-        ...
-
+    def DrawLabel(self, text: str, rect: Union[Rect, _FourInts], alignment: int=ALIGN_LEFT|ALIGN_TOP, indexAccel: int=-1) -> None: ...
     @overload
     def DrawLabel(self, text: str, bitmap: Bitmap, rect: Union[Rect, _FourInts], alignment: int=ALIGN_LEFT|ALIGN_TOP, indexAccel: int=-1) -> Rect:
         """
@@ -17102,9 +16306,7 @@ class DC(Object):
         """
 
     @overload
-    def DrawLine(self, pt1: Union[Point, _TwoInts], pt2: Union[Point, _TwoInts]) -> None:
-        ...
-
+    def DrawLine(self, pt1: Union[Point, _TwoInts], pt2: Union[Point, _TwoInts]) -> None: ...
     @overload
     def DrawLine(self, x1: int, y1: int, x2: int, y2: int) -> None:
         """
@@ -17123,9 +16325,7 @@ class DC(Object):
         """
 
     @overload
-    def DrawPoint(self, pt: Union[Point, _TwoInts]) -> None:
-        ...
-
+    def DrawPoint(self, pt: Union[Point, _TwoInts]) -> None: ...
     @overload
     def DrawPoint(self, x: int, y: int) -> None:
         """
@@ -17144,13 +16344,9 @@ class DC(Object):
         """
 
     @overload
-    def DrawRectangle(self, pt: Union[Point, _TwoInts], sz: Union[Size, _TwoInts]) -> None:
-        ...
-
+    def DrawRectangle(self, pt: Union[Point, _TwoInts], sz: Union[Size, _TwoInts]) -> None: ...
     @overload
-    def DrawRectangle(self, rect: Union[Rect, _FourInts]) -> None:
-        ...
-
+    def DrawRectangle(self, rect: Union[Rect, _FourInts]) -> None: ...
     @overload
     def DrawRectangle(self, x: int, y: int, width: int, height: int) -> None:
         """
@@ -17162,9 +16358,7 @@ class DC(Object):
         """
 
     @overload
-    def DrawRotatedText(self, text: str, point: Union[Point, _TwoInts], angle: float) -> None:
-        ...
-
+    def DrawRotatedText(self, text: str, point: Union[Point, _TwoInts], angle: float) -> None: ...
     @overload
     def DrawRotatedText(self, text: str, x: int, y: int, angle: float) -> None:
         """
@@ -17176,13 +16370,9 @@ class DC(Object):
         """
 
     @overload
-    def DrawRoundedRectangle(self, pt: Union[Point, _TwoInts], sz: Union[Size, _TwoInts], radius: float) -> None:
-        ...
-
+    def DrawRoundedRectangle(self, pt: Union[Point, _TwoInts], sz: Union[Size, _TwoInts], radius: float) -> None: ...
     @overload
-    def DrawRoundedRectangle(self, rect: Union[Rect, _FourInts], radius: float) -> None:
-        ...
-
+    def DrawRoundedRectangle(self, rect: Union[Rect, _FourInts], radius: float) -> None: ...
     @overload
     def DrawRoundedRectangle(self, x: int, y: int, width: int, height: int, radius: float) -> None:
         """
@@ -17195,9 +16385,7 @@ class DC(Object):
         """
 
     @overload
-    def DrawSpline(self, x1: int, y1: int, x2: int, y2: int, x3: int, y3: int) -> None:
-        ...
-
+    def DrawSpline(self, x1: int, y1: int, x2: int, y2: int, x3: int, y3: int) -> None: ...
     @overload
     def DrawSpline(self, points: PointList) -> None:
         """
@@ -17209,9 +16397,7 @@ class DC(Object):
         """
 
     @overload
-    def DrawText(self, text: str, pt: Union[Point, _TwoInts]) -> None:
-        ...
-
+    def DrawText(self, text: str, pt: Union[Point, _TwoInts]) -> None: ...
     @overload
     def DrawText(self, text: str, x: int, y: int) -> None:
         """
@@ -17223,11 +16409,9 @@ class DC(Object):
         """
 
     @overload
-    def GradientFillConcentric(self, rect: Union[Rect, _FourInts], initialColour: Union[Colour, wx.Colour, _ThreeInts, _FourInts, str, None], destColour: Union[Colour, wx.Colour, _ThreeInts, _FourInts, str, None], circleCenter: Union[Point, _TwoInts]) -> None:
-        ...
-
+    def GradientFillConcentric(self, rect: Union[Rect, _FourInts], initialColour: Union[Colour, _ThreeInts, _FourInts, str, None], destColour: Union[Colour, _ThreeInts, _FourInts, str, None], circleCenter: Union[Point, _TwoInts]) -> None: ...
     @overload
-    def GradientFillConcentric(self, rect: Union[Rect, _FourInts], initialColour: Union[Colour, wx.Colour, _ThreeInts, _FourInts, str, None], destColour: Union[Colour, wx.Colour, _ThreeInts, _FourInts, str, None]) -> None:
+    def GradientFillConcentric(self, rect: Union[Rect, _FourInts], initialColour: Union[Colour, _ThreeInts, _FourInts, str, None], destColour: Union[Colour, _ThreeInts, _FourInts, str, None]) -> None:
         """
         GradientFillConcentric(rect, initialColour, destColour) -> None
         GradientFillConcentric(rect, initialColour, destColour, circleCenter) -> None
@@ -17237,7 +16421,7 @@ class DC(Object):
         the circle outside.
         """
 
-    def GradientFillLinear(self, rect: Union[Rect, _FourInts], initialColour: Union[Colour, wx.Colour, _ThreeInts, _FourInts, str, None], destColour: Union[Colour, wx.Colour, _ThreeInts, _FourInts, str, None], nDirection: Direction=RIGHT) -> None:
+    def GradientFillLinear(self, rect: Union[Rect, _FourInts], initialColour: Union[Colour, _ThreeInts, _FourInts, str, None], destColour: Union[Colour, _ThreeInts, _FourInts, str, None], nDirection: Direction=RIGHT) -> None:
         """
         GradientFillLinear(rect, initialColour, destColour, nDirection=RIGHT) -> None
         
@@ -17246,11 +16430,9 @@ class DC(Object):
         """
 
     @overload
-    def FloodFill(self, pt: Union[Point, _TwoInts], col: Union[Colour, wx.Colour, _ThreeInts, _FourInts, str, None], style: FloodFillStyle=FLOOD_SURFACE) -> bool:
-        ...
-
+    def FloodFill(self, pt: Union[Point, _TwoInts], col: Union[Colour, _ThreeInts, _FourInts, str, None], style: FloodFillStyle=FLOOD_SURFACE) -> bool: ...
     @overload
-    def FloodFill(self, x: int, y: int, colour: Union[Colour, wx.Colour, _ThreeInts, _FourInts, str, None], style: FloodFillStyle=FLOOD_SURFACE) -> bool:
+    def FloodFill(self, x: int, y: int, colour: Union[Colour, _ThreeInts, _FourInts, str, None], style: FloodFillStyle=FLOOD_SURFACE) -> bool:
         """
         FloodFill(x, y, colour, style=FLOOD_SURFACE) -> bool
         FloodFill(pt, col, style=FLOOD_SURFACE) -> bool
@@ -17260,9 +16442,7 @@ class DC(Object):
         """
 
     @overload
-    def CrossHair(self, pt: Union[Point, _TwoInts]) -> None:
-        ...
-
+    def CrossHair(self, pt: Union[Point, _TwoInts]) -> None: ...
     @overload
     def CrossHair(self, x: int, y: int) -> None:
         """
@@ -17288,13 +16468,9 @@ class DC(Object):
         """
 
     @overload
-    def SetClippingRegion(self, pt: Union[Point, _TwoInts], sz: Union[Size, _TwoInts]) -> None:
-        ...
-
+    def SetClippingRegion(self, pt: Union[Point, _TwoInts], sz: Union[Size, _TwoInts]) -> None: ...
     @overload
-    def SetClippingRegion(self, rect: Union[Rect, _FourInts]) -> None:
-        ...
-
+    def SetClippingRegion(self, rect: Union[Rect, _FourInts]) -> None: ...
     @overload
     def SetClippingRegion(self, x: int, y: int, width: int, height: int) -> None:
         """
@@ -17407,14 +16583,14 @@ class DC(Object):
         Sets the current font for the DC.
         """
 
-    def SetTextBackground(self, colour: Union[Colour, wx.Colour, _ThreeInts, _FourInts, str, None]) -> None:
+    def SetTextBackground(self, colour: Union[Colour, _ThreeInts, _FourInts, str, None]) -> None:
         """
         SetTextBackground(colour) -> None
         
         Sets the current text background colour for the DC.
         """
 
-    def SetTextForeground(self, colour: Union[Colour, wx.Colour, _ThreeInts, _FourInts, str, None]) -> None:
+    def SetTextForeground(self, colour: Union[Colour, _ThreeInts, _FourInts, str, None]) -> None:
         """
         SetTextForeground(colour) -> None
         
@@ -17675,13 +16851,9 @@ class DC(Object):
         """
 
     @overload
-    def FromDIP(self, pt: Union[Point, _TwoInts]) -> Point:
-        ...
-
+    def FromDIP(self, pt: Union[Point, _TwoInts]) -> Point: ...
     @overload
-    def FromDIP(self, d: int) -> int:
-        ...
-
+    def FromDIP(self, d: int) -> int: ...
     @overload
     def FromDIP(self, sz: Union[Size, _TwoInts]) -> Size:
         """
@@ -17694,13 +16866,9 @@ class DC(Object):
         """
 
     @overload
-    def ToDIP(self, pt: Union[Point, _TwoInts]) -> Point:
-        ...
-
+    def ToDIP(self, pt: Union[Point, _TwoInts]) -> Point: ...
     @overload
-    def ToDIP(self, d: int) -> int:
-        ...
-
+    def ToDIP(self, d: int) -> int: ...
     @overload
     def ToDIP(self, sz: Union[Size, _TwoInts]) -> Size:
         """
@@ -17913,16 +17081,8 @@ class DC(Object):
 
     GetGdkDrawable = wx.deprecated(GetGdkDrawable, "Use GetHandle instead.")
 
-    def __enter__(self):
-        """
-        
-        """
-
-    def __exit__(self, exc_type, exc_val, exc_tb):
-        """
-        
-        """
-
+    def __enter__(self): ...
+    def __exit__(self, exc_type, exc_val, exc_tb): ...
     def _DrawPointList(self, pyCoords: Any, pyPens: Any, pyBrushes: Any) -> Any:
         """
         _DrawPointList(pyCoords, pyPens, pyBrushes) -> Any
@@ -18058,6 +17218,7 @@ class DC(Object):
         
         :param pyBuff:    A python buffer containing integer pairs
         """
+
     @property
     def AsBitmap(self) -> Bitmap: ...
     @property
@@ -18133,13 +17294,13 @@ class DC(Object):
     @property
     def TextBackground(self) -> Colour: ...
     @TextBackground.setter
-    def TextBackground(self, value: Union[Colour, wx.Colour, _ThreeInts, _FourInts, str, None], /) -> None: ...
+    def TextBackground(self, value: Union[Colour, _ThreeInts, _FourInts, str, None], /) -> None: ...
     @property
     def TextExtent(self) -> tuple[int, int, int, int]: ...
     @property
     def TextForeground(self) -> Colour: ...
     @TextForeground.setter
-    def TextForeground(self, value: Union[Colour, wx.Colour, _ThreeInts, _FourInts, str, None], /) -> None: ...
+    def TextForeground(self, value: Union[Colour, _ThreeInts, _FourInts, str, None], /) -> None: ...
     @property
     def TransformMatrix(self) -> AffineMatrix2D: ...
     @TransformMatrix.setter
@@ -18158,13 +17319,9 @@ class DCClipper:
     """
 
     @overload
-    def __init__(self, dc: DC, rect: Union[Rect, _FourInts]) -> None:
-        ...
-
+    def __init__(self, dc: DC, rect: Union[Rect, _FourInts]) -> None: ...
     @overload
-    def __init__(self, dc: DC, x: int, y: int, w: int, h: int) -> None:
-        ...
-
+    def __init__(self, dc: DC, x: int, y: int, w: int, h: int) -> None: ...
     @overload
     def __init__(self, dc: DC, region: Region) -> None:
         """
@@ -18176,15 +17333,8 @@ class DCClipper:
         during its lifetime.
         """
 
-    def __enter__(self):
-        """
-        
-        """
-
-    def __exit__(self, exc_type, exc_val, exc_tb):
-        """
-        
-        """
+    def __enter__(self): ...
+    def __exit__(self, exc_type, exc_val, exc_tb): ...
 # end of class DCClipper
 
 
@@ -18206,15 +17356,8 @@ class DCBrushChanger:
         previous one.
         """
 
-    def __enter__(self):
-        """
-        
-        """
-
-    def __exit__(self, exc_type, exc_val, exc_tb):
-        """
-        
-        """
+    def __enter__(self): ...
+    def __exit__(self, exc_type, exc_val, exc_tb): ...
 # end of class DCBrushChanger
 
 
@@ -18236,15 +17379,8 @@ class DCPenChanger:
         one.
         """
 
-    def __enter__(self):
-        """
-        
-        """
-
-    def __exit__(self, exc_type, exc_val, exc_tb):
-        """
-        
-        """
+    def __enter__(self): ...
+    def __exit__(self, exc_type, exc_val, exc_tb): ...
 # end of class DCPenChanger
 
 
@@ -18259,9 +17395,7 @@ class DCTextColourChanger:
     """
 
     @overload
-    def __init__(self, dc: DC, col: Union[Colour, wx.Colour, _ThreeInts, _FourInts, str, None]) -> None:
-        ...
-
+    def __init__(self, dc: DC, col: Union[Colour, _ThreeInts, _FourInts, str, None]) -> None: ...
     @overload
     def __init__(self, dc: DC) -> None:
         """
@@ -18273,22 +17407,15 @@ class DCTextColourChanger:
         destructor, restoring the previous one.
         """
 
-    def Set(self, col: Union[Colour, wx.Colour, _ThreeInts, _FourInts, str, None]) -> None:
+    def Set(self, col: Union[Colour, _ThreeInts, _FourInts, str, None]) -> None:
         """
         Set(col) -> None
         
         Set the colour to use.
         """
 
-    def __enter__(self):
-        """
-        
-        """
-
-    def __exit__(self, exc_type, exc_val, exc_tb):
-        """
-        
-        """
+    def __enter__(self): ...
+    def __exit__(self, exc_type, exc_val, exc_tb): ...
 # end of class DCTextColourChanger
 
 
@@ -18303,9 +17430,7 @@ class DCFontChanger:
     """
 
     @overload
-    def __init__(self, dc: DC, font: Font) -> None:
-        ...
-
+    def __init__(self, dc: DC, font: Font) -> None: ...
     @overload
     def __init__(self, dc: DC) -> None:
         """
@@ -18324,15 +17449,8 @@ class DCFontChanger:
         Set the font to use.
         """
 
-    def __enter__(self):
-        """
-        
-        """
-
-    def __exit__(self, exc_type, exc_val, exc_tb):
-        """
-        
-        """
+    def __enter__(self): ...
+    def __exit__(self, exc_type, exc_val, exc_tb): ...
 # end of class DCFontChanger
 
 
@@ -18347,9 +17465,7 @@ class DCTextBgColourChanger:
     """
 
     @overload
-    def __init__(self, dc: DC, col: Union[Colour, wx.Colour, _ThreeInts, _FourInts, str, None]) -> None:
-        ...
-
+    def __init__(self, dc: DC, col: Union[Colour, _ThreeInts, _FourInts, str, None]) -> None: ...
     @overload
     def __init__(self, dc: DC) -> None:
         """
@@ -18361,22 +17477,15 @@ class DCTextBgColourChanger:
         destructor, restoring the previous one.
         """
 
-    def Set(self, col: Union[Colour, wx.Colour, _ThreeInts, _FourInts, str, None]) -> None:
+    def Set(self, col: Union[Colour, _ThreeInts, _FourInts, str, None]) -> None:
         """
         Set(col) -> None
         
         Set the background colour to use.
         """
 
-    def __enter__(self):
-        """
-        
-        """
-
-    def __exit__(self, exc_type, exc_val, exc_tb):
-        """
-        
-        """
+    def __enter__(self): ...
+    def __exit__(self, exc_type, exc_val, exc_tb): ...
 # end of class DCTextBgColourChanger
 
 
@@ -18387,15 +17496,8 @@ class DCTextBgModeChanger:
     restoring the previous one.
     """
 
-    def __enter__(self):
-        """
-        
-        """
-
-    def __exit__(self, exc_type, exc_val, exc_tb):
-        """
-        
-        """
+    def __enter__(self): ...
+    def __exit__(self, exc_type, exc_val, exc_tb): ...
 # end of class DCTextBgModeChanger
 
 #-- end-dc --#
@@ -18416,6 +17518,7 @@ class WindowDC(DC):
         A wxWindowDC must be constructed if an application wishes to paint on
         the whole area of a window (client and decorations).
         """
+
 # end of class WindowDC
 
 
@@ -18434,6 +17537,7 @@ class ClientDC(WindowDC):
         wxClientDC is primarily useful for obtaining information about the
         window from outside EVT_PAINT() handler.
         """
+
 # end of class ClientDC
 
 
@@ -18452,6 +17556,7 @@ class PaintDC(ClientDC):
         A wxPaintDC must be constructed if an application wishes to paint on
         the client area of a window from within an EVT_PAINT() event handler.
         """
+
 # end of class PaintDC
 
 #-- end-dcclient --#
@@ -18468,13 +17573,9 @@ class MemoryDC(DC):
     """
 
     @overload
-    def __init__(self, dc: DC) -> None:
-        ...
-
+    def __init__(self, dc: DC) -> None: ...
     @overload
-    def __init__(self, bitmap: Bitmap) -> None:
-        ...
-
+    def __init__(self, bitmap: Bitmap) -> None: ...
     @overload
     def __init__(self) -> None:
         """
@@ -18506,6 +17607,7 @@ class MemoryDC(DC):
         """
         GetSelectedBitmap() -> Bitmap
         """
+
     @property
     def SelectedBitmap(self) -> Bitmap: ...
 # end of class MemoryDC
@@ -18529,13 +17631,9 @@ class BufferedDC(MemoryDC):
     """
 
     @overload
-    def __init__(self, dc: DC, area: Union[Size, _TwoInts], style: int=BUFFER_CLIENT_AREA) -> None:
-        ...
-
+    def __init__(self, dc: DC, area: Union[Size, _TwoInts], style: int=BUFFER_CLIENT_AREA) -> None: ...
     @overload
-    def __init__(self, dc: DC, buffer: Bitmap=NullBitmap, style: int=BUFFER_CLIENT_AREA) -> None:
-        ...
-
+    def __init__(self, dc: DC, buffer: Bitmap=NullBitmap, style: int=BUFFER_CLIENT_AREA) -> None: ...
     @overload
     def __init__(self) -> None:
         """
@@ -18550,9 +17648,7 @@ class BufferedDC(MemoryDC):
         """
 
     @overload
-    def Init(self, dc: DC, buffer: Bitmap=NullBitmap, style: int=BUFFER_CLIENT_AREA) -> None:
-        ...
-
+    def Init(self, dc: DC, buffer: Bitmap=NullBitmap, style: int=BUFFER_CLIENT_AREA) -> None: ...
     @overload
     def Init(self, dc: DC, area: Union[Size, _TwoInts], style: int=BUFFER_CLIENT_AREA) -> None:
         """
@@ -18583,6 +17679,7 @@ class BufferedDC(MemoryDC):
         
         Get the style.
         """
+
     @property
     def Style(self) -> int: ...
     @Style.setter
@@ -18600,9 +17697,7 @@ class BufferedPaintDC(BufferedDC):
     """
 
     @overload
-    def __init__(self, window: Window, style: int=BUFFER_CLIENT_AREA) -> None:
-        ...
-
+    def __init__(self, window: Window, style: int=BUFFER_CLIENT_AREA) -> None: ...
     @overload
     def __init__(self, window: Window, buffer: Bitmap, style: int=BUFFER_CLIENT_AREA) -> None:
         """
@@ -18612,6 +17707,7 @@ class BufferedPaintDC(BufferedDC):
         This is a subclass of wxBufferedDC which can be used inside of an
         EVT_PAINT() event handler to achieve double-buffered drawing.
         """
+
 # end of class BufferedPaintDC
 
 
@@ -18630,6 +17726,7 @@ class AutoBufferedPaintDC(DC):
         This wxDC derivative can be used inside of an EVT_PAINT() event
         handler to achieve double-buffered drawing.
         """
+
 # end of class AutoBufferedPaintDC
 
 
@@ -18668,9 +17765,7 @@ class ScreenDC(DC):
 
     @overload
     @staticmethod
-    def StartDrawingOnTop(rect: Optional[Union[Rect, _FourInts]]=None) -> bool:
-        ...
-
+    def StartDrawingOnTop(rect: Optional[Union[Rect, _FourInts]]=None) -> bool: ...
     @overload
     @staticmethod
     def StartDrawingOnTop(window: Window) -> bool:
@@ -18681,6 +17776,7 @@ class ScreenDC(DC):
         Use this in conjunction with EndDrawingOnTop() to ensure that drawing
         to the screen occurs on top of existing windows.
         """
+
 # end of class ScreenDC
 
 #-- end-dcscreen --#
@@ -18698,21 +17794,13 @@ class GCDC(DC):
     """
 
     @overload
-    def __init__(self, memoryDC: MemoryDC) -> None:
-        ...
-
+    def __init__(self, memoryDC: MemoryDC) -> None: ...
     @overload
-    def __init__(self, printerDC: PrinterDC) -> None:
-        ...
-
+    def __init__(self, printerDC: PrinterDC) -> None: ...
     @overload
-    def __init__(self, context: GraphicsContext) -> None:
-        ...
-
+    def __init__(self, context: GraphicsContext) -> None: ...
     @overload
-    def __init__(self) -> None:
-        ...
-
+    def __init__(self) -> None: ...
     @overload
     def __init__(self, windowDC: WindowDC) -> None:
         """
@@ -18738,6 +17826,7 @@ class GCDC(DC):
         
         Set the graphics context to be used for this wxGCDC.
         """
+
     @property
     def GraphicsContext(self) -> GraphicsContext: ...
     @GraphicsContext.setter
@@ -18768,6 +17857,7 @@ class MirrorDC(DC):
         coordinates which makes it possible to reuse the same code to draw a
         figure and its mirror  i.e.
         """
+
 # end of class MirrorDC
 
 #-- end-dcmirror --#
@@ -18796,6 +17886,7 @@ class PrinterDC(DC):
         Return the rectangle in device coordinates that corresponds to the
         full paper area, including the nonprinting regions of the paper.
         """
+
     @property
     def PaperRect(self) -> Rect: ...
 # end of class PrinterDC
@@ -18813,9 +17904,7 @@ class PostScriptDC(DC):
     """
 
     @overload
-    def __init__(self, printData: PrintData) -> None:
-        ...
-
+    def __init__(self, printData: PrintData) -> None: ...
     @overload
     def __init__(self) -> None:
         """
@@ -18825,6 +17914,7 @@ class PostScriptDC(DC):
         This defines the wxWidgets Encapsulated PostScript device context,
         which can write PostScript files on any platform.
         """
+
 # end of class PostScriptDC
 
 #-- end-dcps --#
@@ -18866,14 +17956,14 @@ class SVGFileDC(DC):
         Function not implemented in this DC class.
         """
 
-    def FloodFill(self, x: int, y: int, colour: Union[Colour, wx.Colour, _ThreeInts, _FourInts, str, None], style: FloodFillStyle=FLOOD_SURFACE) -> bool:
+    def FloodFill(self, x: int, y: int, colour: Union[Colour, _ThreeInts, _FourInts, str, None], style: FloodFillStyle=FLOOD_SURFACE) -> bool:
         """
         FloodFill(x, y, colour, style=FLOOD_SURFACE) -> bool
         
         Function not implemented in this DC class.
         """
 
-    def GetPixel(self, x: int, y: int, colour: Union[Colour, wx.Colour, _ThreeInts, _FourInts, str, None]) -> bool:
+    def GetPixel(self, x: int, y: int, colour: Union[Colour, _ThreeInts, _FourInts, str, None]) -> bool:
         """
         GetPixel(x, y, colour) -> bool
         
@@ -18965,6 +18055,7 @@ class SVGFileDC(DC):
         Destroys the current clipping region so that none of the DC is
         clipped.
         """
+
     @property
     def Depth(self) -> int: ...
     @property
@@ -18985,6 +18076,7 @@ class SVGBitmapHandler:
         
         Writes the bitmap representation as SVG to the given stream.
         """
+
 # end of class SVGBitmapHandler
 
 
@@ -18999,6 +18091,7 @@ class SVGBitmapEmbedHandler(SVGBitmapHandler):
         
         Writes the bitmap representation as SVG to the given stream.
         """
+
 # end of class SVGBitmapEmbedHandler
 
 
@@ -19024,6 +18117,7 @@ class SVGBitmapFileHandler(SVGBitmapHandler):
         
         Writes the bitmap representation as SVG to the given stream.
         """
+
 # end of class SVGBitmapFileHandler
 
 #-- end-dcsvg --#
@@ -19065,6 +18159,7 @@ class Metafile(Object):
         
         Passes the metafile data to the clipboard.
         """
+
 # end of class Metafile
 
 
@@ -19092,6 +18187,7 @@ class MetafileDC(DC):
         
         This must be called after the device context is finished with.
         """
+
 # end of class MetafileDC
 
 #-- end-metafile --#
@@ -19191,6 +18287,7 @@ class GraphicsObject(Object):
         """
         __bool__() -> bool
         """
+
     @property
     def Renderer(self) -> GraphicsRenderer: ...
 # end of class GraphicsObject
@@ -19223,6 +18320,7 @@ class GraphicsBitmap(GraphicsObject):
         
         Return the pointer to the native bitmap data.
         """
+
     @property
     def NativeBitmap(self) -> Any: ...
 # end of class GraphicsBitmap
@@ -19232,6 +18330,7 @@ class GraphicsBrush(GraphicsObject):
     """
     A wxGraphicsBrush is a native representation of a brush.
     """
+
 # end of class GraphicsBrush
 
 
@@ -19239,6 +18338,7 @@ class GraphicsFont(GraphicsObject):
     """
     A wxGraphicsFont is a native representation of a font.
     """
+
 # end of class GraphicsFont
 
 
@@ -19252,7 +18352,7 @@ class GraphicsPenInfo:
     passing them in the fixed order to wxGraphicsPen constructors.
     """
 
-    def __init__(self, colour: Union[Colour, wx.Colour, _ThreeInts, _FourInts, str, None]=Colour(), width: float=1.0, style: PenStyle=PENSTYLE_SOLID) -> None:
+    def __init__(self, colour: Union[Colour, _ThreeInts, _FourInts, str, None]=Colour(), width: float=1.0, style: PenStyle=PENSTYLE_SOLID) -> None:
         """
         GraphicsPenInfo(colour=Colour(), width=1.0, style=PENSTYLE_SOLID) -> None
         
@@ -19262,7 +18362,7 @@ class GraphicsPenInfo:
         passing them in the fixed order to wxGraphicsPen constructors.
         """
 
-    def Colour(self, col: Union[Colour, wx.Colour, _ThreeInts, _FourInts, str, None]) -> GraphicsPenInfo:
+    def Colour(self, col: Union[Colour, _ThreeInts, _FourInts, str, None]) -> GraphicsPenInfo:
         """
         Colour(col) -> GraphicsPenInfo
         """
@@ -19293,22 +18393,18 @@ class GraphicsPenInfo:
         """
 
     @overload
-    def LinearGradient(self, x1: float, y1: float, x2: float, y2: float, stops: GraphicsGradientStops, matrix: GraphicsMatrix=NullGraphicsMatrix) -> GraphicsPenInfo:
-        ...
-
+    def LinearGradient(self, x1: float, y1: float, x2: float, y2: float, stops: GraphicsGradientStops, matrix: GraphicsMatrix=NullGraphicsMatrix) -> GraphicsPenInfo: ...
     @overload
-    def LinearGradient(self, x1: float, y1: float, x2: float, y2: float, c1: Union[Colour, wx.Colour, _ThreeInts, _FourInts, str, None], c2: Union[Colour, wx.Colour, _ThreeInts, _FourInts, str, None], matrix: GraphicsMatrix=NullGraphicsMatrix) -> GraphicsPenInfo:
+    def LinearGradient(self, x1: float, y1: float, x2: float, y2: float, c1: Union[Colour, _ThreeInts, _FourInts, str, None], c2: Union[Colour, _ThreeInts, _FourInts, str, None], matrix: GraphicsMatrix=NullGraphicsMatrix) -> GraphicsPenInfo:
         """
         LinearGradient(x1, y1, x2, y2, c1, c2, matrix=NullGraphicsMatrix) -> GraphicsPenInfo
         LinearGradient(x1, y1, x2, y2, stops, matrix=NullGraphicsMatrix) -> GraphicsPenInfo
         """
 
     @overload
-    def RadialGradient(self, startX: float, startY: float, endX: float, endY: float, radius: float, stops: GraphicsGradientStops, matrix: GraphicsMatrix=NullGraphicsMatrix) -> GraphicsPenInfo:
-        ...
-
+    def RadialGradient(self, startX: float, startY: float, endX: float, endY: float, radius: float, stops: GraphicsGradientStops, matrix: GraphicsMatrix=NullGraphicsMatrix) -> GraphicsPenInfo: ...
     @overload
-    def RadialGradient(self, startX: float, startY: float, endX: float, endY: float, radius: float, oColor: Union[Colour, wx.Colour, _ThreeInts, _FourInts, str, None], cColor: Union[Colour, wx.Colour, _ThreeInts, _FourInts, str, None], matrix: GraphicsMatrix=NullGraphicsMatrix) -> GraphicsPenInfo:
+    def RadialGradient(self, startX: float, startY: float, endX: float, endY: float, radius: float, oColor: Union[Colour, _ThreeInts, _FourInts, str, None], cColor: Union[Colour, _ThreeInts, _FourInts, str, None], matrix: GraphicsMatrix=NullGraphicsMatrix) -> GraphicsPenInfo:
         """
         RadialGradient(startX, startY, endX, endY, radius, oColor, cColor, matrix=NullGraphicsMatrix) -> GraphicsPenInfo
         RadialGradient(startX, startY, endX, endY, radius, stops, matrix=NullGraphicsMatrix) -> GraphicsPenInfo
@@ -19403,6 +18499,7 @@ class GraphicsPenInfo:
         """
         GetStops() -> GraphicsGradientStops
         """
+
     @property
     def EndX(self) -> float: ...
     @property
@@ -19432,6 +18529,7 @@ class GraphicsPen(GraphicsObject):
     """
     A wxGraphicsPen is a native representation of a pen.
     """
+
 # end of class GraphicsPen
 
 
@@ -19442,39 +18540,25 @@ class GraphicsContext(GraphicsObject):
 
     @overload
     @staticmethod
-    def Create(windowDC: WindowDC) -> GraphicsContext:
-        ...
-
+    def Create(windowDC: WindowDC) -> GraphicsContext: ...
     @overload
     @staticmethod
-    def Create(memoryDC: MemoryDC) -> GraphicsContext:
-        ...
-
+    def Create(memoryDC: MemoryDC) -> GraphicsContext: ...
     @overload
     @staticmethod
-    def Create(printerDC: PrinterDC) -> GraphicsContext:
-        ...
-
+    def Create(printerDC: PrinterDC) -> GraphicsContext: ...
     @overload
     @staticmethod
-    def Create(metaFileDC: MetafileDC) -> GraphicsContext:
-        ...
-
+    def Create(metaFileDC: MetafileDC) -> GraphicsContext: ...
     @overload
     @staticmethod
-    def Create(image: Image) -> GraphicsContext:
-        ...
-
+    def Create(image: Image) -> GraphicsContext: ...
     @overload
     @staticmethod
-    def Create() -> GraphicsContext:
-        ...
-
+    def Create() -> GraphicsContext: ...
     @overload
     @staticmethod
-    def Create(KeepReference: AutoBufferedPaintDCautoPaintDC) -> GraphicsContext:
-        ...
-
+    def Create(KeepReference: AutoBufferedPaintDCautoPaintDC) -> GraphicsContext: ...
     @overload
     @staticmethod
     def Create(window: Window) -> GraphicsContext:
@@ -19523,9 +18607,7 @@ class GraphicsContext(GraphicsObject):
         """
 
     @overload
-    def Clip(self, x: float, y: float, w: float, h: float) -> None:
-        ...
-
+    def Clip(self, x: float, y: float, w: float, h: float) -> None: ...
     @overload
     def Clip(self, region: Region) -> None:
         """
@@ -19544,9 +18626,7 @@ class GraphicsContext(GraphicsObject):
         """
 
     @overload
-    def CreateMatrix(self, mat: AffineMatrix2DBase) -> GraphicsMatrix:
-        ...
-
+    def CreateMatrix(self, mat: AffineMatrix2DBase) -> GraphicsMatrix: ...
     @overload
     def CreateMatrix(self, a: float=1.0, b: float=0.0, c: float=0.0, d: float=1.0, tx: float=0.0, ty: float=0.0) -> GraphicsMatrix:
         """
@@ -19608,11 +18688,9 @@ class GraphicsContext(GraphicsObject):
         """
 
     @overload
-    def CreateLinearGradientBrush(self, x1: float, y1: float, x2: float, y2: float, stops: GraphicsGradientStops, matrix: GraphicsMatrix=NullGraphicsMatrix) -> GraphicsBrush:
-        ...
-
+    def CreateLinearGradientBrush(self, x1: float, y1: float, x2: float, y2: float, stops: GraphicsGradientStops, matrix: GraphicsMatrix=NullGraphicsMatrix) -> GraphicsBrush: ...
     @overload
-    def CreateLinearGradientBrush(self, x1: float, y1: float, x2: float, y2: float, c1: Union[Colour, wx.Colour, _ThreeInts, _FourInts, str, None], c2: Union[Colour, wx.Colour, _ThreeInts, _FourInts, str, None], matrix: GraphicsMatrix=NullGraphicsMatrix) -> GraphicsBrush:
+    def CreateLinearGradientBrush(self, x1: float, y1: float, x2: float, y2: float, c1: Union[Colour, _ThreeInts, _FourInts, str, None], c2: Union[Colour, _ThreeInts, _FourInts, str, None], matrix: GraphicsMatrix=NullGraphicsMatrix) -> GraphicsBrush:
         """
         CreateLinearGradientBrush(x1, y1, x2, y2, c1, c2, matrix=NullGraphicsMatrix) -> GraphicsBrush
         CreateLinearGradientBrush(x1, y1, x2, y2, stops, matrix=NullGraphicsMatrix) -> GraphicsBrush
@@ -19621,11 +18699,9 @@ class GraphicsContext(GraphicsObject):
         """
 
     @overload
-    def CreateRadialGradientBrush(self, startX: float, startY: float, endX: float, endY: float, radius: float, stops: GraphicsGradientStops, matrix: GraphicsMatrix=NullGraphicsMatrix) -> GraphicsBrush:
-        ...
-
+    def CreateRadialGradientBrush(self, startX: float, startY: float, endX: float, endY: float, radius: float, stops: GraphicsGradientStops, matrix: GraphicsMatrix=NullGraphicsMatrix) -> GraphicsBrush: ...
     @overload
-    def CreateRadialGradientBrush(self, startX: float, startY: float, endX: float, endY: float, radius: float, oColor: Union[Colour, wx.Colour, _ThreeInts, _FourInts, str, None], cColor: Union[Colour, wx.Colour, _ThreeInts, _FourInts, str, None], matrix: GraphicsMatrix=NullGraphicsMatrix) -> GraphicsBrush:
+    def CreateRadialGradientBrush(self, startX: float, startY: float, endX: float, endY: float, radius: float, oColor: Union[Colour, _ThreeInts, _FourInts, str, None], cColor: Union[Colour, _ThreeInts, _FourInts, str, None], matrix: GraphicsMatrix=NullGraphicsMatrix) -> GraphicsBrush:
         """
         CreateRadialGradientBrush(startX, startY, endX, endY, radius, oColor, cColor, matrix=NullGraphicsMatrix) -> GraphicsBrush
         CreateRadialGradientBrush(startX, startY, endX, endY, radius, stops, matrix=NullGraphicsMatrix) -> GraphicsBrush
@@ -19634,9 +18710,7 @@ class GraphicsContext(GraphicsObject):
         """
 
     @overload
-    def SetBrush(self, brush: GraphicsBrush) -> None:
-        ...
-
+    def SetBrush(self, brush: GraphicsBrush) -> None: ...
     @overload
     def SetBrush(self, brush: Brush) -> None:
         """
@@ -19647,9 +18721,7 @@ class GraphicsContext(GraphicsObject):
         """
 
     @overload
-    def CreatePen(self, info: GraphicsPenInfo) -> GraphicsPen:
-        ...
-
+    def CreatePen(self, info: GraphicsPenInfo) -> GraphicsPen: ...
     @overload
     def CreatePen(self, pen: Pen) -> GraphicsPen:
         """
@@ -19660,9 +18732,7 @@ class GraphicsContext(GraphicsObject):
         """
 
     @overload
-    def SetPen(self, pen: GraphicsPen) -> None:
-        ...
-
+    def SetPen(self, pen: GraphicsPen) -> None: ...
     @overload
     def SetPen(self, pen: Pen) -> None:
         """
@@ -19673,9 +18743,7 @@ class GraphicsContext(GraphicsObject):
         """
 
     @overload
-    def DrawBitmap(self, bmp: Bitmap, x: float, y: float, w: float, h: float) -> None:
-        ...
-
+    def DrawBitmap(self, bmp: Bitmap, x: float, y: float, w: float, h: float) -> None: ...
     @overload
     def DrawBitmap(self, bmp: GraphicsBitmap, x: float, y: float, w: float, h: float) -> None:
         """
@@ -19728,17 +18796,11 @@ class GraphicsContext(GraphicsObject):
         """
 
     @overload
-    def DrawText(self, str: str, x: float, y: float, angle: float) -> None:
-        ...
-
+    def DrawText(self, str: str, x: float, y: float, angle: float) -> None: ...
     @overload
-    def DrawText(self, str: str, x: float, y: float, backgroundBrush: GraphicsBrush) -> None:
-        ...
-
+    def DrawText(self, str: str, x: float, y: float, backgroundBrush: GraphicsBrush) -> None: ...
     @overload
-    def DrawText(self, str: str, x: float, y: float, angle: float, backgroundBrush: GraphicsBrush) -> None:
-        ...
-
+    def DrawText(self, str: str, x: float, y: float, angle: float, backgroundBrush: GraphicsBrush) -> None: ...
     @overload
     def DrawText(self, str: str, x: float, y: float) -> None:
         """
@@ -19786,11 +18848,9 @@ class GraphicsContext(GraphicsObject):
         """
 
     @overload
-    def CreateFont(self, sizeInPixels: float, facename: str, flags: int=FONTFLAG_DEFAULT, col: Union[Colour, wx.Colour, _ThreeInts, _FourInts, str, None]=BLACK) -> GraphicsFont:
-        ...
-
+    def CreateFont(self, sizeInPixels: float, facename: str, flags: int=FONTFLAG_DEFAULT, col: Union[Colour, _ThreeInts, _FourInts, str, None]=BLACK) -> GraphicsFont: ...
     @overload
-    def CreateFont(self, font: Font, col: Union[Colour, wx.Colour, _ThreeInts, _FourInts, str, None]=BLACK) -> GraphicsFont:
+    def CreateFont(self, font: Font, col: Union[Colour, _ThreeInts, _FourInts, str, None]=BLACK) -> GraphicsFont:
         """
         CreateFont(font, col=BLACK) -> GraphicsFont
         CreateFont(sizeInPixels, facename, flags=FONTFLAG_DEFAULT, col=BLACK) -> GraphicsFont
@@ -19799,11 +18859,9 @@ class GraphicsContext(GraphicsObject):
         """
 
     @overload
-    def SetFont(self, font: GraphicsFont) -> None:
-        ...
-
+    def SetFont(self, font: GraphicsFont) -> None: ...
     @overload
-    def SetFont(self, font: Font, colour: Union[Colour, wx.Colour, _ThreeInts, _FourInts, str, None]) -> None:
+    def SetFont(self, font: Font, colour: Union[Colour, _ThreeInts, _FourInts, str, None]) -> None:
         """
         SetFont(font, colour) -> None
         SetFont(font) -> None
@@ -19820,9 +18878,7 @@ class GraphicsContext(GraphicsObject):
         """
 
     @overload
-    def GetTextExtent(self, text: str) -> Any:
-        ...
-
+    def GetTextExtent(self, text: str) -> Any: ...
     @overload
     def GetFullTextExtent(self, text: str) -> tuple[float, float, float, float]:
         """
@@ -20028,13 +19084,9 @@ class GraphicsContext(GraphicsObject):
         """
 
     @overload
-    def FromDIP(self, pt: Union[Point, _TwoInts]) -> Point:
-        ...
-
+    def FromDIP(self, pt: Union[Point, _TwoInts]) -> Point: ...
     @overload
-    def FromDIP(self, d: int) -> int:
-        ...
-
+    def FromDIP(self, d: int) -> int: ...
     @overload
     def FromDIP(self, sz: Union[Size, _TwoInts]) -> Size:
         """
@@ -20047,13 +19099,9 @@ class GraphicsContext(GraphicsObject):
         """
 
     @overload
-    def ToDIP(self, pt: Union[Point, _TwoInts]) -> Point:
-        ...
-
+    def ToDIP(self, pt: Union[Point, _TwoInts]) -> Point: ...
     @overload
-    def ToDIP(self, d: int) -> int:
-        ...
-
+    def ToDIP(self, d: int) -> int: ...
     @overload
     def ToDIP(self, sz: Union[Size, _TwoInts]) -> Size:
         """
@@ -20073,6 +19121,7 @@ class GraphicsContext(GraphicsObject):
         
         Stroke disconnected lines from begin to end points.
         """
+
     @property
     def AntialiasMode(self) -> AntialiasMode: ...
     @AntialiasMode.setter
@@ -20106,7 +19155,7 @@ class GraphicsGradientStop:
     represented by wxGraphicsGradientStops.
     """
 
-    def __init__(self, col: Union[Colour, wx.Colour, _ThreeInts, _FourInts, str, None]=TransparentColour, pos: float=0.) -> None:
+    def __init__(self, col: Union[Colour, _ThreeInts, _FourInts, str, None]=TransparentColour, pos: float=0.) -> None:
         """
         GraphicsGradientStop(col=TransparentColour, pos=0.) -> None
         
@@ -20121,7 +19170,7 @@ class GraphicsGradientStop:
         Return the stop colour.
         """
 
-    def SetColour(self, col: Union[Colour, wx.Colour, _ThreeInts, _FourInts, str, None]) -> None:
+    def SetColour(self, col: Union[Colour, _ThreeInts, _FourInts, str, None]) -> None:
         """
         SetColour(col) -> None
         
@@ -20141,10 +19190,11 @@ class GraphicsGradientStop:
         
         Change the stop position.
         """
+
     @property
     def Colour(self) -> Colour: ...
     @Colour.setter
-    def Colour(self, value: Union[Colour, wx.Colour, _ThreeInts, _FourInts, str, None], /) -> None: ...
+    def Colour(self, value: Union[Colour, _ThreeInts, _FourInts, str, None], /) -> None: ...
     @property
     def Position(self) -> float: ...
     @Position.setter
@@ -20160,7 +19210,7 @@ class GraphicsGradientStops:
     CreateLinearGradientBrush and CreateRadialGradientBrush.
     """
 
-    def __init__(self, startCol: Union[Colour, wx.Colour, _ThreeInts, _FourInts, str, None]=TransparentColour, endCol: Union[Colour, wx.Colour, _ThreeInts, _FourInts, str, None]=TransparentColour) -> None:
+    def __init__(self, startCol: Union[Colour, _ThreeInts, _FourInts, str, None]=TransparentColour, endCol: Union[Colour, _ThreeInts, _FourInts, str, None]=TransparentColour) -> None:
         """
         GraphicsGradientStops(startCol=TransparentColour, endCol=TransparentColour) -> None
         
@@ -20169,9 +19219,7 @@ class GraphicsGradientStops:
         """
 
     @overload
-    def Add(self, col: Union[Colour, wx.Colour, _ThreeInts, _FourInts, str, None], pos: float) -> None:
-        ...
-
+    def Add(self, col: Union[Colour, _ThreeInts, _FourInts, str, None], pos: float) -> None: ...
     @overload
     def Add(self, stop: GraphicsGradientStop) -> None:
         """
@@ -20195,7 +19243,7 @@ class GraphicsGradientStops:
         Returns the number of stops.
         """
 
-    def SetStartColour(self, col: Union[Colour, wx.Colour, _ThreeInts, _FourInts, str, None]) -> None:
+    def SetStartColour(self, col: Union[Colour, _ThreeInts, _FourInts, str, None]) -> None:
         """
         SetStartColour(col) -> None
         
@@ -20209,7 +19257,7 @@ class GraphicsGradientStops:
         Returns the start colour.
         """
 
-    def SetEndColour(self, col: Union[Colour, wx.Colour, _ThreeInts, _FourInts, str, None]) -> None:
+    def SetEndColour(self, col: Union[Colour, _ThreeInts, _FourInts, str, None]) -> None:
         """
         SetEndColour(col) -> None
         
@@ -20232,16 +19280,17 @@ class GraphicsGradientStops:
         """
         __getitem__(n)
         """
+
     @property
     def Count(self) -> int: ...
     @property
     def EndColour(self) -> Colour: ...
     @EndColour.setter
-    def EndColour(self, value: Union[Colour, wx.Colour, _ThreeInts, _FourInts, str, None], /) -> None: ...
+    def EndColour(self, value: Union[Colour, _ThreeInts, _FourInts, str, None], /) -> None: ...
     @property
     def StartColour(self) -> Colour: ...
     @StartColour.setter
-    def StartColour(self, value: Union[Colour, wx.Colour, _ThreeInts, _FourInts, str, None], /) -> None: ...
+    def StartColour(self, value: Union[Colour, _ThreeInts, _FourInts, str, None], /) -> None: ...
 # end of class GraphicsGradientStops
 
 
@@ -20333,6 +19382,7 @@ class GraphicsMatrix(GraphicsObject):
         
         Translates this matrix.
         """
+
     @property
     def NativeMatrix(self) -> Any: ...
 # end of class GraphicsMatrix
@@ -20344,9 +19394,7 @@ class GraphicsPath(GraphicsObject):
     """
 
     @overload
-    def AddArc(self, c: Union[Point2D, _TwoFloats], r: float, startAngle: float, endAngle: float, clockwise: bool) -> None:
-        ...
-
+    def AddArc(self, c: Union[Point2D, _TwoFloats], r: float, startAngle: float, endAngle: float, clockwise: bool) -> None: ...
     @overload
     def AddArc(self, x: float, y: float, r: float, startAngle: float, endAngle: float, clockwise: bool) -> None:
         """
@@ -20373,9 +19421,7 @@ class GraphicsPath(GraphicsObject):
         """
 
     @overload
-    def AddCurveToPoint(self, c1: Union[Point2D, _TwoFloats], c2: Union[Point2D, _TwoFloats], e: Union[Point2D, _TwoFloats]) -> None:
-        ...
-
+    def AddCurveToPoint(self, c1: Union[Point2D, _TwoFloats], c2: Union[Point2D, _TwoFloats], e: Union[Point2D, _TwoFloats]) -> None: ...
     @overload
     def AddCurveToPoint(self, cx1: float, cy1: float, cx2: float, cy2: float, x: float, y: float) -> None:
         """
@@ -20395,9 +19441,7 @@ class GraphicsPath(GraphicsObject):
         """
 
     @overload
-    def AddLineToPoint(self, p: Union[Point2D, _TwoFloats]) -> None:
-        ...
-
+    def AddLineToPoint(self, p: Union[Point2D, _TwoFloats]) -> None: ...
     @overload
     def AddLineToPoint(self, x: float, y: float) -> None:
         """
@@ -20444,9 +19488,7 @@ class GraphicsPath(GraphicsObject):
         """
 
     @overload
-    def Contains(self, x: float, y: float, fillStyle: PolygonFillMode=ODDEVEN_RULE) -> bool:
-        ...
-
+    def Contains(self, x: float, y: float, fillStyle: PolygonFillMode=ODDEVEN_RULE) -> bool: ...
     @overload
     def Contains(self, c: Union[Point2D, _TwoFloats], fillStyle: PolygonFillMode=ODDEVEN_RULE) -> bool:
         """
@@ -20478,9 +19520,7 @@ class GraphicsPath(GraphicsObject):
         """
 
     @overload
-    def MoveToPoint(self, p: Union[Point2D, _TwoFloats]) -> None:
-        ...
-
+    def MoveToPoint(self, p: Union[Point2D, _TwoFloats]) -> None: ...
     @overload
     def MoveToPoint(self, x: float, y: float) -> None:
         """
@@ -20504,6 +19544,7 @@ class GraphicsPath(GraphicsObject):
         Gives back the native path returned by GetNativePath() because there
         might be some deallocations necessary (e.g.
         """
+
     @property
     def Box(self) -> Rect2D: ...
     @property
@@ -20548,17 +19589,11 @@ class GraphicsRenderer(Object):
         """
 
     @overload
-    def CreateContext(self, windowDC: WindowDC) -> GraphicsContext:
-        ...
-
+    def CreateContext(self, windowDC: WindowDC) -> GraphicsContext: ...
     @overload
-    def CreateContext(self, memoryDC: MemoryDC) -> GraphicsContext:
-        ...
-
+    def CreateContext(self, memoryDC: MemoryDC) -> GraphicsContext: ...
     @overload
-    def CreateContext(self, printerDC: PrinterDC) -> GraphicsContext:
-        ...
-
+    def CreateContext(self, printerDC: PrinterDC) -> GraphicsContext: ...
     @overload
     def CreateContext(self, window: Window) -> GraphicsContext:
         """
@@ -20613,11 +19648,9 @@ class GraphicsRenderer(Object):
         """
 
     @overload
-    def CreateFont(self, sizeInPixels: float, facename: str, flags: int=FONTFLAG_DEFAULT, col: Union[Colour, wx.Colour, _ThreeInts, _FourInts, str, None]=BLACK) -> GraphicsFont:
-        ...
-
+    def CreateFont(self, sizeInPixels: float, facename: str, flags: int=FONTFLAG_DEFAULT, col: Union[Colour, _ThreeInts, _FourInts, str, None]=BLACK) -> GraphicsFont: ...
     @overload
-    def CreateFont(self, font: Font, col: Union[Colour, wx.Colour, _ThreeInts, _FourInts, str, None]=BLACK) -> GraphicsFont:
+    def CreateFont(self, font: Font, col: Union[Colour, _ThreeInts, _FourInts, str, None]=BLACK) -> GraphicsFont:
         """
         CreateFont(font, col=BLACK) -> GraphicsFont
         CreateFont(sizeInPixels, facename, flags=FONTFLAG_DEFAULT, col=BLACK) -> GraphicsFont
@@ -20625,7 +19658,7 @@ class GraphicsRenderer(Object):
         Creates a native graphics font from a wxFont and a text colour.
         """
 
-    def CreateFontAtDPI(self, font: Font, dpi: Union[RealPoint, _TwoFloats], col: Union[Colour, wx.Colour, _ThreeInts, _FourInts, str, None]=BLACK) -> GraphicsFont:
+    def CreateFontAtDPI(self, font: Font, dpi: Union[RealPoint, _TwoFloats], col: Union[Colour, _ThreeInts, _FourInts, str, None]=BLACK) -> GraphicsFont:
         """
         CreateFontAtDPI(font, dpi, col=BLACK) -> GraphicsFont
         
@@ -20739,6 +19772,7 @@ class GraphicsRenderer(Object):
         """
         Returns the name of the GraphicsRenderer class.
         """
+
     @property
     def Name(self) -> str: ...
     Type = property(GetType)
@@ -20775,9 +19809,7 @@ class ImageList(Object):
     """
 
     @overload
-    def __init__(self, width: int, height: int, mask: bool=True, initialCount: int=1) -> None:
-        ...
-
+    def __init__(self, width: int, height: int, mask: bool=True, initialCount: int=1) -> None: ...
     @overload
     def __init__(self) -> None:
         """
@@ -20789,13 +19821,9 @@ class ImageList(Object):
         """
 
     @overload
-    def Add(self, bitmap: Bitmap, maskColour: Union[Colour, wx.Colour, _ThreeInts, _FourInts, str, None]) -> int:
-        ...
-
+    def Add(self, bitmap: Bitmap, maskColour: Union[Colour, _ThreeInts, _FourInts, str, None]) -> int: ...
     @overload
-    def Add(self, icon: Icon) -> int:
-        ...
-
+    def Add(self, icon: Icon) -> int: ...
     @overload
     def Add(self, bitmap: Bitmap, mask: Bitmap=NullBitmap) -> int:
         """
@@ -20849,9 +19877,7 @@ class ImageList(Object):
         """
 
     @overload
-    def GetSize(self) -> Size:
-        ...
-
+    def GetSize(self) -> Size: ...
     @overload
     def GetSize(self, index: int) -> tuple[int, int]:
         """
@@ -20876,9 +19902,7 @@ class ImageList(Object):
         """
 
     @overload
-    def Replace(self, index: int, icon: Icon) -> bool:
-        ...
-
+    def Replace(self, index: int, icon: Icon) -> bool: ...
     @overload
     def Replace(self, index: int, bitmap: Bitmap, mask: Bitmap=NullBitmap) -> bool:
         """
@@ -20887,6 +19911,7 @@ class ImageList(Object):
         
         Replaces the existing image with the new image.
         """
+
     @property
     def ImageCount(self) -> int: ...
     @property
@@ -20918,6 +19943,7 @@ class Overlay:
         
         Clears the overlay without restoring the former state.
         """
+
 # end of class Overlay
 
 
@@ -20930,9 +19956,7 @@ class DCOverlay:
     """
 
     @overload
-    def __init__(self, overlay: Overlay, dc: DC) -> None:
-        ...
-
+    def __init__(self, overlay: Overlay, dc: DC) -> None: ...
     @overload
     def __init__(self, overlay: Overlay, dc: DC, x: int, y: int, width: int, height: int) -> None:
         """
@@ -20948,6 +19972,7 @@ class DCOverlay:
         
         Clears the layer, restoring the state at the last init.
         """
+
 # end of class DCOverlay
 
 #-- end-overlay --#
@@ -20963,13 +19988,9 @@ class Palette(GDIObject):
     """
 
     @overload
-    def __init__(self, palette: Palette) -> None:
-        ...
-
+    def __init__(self, palette: Palette) -> None: ...
     @overload
-    def __init__(self, red: Any, green: Any, blue: Any) -> None:
-        ...
-
+    def __init__(self, red: Any, green: Any, blue: Any) -> None: ...
     @overload
     def __init__(self) -> None:
         """
@@ -21024,6 +20045,7 @@ class Palette(GDIObject):
         
         Returns true if palette data is present.
         """
+
     @property
     def ColoursCount(self) -> int: ...
     @property
@@ -21105,6 +20127,7 @@ class SplitterRenderParams:
         This is just a simple struct used as a return value of
         wxRendererNative::GetSplitterParams().
         """
+
     border: int
     isHotSensitive: bool
     widthSash: int
@@ -21128,6 +20151,7 @@ class HeaderButtonParams:
         wxRendererNative::DrawHeaderButton() to specify custom values used to
         draw the text or bitmap label.
         """
+
     m_arrowColour: Colour
     m_selectionColour: Colour
     m_labelText: str
@@ -21387,6 +20411,7 @@ class RendererNative:
         
         Set the renderer to use, passing NULL reverts to using the default renderer (the global renderer must always exist).
         """
+
     @property
     def Version(self) -> RendererVersion: ...
 # end of class RendererNative
@@ -21404,9 +20429,7 @@ class DelegateRendererNative(RendererNative):
     """
 
     @overload
-    def __init__(self, rendererNative: RendererNative) -> None:
-        ...
-
+    def __init__(self, rendererNative: RendererNative) -> None: ...
     @overload
     def __init__(self) -> None:
         """
@@ -21564,6 +20587,7 @@ class DelegateRendererNative(RendererNative):
         
         Draw a title bar button in the given state.
         """
+
     @property
     def Version(self) -> RendererVersion: ...
 # end of class DelegateRendererNative
@@ -21586,9 +20610,9 @@ class RendererVersion:
         and is only used as the return value of
         wxRendererNative::GetVersion().
         """
+
     age: int
     version: int
-
     @staticmethod
     def IsCompatible(ver: RendererVersion) -> bool:
         """
@@ -21597,6 +20621,7 @@ class RendererVersion:
         Checks if the main program is compatible with the renderer having the
         version ver, returns true if it is and false otherwise.
         """
+
 # end of class RendererVersion
 
 #-- end-renderer --#
@@ -21648,6 +20673,7 @@ class PixelDataBase:
         Create and return an iterator/generator object for traversing
         this pixel data object.
         """
+
     @property
     def Height(self) -> int: ...
     @property
@@ -21658,10 +20684,7 @@ class PixelDataBase:
     def Size(self) -> Size: ...
     @property
     def Width(self) -> int: ...
-
-    def __init__(self) -> None:
-        """
-        """
+    def __init__(self) -> None: ...
 # end of class PixelDataBase
 
 
@@ -21676,13 +20699,9 @@ class NativePixelData(PixelDataBase):
     """
 
     @overload
-    def __init__(self, bmp: Bitmap, rect: Union[Rect, _FourInts]) -> None:
-        ...
-
+    def __init__(self, bmp: Bitmap, rect: Union[Rect, _FourInts]) -> None: ...
     @overload
-    def __init__(self, bmp: Bitmap, pt: Union[Point, _TwoInts], sz: Union[Size, _TwoInts]) -> None:
-        ...
-
+    def __init__(self, bmp: Bitmap, pt: Union[Point, _TwoInts], sz: Union[Size, _TwoInts]) -> None: ...
     @overload
     def __init__(self, bmp: Bitmap) -> None:
         """
@@ -21708,6 +20727,7 @@ class NativePixelData(PixelDataBase):
         """
         __bool__() -> bool
         """
+
     @property
     def Pixels(self) -> NativePixelData_Accessor: ...
 # end of class NativePixelData
@@ -21721,13 +20741,9 @@ class NativePixelData_Accessor:
     """
 
     @overload
-    def __init__(self, bmp: Bitmap, data: NativePixelData) -> None:
-        ...
-
+    def __init__(self, bmp: Bitmap, data: NativePixelData) -> None: ...
     @overload
-    def __init__(self) -> None:
-        ...
-
+    def __init__(self) -> None: ...
     @overload
     def __init__(self, data: NativePixelData) -> None:
         """
@@ -21790,6 +20806,7 @@ class NativePixelData_Accessor:
         """
         Get() -> Any
         """
+
 # end of class NativePixelData_Accessor
 
 
@@ -21804,13 +20821,9 @@ class AlphaPixelData(PixelDataBase):
     """
 
     @overload
-    def __init__(self, bmp: Bitmap, rect: Union[Rect, _FourInts]) -> None:
-        ...
-
+    def __init__(self, bmp: Bitmap, rect: Union[Rect, _FourInts]) -> None: ...
     @overload
-    def __init__(self, bmp: Bitmap, pt: Union[Point, _TwoInts], sz: Union[Size, _TwoInts]) -> None:
-        ...
-
+    def __init__(self, bmp: Bitmap, pt: Union[Point, _TwoInts], sz: Union[Size, _TwoInts]) -> None: ...
     @overload
     def __init__(self, bmp: Bitmap) -> None:
         """
@@ -21836,6 +20849,7 @@ class AlphaPixelData(PixelDataBase):
         """
         __bool__() -> bool
         """
+
     @property
     def Pixels(self) -> AlphaPixelData_Accessor: ...
 # end of class AlphaPixelData
@@ -21849,13 +20863,9 @@ class AlphaPixelData_Accessor:
     """
 
     @overload
-    def __init__(self, bmp: Bitmap, data: AlphaPixelData) -> None:
-        ...
-
+    def __init__(self, bmp: Bitmap, data: AlphaPixelData) -> None: ...
     @overload
-    def __init__(self) -> None:
-        ...
-
+    def __init__(self) -> None: ...
     @overload
     def __init__(self, data: AlphaPixelData) -> None:
         """
@@ -21918,6 +20928,7 @@ class AlphaPixelData_Accessor:
         """
         Get() -> Any
         """
+
 # end of class AlphaPixelData_Accessor
 
 #-- end-rawbmp --#
@@ -22365,6 +21376,7 @@ class Accessible(Object):
         Allows the application to send an event when something changes in an
         accessible object.
         """
+
     @property
     def Window(self) -> Window: ...
     @Window.setter
@@ -22400,9 +21412,7 @@ class AcceleratorEntry:
     """
 
     @overload
-    def __init__(self, entry: AcceleratorEntry) -> None:
-        ...
-
+    def __init__(self, entry: AcceleratorEntry) -> None: ...
     @overload
     def __init__(self, flags: int=0, keyCode: int=0, cmd: int=0, item: Optional[MenuItem]=None) -> None:
         """
@@ -22477,13 +21487,8 @@ class AcceleratorEntry:
         Parses the given string and sets the accelerator accordingly.
         """
 
-    def __eq__(self, entry: AcceleratorEntry) -> bool:
-        """
-        """
-
-    def __ne__(self, entry: AcceleratorEntry) -> bool:
-        """
-        """
+    def __eq__(self, entry: AcceleratorEntry) -> bool: ...
+    def __ne__(self, entry: AcceleratorEntry) -> bool: ...
     @property
     def Command(self) -> int: ...
     @property
@@ -22505,9 +21510,7 @@ class AcceleratorTable(Object):
     """
 
     @overload
-    def __init__(self, entries: Any) -> None:
-        ...
-
+    def __init__(self, entries: Any) -> None: ...
     @overload
     def __init__(self) -> None:
         """
@@ -22524,13 +21527,13 @@ class AcceleratorTable(Object):
         
         Returns true if the accelerator table is valid.
         """
+
 # end of class AcceleratorTable
 
 NullAcceleratorTable: AcceleratorTable
 
 @deprecated
-def GetAccelFromString(label):
-    pass
+def GetAccelFromString(label): ...
 #-- end-accel --#
 #-- begin-log --#
 
@@ -22813,6 +21816,7 @@ class Log:
         
         Called to log the specified string.
         """
+
 # end of class Log
 
 
@@ -22836,6 +21840,7 @@ class LogGui(Log):
         
         Presents the accumulated log messages, if any, to the user.
         """
+
 # end of class LogGui
 
 
@@ -22853,15 +21858,8 @@ class LogNull:
         This class allows you to temporarily suspend logging.
         """
 
-    def __enter__(self):
-        """
-        
-        """
-
-    def __exit__(self, exc_type, exc_val, exc_tb):
-        """
-        
-        """
+    def __enter__(self): ...
+    def __exit__(self, exc_type, exc_val, exc_tb): ...
 # end of class LogNull
 
 
@@ -22869,6 +21867,7 @@ class LogRecordInfo:
     """
     Information about a log record (unit of the log output).
     """
+
     filename: str
     line: int
     func: str
@@ -22933,6 +21932,7 @@ class LogChain(Log):
         
         Sets another log target to use (may be NULL).
         """
+
     @property
     def OldLog(self) -> Log: ...
 # end of class LogChain
@@ -22953,6 +21953,7 @@ class LogInterposer(LogChain):
         A special version of wxLogChain which uses itself as the new log
         target.
         """
+
 # end of class LogInterposer
 
 
@@ -22969,6 +21970,7 @@ class LogInterposerTemp(LogChain):
         
         Legacy class which should not be used any longer.
         """
+
 # end of class LogInterposerTemp
 
 
@@ -23021,6 +22023,7 @@ class LogWindow(LogInterposer):
         
         Shows or hides the frame.
         """
+
     @property
     def Frame(self) -> Frame: ...
 # end of class LogWindow
@@ -23041,6 +22044,7 @@ class LogStderr(Log):
         This class can be used to redirect the log messages to a C file stream
         (not to be confused with C++ streams).
         """
+
 # end of class LogStderr
 
 
@@ -23079,6 +22083,7 @@ class LogBuffer(Log):
         
         Returns the current buffer contains.
         """
+
     @property
     def Buffer(self) -> str: ...
 # end of class LogBuffer
@@ -23099,6 +22104,7 @@ class LogTextCtrl(Log):
         Using these target all the log messages can be redirected to a text
         control.
         """
+
 # end of class LogTextCtrl
 
 
@@ -23129,6 +22135,7 @@ class LogFormatter:
         
         This function formats the time stamp part of the log message.
         """
+
 # end of class LogFormatter
 
 
@@ -23238,8 +22245,7 @@ def LogDebug(message: str) -> None:
 
 
 @overload
-def LogStatus(message: str) -> None:    ...
-
+def LogStatus(message: str) -> None: ...
 @overload
 def LogStatus(frame: Frame, message: str) -> None:
     """
@@ -23272,9 +22278,7 @@ class DataFormat:
     """
 
     @overload
-    def __init__(self, format: str) -> None:
-        ...
-
+    def __init__(self, format: str) -> None: ...
     @overload
     def __init__(self, format: DataFormatId=DF_INVALID) -> None:
         """
@@ -23317,22 +22321,13 @@ class DataFormat:
         """
 
     @overload
-    def __ne__(self, format: DataFormatId) -> bool:
-        ...
-
+    def __ne__(self, format: DataFormatId) -> bool: ...
     @overload
-    def __ne__(self, format: DataFormat) -> bool:
-        """
-        """
-
+    def __ne__(self, format: DataFormat) -> bool: ...
     @overload
-    def __eq__(self, format: DataFormatId) -> bool:
-        ...
-
+    def __eq__(self, format: DataFormatId) -> bool: ...
     @overload
-    def __eq__(self, format: DataFormat) -> bool:
-        """
-        """
+    def __eq__(self, format: DataFormat) -> bool: ...
     @property
     def Id(self) -> str: ...
     @Id.setter
@@ -23428,6 +22423,7 @@ class DataObject:
         """
         _testGetAllFormats() -> None
         """
+
     @property
     def AllFormats(self) -> Any: ...
     @property
@@ -23449,9 +22445,7 @@ class DataObjectSimple(DataObject):
     """
 
     @overload
-    def __init__(self, formatName: str) -> None:
-        ...
-
+    def __init__(self, formatName: str) -> None: ...
     @overload
     def __init__(self, format: DataFormat=FormatInvalid) -> None:
         """
@@ -23484,9 +22478,7 @@ class DataObjectSimple(DataObject):
         """
 
     @overload
-    def SetData(self, format: DataFormat, buf: PyBuffer) -> bool:
-        ...
-
+    def SetData(self, format: DataFormat, buf: PyBuffer) -> bool: ...
     @overload
     def SetData(self, buf: PyBuffer) -> bool:
         """
@@ -23510,6 +22502,7 @@ class DataObjectSimple(DataObject):
         Returns a list of wx.DataFormat objects which this data object
         supports transferring in the given direction.
         """
+
     @property
     def AllFormats(self) -> Any: ...
     @property
@@ -23534,9 +22527,7 @@ class CustomDataObject(DataObjectSimple):
     """
 
     @overload
-    def __init__(self, formatName: str) -> None:
-        ...
-
+    def __init__(self, formatName: str) -> None: ...
     @overload
     def __init__(self, format: DataFormat=FormatInvalid) -> None:
         """
@@ -23563,9 +22554,7 @@ class CustomDataObject(DataObjectSimple):
         """
 
     @overload
-    def SetData(self, format: DataFormat, buf: PyBuffer) -> bool:
-        ...
-
+    def SetData(self, format: DataFormat, buf: PyBuffer) -> bool: ...
     @overload
     def SetData(self, buf: PyBuffer) -> bool:
         """
@@ -23582,6 +22571,7 @@ class CustomDataObject(DataObjectSimple):
         Returns a list of wx.DataFormat objects which this data object
         supports transferring in the given direction.
         """
+
     @property
     def AllFormats(self) -> Any: ...
     @property
@@ -23643,6 +22633,7 @@ class DataObjectComposite(DataObject):
         """
         SetData(format, buf) -> bool
         """
+
     @property
     def AllFormats(self) -> Any: ...
     @property
@@ -23692,6 +22683,7 @@ class BitmapDataObject(DataObjectSimple):
         """
         SetData(format, buf) -> bool
         """
+
     @property
     def AllFormats(self) -> Any: ...
     @property
@@ -23766,6 +22758,7 @@ class TextDataObject(DataObjectSimple):
         """
         SetData(format, buf) -> bool
         """
+
     @property
     def AllFormats(self) -> Any: ...
     @property
@@ -23823,6 +22816,7 @@ class URLDataObject(DataObject):
         """
         SetData(format, buf) -> bool
         """
+
     @property
     def AllFormats(self) -> Any: ...
     @property
@@ -23873,6 +22867,7 @@ class FileDataObject(DataObjectSimple):
         """
         SetData(format, buf) -> bool
         """
+
     @property
     def AllFormats(self) -> Any: ...
     @property
@@ -23920,6 +22915,7 @@ class HTMLDataObject(DataObjectSimple):
         """
         SetData(format, buf) -> bool
         """
+
     @property
     def AllFormats(self) -> Any: ...
     @property
@@ -23969,6 +22965,7 @@ class ImageDataObject(CustomDataObject):
         """
         SetData(format, buf) -> bool
         """
+
     @property
     def AllFormats(self) -> Any: ...
     @property
@@ -24031,9 +23028,7 @@ class DropSource:
     """
 
     @overload
-    def __init__(self, data: DataObject, win: Optional[Window]=None) -> None:
-        ...
-
+    def __init__(self, data: DataObject, win: Optional[Window]=None) -> None: ...
     @overload
     def __init__(self, win: Optional[Window]=None) -> None:
         """
@@ -24086,6 +23081,7 @@ class DropSource:
         
         Sets the data wxDataObject associated with the drop source.
         """
+
     @property
     def DataObject(self) -> DataObject: ...
 # end of class DropSource
@@ -24176,6 +23172,7 @@ class DropTarget:
         Returns default action for drag and drop or wxDragNone if this not
         specified.
         """
+
     @property
     def Data(self) -> bool: ...
     @property
@@ -24216,6 +23213,7 @@ class TextDropTarget(DropTarget):
         
         Override this function to receive dropped text.
         """
+
 # end of class TextDropTarget
 
 
@@ -24248,6 +23246,7 @@ class FileDropTarget(DropTarget):
         
         Override this function to receive dropped files.
         """
+
 # end of class FileDropTarget
 
 
@@ -24359,6 +23358,7 @@ class Clipboard(Object):
         
         Returns the global instance (wxTheClipboard) of the clipboard object.
         """
+
 # end of class Clipboard
 
 
@@ -24706,11 +23706,7 @@ class ConfigBase(Object):
         _cpp_ReadInt(key, defaultVal=0) -> int
         """
 
-    def ReadInt(self, key, defaultVal=0):
-        """
-        
-        """
-
+    def ReadInt(self, key, defaultVal=0): ...
     def ReadFloat(self, key: str, defaultVal: float=0.0) -> float:
         """
         ReadFloat(key, defaultVal=0.0) -> float
@@ -24730,6 +23726,7 @@ class ConfigBase(Object):
         """
         WriteBool(key, value) -> bool
         """
+
     @property
     def AppName(self) -> str: ...
     @property
@@ -24763,9 +23760,7 @@ class FileConfig(ConfigBase):
     """
 
     @overload
-    def __init__(self, _is: InputStream) -> None:
-        ...
-
+    def __init__(self, _is: InputStream) -> None: ...
     @overload
     def __init__(self, appName: str='', vendorName: str='', localFilename: str='', globalFilename: str='', style: int=CONFIG_USE_LOCAL_FILE|CONFIG_USE_GLOBAL_FILE) -> None:
         """
@@ -24900,6 +23895,7 @@ class FileConfig(ConfigBase):
         """
         GetLocalFileName(szFile, style=0) -> str
         """
+
     @property
     def NumberOfEntries(self) -> int: ...
     @property
@@ -24942,15 +23938,8 @@ class ConfigPathChanger:
         object (i.e.
         """
 
-    def __enter__(self):
-        """
-        
-        """
-
-    def __exit__(self, exc_type, exc_val, exc_tb):
-        """
-        
-        """
+    def __enter__(self): ...
+    def __exit__(self, exc_type, exc_val, exc_tb): ...
 # end of class ConfigPathChanger
 
 #-- end-config --#
@@ -24960,6 +23949,7 @@ class Trackable:
     """
     Add-on base class for a trackable object.
     """
+
 # end of class Trackable
 
 #-- end-tracker --#
@@ -25067,6 +24057,7 @@ class KeyboardState:
         """
         SetMetaDown(down) -> None
         """
+
     @property
     def controlDown(self) -> bool: ...
     @controlDown.setter
@@ -25089,12 +24080,12 @@ class KeyboardState:
     def metaDown(self, value: bool, /) -> None: ...
     @property
     def cmdDown(self) -> bool: ...
-
     # For 2.8 compatibility
     m_controlDown = wx.deprecated(controlDown, "Use controlDown instead.")
     m_shiftDown   = wx.deprecated(shiftDown, "Use shiftDown instead.")
     m_altDown     = wx.deprecated(altDown, "Use altDown instead.")
     m_metaDown    = wx.deprecated(metaDown, "Use metaDown instead.")
+
 # end of class KeyboardState
 
 #-- end-kbdstate --#
@@ -25234,6 +24225,7 @@ class MouseState(KeyboardState):
         """
         SetState(state) -> None
         """
+
     @property
     def x(self) -> int: ...
     @x.setter
@@ -25356,6 +24348,7 @@ class ToolTip(Object):
         
         Set the delay between subsequent tooltips to appear.
         """
+
     @property
     def Tip(self) -> str: ...
     @Tip.setter
@@ -25551,6 +24544,7 @@ class IndividualLayoutConstraint(Object):
         """
         GetEdge(which, thisWin, other) -> int
         """
+
     @property
     def Done(self) -> bool: ...
     @Done.setter
@@ -25587,6 +24581,7 @@ class LayoutConstraints(Object):
         """
         LayoutConstraints() -> None
         """
+
     left: IndividualLayoutConstraint
     top: IndividualLayoutConstraint
     right: IndividualLayoutConstraint
@@ -25595,7 +24590,6 @@ class LayoutConstraints(Object):
     height: IndividualLayoutConstraint
     centreX: IndividualLayoutConstraint
     centreY: IndividualLayoutConstraint
-
     def SatisfyConstraints(self, win: Window, noChanges: int) -> bool:
         """
         SatisfyConstraints(win, noChanges) -> bool
@@ -25605,6 +24599,7 @@ class LayoutConstraints(Object):
         """
         AreSatisfied() -> bool
         """
+
 # end of class LayoutConstraints
 
 #-- end-layout --#
@@ -26009,6 +25004,7 @@ class EvtHandler(Object, Trackable):
         Disconnects the event handler binding for event from `self`.
         Returns ``True`` if successful.
         """
+
     @property
     def EvtHandlerEnabled(self) -> bool: ...
     @EvtHandlerEnabled.setter
@@ -26021,7 +25017,6 @@ class EvtHandler(Object, Trackable):
     def PreviousHandler(self) -> EvtHandler: ...
     @PreviousHandler.setter
     def PreviousHandler(self, value: EvtHandler, /) -> None: ...
-
     def TryBefore(self, event: Event) -> bool:
         """
         TryBefore(event) -> bool
@@ -26036,6 +25031,7 @@ class EvtHandler(Object, Trackable):
         
         Method called by ProcessEvent() as last resort.
         """
+
 # end of class EvtHandler
 
 
@@ -26063,15 +25059,8 @@ class EventBlocker(EvtHandler):
         eventType.
         """
 
-    def __enter__(self) -> Self:
-        """
-        
-        """
-
-    def __exit__(self, exc_type: type[BaseException] | None, exc_val: BaseException | None, exc_tb: types.TracebackType | None) -> bool:
-        """
-        
-        """
+    def __enter__(self) -> Self: ...
+    def __exit__(self, exc_type: type[BaseException] | None, exc_val: BaseException | None, exc_tb: types.TracebackType | None) -> bool: ...
 # end of class EventBlocker
 
 
@@ -26089,15 +25078,8 @@ class PropagationDisabler:
         Helper class to temporarily change an event to not propagate.
         """
 
-    def __enter__(self) -> Self:
-        """
-        
-        """
-
-    def __exit__(self, exc_type: type[BaseException] | None, exc_val: BaseException | None, exc_tb: types.TracebackType | None) -> bool:
-        """
-        
-        """
+    def __enter__(self) -> Self: ...
+    def __exit__(self, exc_type: type[BaseException] | None, exc_val: BaseException | None, exc_tb: types.TracebackType | None) -> bool: ...
 # end of class PropagationDisabler
 
 
@@ -26115,15 +25097,8 @@ class PropagateOnce:
         Helper class to temporarily lower propagation level.
         """
 
-    def __enter__(self) -> Self:
-        """
-        
-        """
-
-    def __exit__(self, exc_type: type[BaseException] | None, exc_val: BaseException | None, exc_tb: types.TracebackType | None) -> bool:
-        """
-        
-        """
+    def __enter__(self) -> Self: ...
+    def __exit__(self, exc_type: type[BaseException] | None, exc_val: BaseException | None, exc_tb: types.TracebackType | None) -> bool: ...
 # end of class PropagateOnce
 
 
@@ -26262,6 +25237,7 @@ class Event(Object):
         
         Stop the event from propagating to its parent window.
         """
+
     @property
     def EventObject(self) -> Object: ...
     @EventObject.setter
@@ -26392,6 +25368,7 @@ class CommandEvent(Event):
         """
         Alias for :meth:`SetClientData`
         """
+
     ClientData = property(GetClientData, SetClientData)
     @property
     def ExtraLong(self) -> int: ...
@@ -26448,6 +25425,7 @@ class ActivateEvent(Event):
         Allows checking if the window was activated by clicking it with the
         mouse or in some other way.
         """
+
     @property
     def Active(self) -> bool: ...
 # end of class ActivateEvent
@@ -26478,6 +25456,7 @@ class ChildFocusEvent(CommandEvent):
         Returns the direct child which receives the focus, or a (grand-)parent
         of the control receiving the focus.
         """
+
     @property
     def Window(self) -> Window: ...
 # end of class ChildFocusEvent
@@ -26500,6 +25479,7 @@ class ClipboardTextEvent(CommandEvent):
         wxTextCtrl but other windows can generate these events as well) when
         its content gets copied or cut to, or pasted from the clipboard.
         """
+
 # end of class ClipboardTextEvent
 
 
@@ -26563,6 +25543,7 @@ class CloseEvent(Event):
         
         Returns whether the Veto flag was set.
         """
+
     @property
     def LoggingOff(self) -> bool: ...
     @LoggingOff.setter
@@ -26600,6 +25581,7 @@ class ContextMenuEvent(CommandEvent):
         
         Sets the position at which the menu should be shown.
         """
+
     @property
     def Position(self) -> Point: ...
     @Position.setter
@@ -26622,6 +25604,7 @@ class DisplayChangedEvent(Event):
         A display changed event is sent to top-level windows when the display
         resolution has changed.
         """
+
 # end of class DisplayChangedEvent
 
 
@@ -26665,6 +25648,7 @@ class DPIChangedEvent(Event):
         
         Rescale vertical component to match the new DPI.
         """
+
     @property
     def NewDPI(self) -> Size: ...
     @property
@@ -26708,6 +25692,7 @@ class DropFilesEvent(Event):
         
         Returns the position at which the files were dropped.
         """
+
     @property
     def Files(self) -> Any: ...
     @property
@@ -26739,6 +25724,7 @@ class EraseEvent(Event):
         
         Returns the device context associated with the erase event to draw on.
         """
+
     @property
     def DC(self) -> DC: ...
 # end of class EraseEvent
@@ -26771,6 +25757,7 @@ class FocusEvent(Event):
         """
         SetWindow(win) -> None
         """
+
     @property
     def Window(self) -> Window: ...
     @Window.setter
@@ -26831,6 +25818,7 @@ class HelpEvent(CommandEvent):
         
         Sets the left-click position of the mouse, in screen coordinates.
         """
+
     @property
     def Position(self) -> Point: ...
     @Position.setter
@@ -26861,6 +25849,7 @@ class IconizeEvent(Event):
         Returns true if the frame has been iconized, false if it has been
         restored.
         """
+
 # end of class IconizeEvent
 
 
@@ -26914,6 +25903,7 @@ class IdleEvent(Event):
         all windows, or only to those which specify that they will process the
         events.
         """
+
 # end of class IdleEvent
 
 
@@ -26930,6 +25920,7 @@ class InitDialogEvent(Event):
         
         A wxInitDialogEvent is sent as a dialog or panel is being initialised.
         """
+
 # end of class InitDialogEvent
 
 
@@ -27037,6 +26028,7 @@ class JoystickEvent(Event):
         
         Returns true if this was a z move event.
         """
+
     @property
     def ButtonChange(self) -> int: ...
     @property
@@ -27166,6 +26158,7 @@ class KeyEvent(Event, KeyboardState):
         """
         SetUnicodeKey(uniChar) -> None
         """
+
     @property
     def X(self) -> int: ...
     @property
@@ -27204,6 +26197,7 @@ class MaximizeEvent(Event):
         
         An event being sent when a top level window is maximized.
         """
+
 # end of class MaximizeEvent
 
 
@@ -27228,6 +26222,7 @@ class FullScreenEvent(Event):
         Returns true if the frame entered full screen, false if exited full
         screen.
         """
+
 # end of class FullScreenEvent
 
 
@@ -27267,6 +26262,7 @@ class MenuEvent(Event):
         Returns true if the menu which is being opened or closed is a popup
         menu, false if it is a normal one.
         """
+
     @property
     def Menu(self) -> Menu: ...
     @property
@@ -27297,6 +26293,7 @@ class MouseCaptureChangedEvent(Event):
         Returns the window that gained the capture, or NULL if it was a non-
         wxWidgets window.
         """
+
     @property
     def CapturedWindow(self) -> Window: ...
 # end of class MouseCaptureChangedEvent
@@ -27321,6 +26318,7 @@ class MouseCaptureLostEvent(Event):
         example, when a dialog box is shown or if another application captures
         the mouse).
         """
+
 # end of class MouseCaptureLostEvent
 
 
@@ -27642,6 +26640,7 @@ class MouseEvent(Event, MouseState):
         """
         SetColumnsPerAction(columnsPerAction) -> None
         """
+
     @property
     def WheelAxis(self) -> MouseWheelAxis: ...
     @WheelAxis.setter
@@ -27700,6 +26699,7 @@ class MoveEvent(Event):
         """
         SetPosition(pos) -> None
         """
+
     @property
     def Rect(self) -> Rect: ...
     @Rect.setter
@@ -27732,9 +26732,7 @@ class NavigationKeyEvent(Event):
     FromTab = _NavigationKeyEventFlags.FromTab
 
     @overload
-    def __init__(self, event: NavigationKeyEvent) -> None:
-        ...
-
+    def __init__(self, event: NavigationKeyEvent) -> None: ...
     @overload
     def __init__(self) -> None:
         """
@@ -27809,6 +26807,7 @@ class NavigationKeyEvent(Event):
         
         Marks the event as a window change event.
         """
+
     @property
     def CurrentFocus(self) -> Window: ...
     @CurrentFocus.setter
@@ -27858,6 +26857,7 @@ class NotifyEvent(CommandEvent):
         
         Prevents the change announced by this event from happening.
         """
+
 # end of class NotifyEvent
 
 
@@ -27867,6 +26867,7 @@ class PaintEvent(Event):
     
     A paint event is sent when a window's contents needs to be repainted.
     """
+
 # end of class PaintEvent
 
 
@@ -27889,6 +26890,7 @@ class PaletteChangedEvent(Event):
         """
         GetChangedWindow() -> Window
         """
+
     @property
     def ChangedWindow(self) -> Window: ...
     @ChangedWindow.setter
@@ -27915,6 +26917,7 @@ class QueryNewPaletteEvent(Event):
         """
         GetPaletteRealized() -> bool
         """
+
     @property
     def PaletteRealized(self) -> bool: ...
     @PaletteRealized.setter
@@ -27962,6 +26965,7 @@ class ScrollEvent(CommandEvent):
         """
         SetPosition(pos) -> None
         """
+
     @property
     def Orientation(self) -> int: ...
     @Orientation.setter
@@ -28014,6 +27018,7 @@ class ScrollWinEvent(Event):
         """
         SetPosition(pos) -> None
         """
+
     @property
     def Orientation(self) -> int: ...
     @Orientation.setter
@@ -28075,6 +27080,7 @@ class SetCursorEvent(Event):
         
         Sets the cursor associated with this event.
         """
+
     @property
     def Cursor(self) -> Cursor: ...
     @Cursor.setter
@@ -28113,6 +27119,7 @@ class ShowEvent(Event):
         
         Return true if the window has been shown, false if it has been hidden.
         """
+
     @property
     def Show(self) -> bool: ...
     @Show.setter
@@ -28156,6 +27163,7 @@ class SizeEvent(Event):
         """
         SetRect(rect) -> None
         """
+
     @property
     def Rect(self) -> Rect: ...
     @Rect.setter
@@ -28184,6 +27192,7 @@ class SysColourChangedEvent(Event):
         generated when the user changes the colour settings or when the system
         theme changes (e.g. automatic dark mode switching on macOS).
         """
+
 # end of class SysColourChangedEvent
 
 
@@ -28347,6 +27356,7 @@ class UpdateUIEvent(CommandEvent):
         
         Sets the interval between updates in milliseconds.
         """
+
     @property
     def Checked(self) -> bool: ...
     @Checked.setter
@@ -28388,6 +27398,7 @@ class WindowCreateEvent(CommandEvent):
         
         Return the window being created.
         """
+
     @property
     def Window(self) -> Window: ...
 # end of class WindowCreateEvent
@@ -28415,6 +27426,7 @@ class WindowDestroyEvent(CommandEvent):
         
         Return the window being destroyed.
         """
+
     @property
     def Window(self) -> Window: ...
 # end of class WindowDestroyEvent
@@ -28481,6 +27493,7 @@ class GestureEvent(Event):
         
         Sets the event to be the last in a gesture sequence.
         """
+
     @property
     def Position(self) -> Point: ...
     @Position.setter
@@ -28515,6 +27528,7 @@ class PanGestureEvent(GestureEvent):
         
         Sets the distance covered since the previous panning event.
         """
+
     @property
     def Delta(self) -> Point: ...
     @Delta.setter
@@ -28551,6 +27565,7 @@ class ZoomGestureEvent(GestureEvent):
         
         Sets the zoom Factor.
         """
+
     @property
     def ZoomFactor(self) -> float: ...
     @ZoomFactor.setter
@@ -28589,6 +27604,7 @@ class RotateGestureEvent(GestureEvent):
         Sets the total angle of rotation in radians in clockwise direction
         since the gesture was first started i.e.
         """
+
     @property
     def RotationAngle(self) -> float: ...
     @RotationAngle.setter
@@ -28611,6 +27627,7 @@ class TwoFingerTapEvent(GestureEvent):
         This event is generated when two fingers touch the surface at the same
         time.
         """
+
 # end of class TwoFingerTapEvent
 
 
@@ -28629,6 +27646,7 @@ class LongPressEvent(GestureEvent):
         This event is generated when one finger touches the surface and
         remains stationary.
         """
+
 # end of class LongPressEvent
 
 
@@ -28647,6 +27665,7 @@ class PressAndTapEvent(GestureEvent):
         This event is generated when the user press the surface with one
         finger and taps with another.
         """
+
 # end of class PressAndTapEvent
 
 
@@ -28721,6 +27740,7 @@ class ThreadEvent(Event):
         
         Sets the string value.
         """
+
     @property
     def EventCategory(self) -> EventCategory: ...
     @property
@@ -28770,29 +27790,25 @@ class PyEventBinder(object):
     Instances of this class are used to bind specific events to event handlers.
     """
 
-    def __init__(self, evtType: Union[EventType, tuple[EventType, ...], list[EventType]], expectedIDs: Literal[0, 1, 2] = 0) -> None:
-        pass
+    def __init__(self, evtType: Union[EventType, tuple[EventType, ...], list[EventType]], expectedIDs: Literal[0, 1, 2] = 0) -> None: ...
 
     def Bind(self, target: EventHandler, id1: int, id2: int, function: Optional[Callable[[_E], None]]) -> None:
         """
         Bind this set of event types to target using its Connect() method.
         """
-        pass
 
     def Unbind(self, target: EventHandler, id1: int, id2: int, handler: Optional[Callable[[_E], None]] = None) -> bool:
         """
         Remove an event binding.
         """
-        pass
 
     def _getEvtType(self) -> EventType:
         """
         Make it easy to get to the default wxEventType typeID for this
         event binder.
         """
-        pass
-    typeId = property(_getEvtType)
 
+    typeId = property(_getEvtType)
     @deprecated
     def __call__(self, *args: Any) -> None:
         """
@@ -28801,7 +27817,6 @@ class PyEventBinder(object):
         func) or (window, ID1, ID2, func) parameters depending on the
         type of the event.
         """
-        pass
 
 #-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 # This code block was included from src/event_ex.py
@@ -29052,7 +28067,7 @@ wxEVT_COMMAND_COMBOBOX_CLOSEUP       = wxEVT_COMBOBOX_CLOSEUP
 # End of included code block
 #-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 
-class _HasGetId(typing.Protocol):
+class _HasGetId(Protocol):
     """This is just used for type hinting the Bind(...) and similar functions `source` parameter."""
 
     def GetId(self) -> int: ...
@@ -29128,6 +28143,7 @@ class PyEvent(Event):
         Through the magic of Python this implementation should work for
         this and all derived classes.
         """
+
 # end of class PyEvent
 
 
@@ -29200,6 +28216,7 @@ class PyCommandEvent(CommandEvent):
         Through the magic of Python this implementation should work for
         this and all derived classes.
         """
+
 # end of class PyCommandEvent
 
 #-- end-pyevent --#
@@ -29227,21 +28244,13 @@ class SizerItem(Object):
     """
 
     @overload
-    def __init__(self, window: Window, proportion: int=0, flag: int=0, border: int=0, userData: Optional[PyUserData]=None) -> None:
-        ...
-
+    def __init__(self, window: Window, proportion: int=0, flag: int=0, border: int=0, userData: Optional[PyUserData]=None) -> None: ...
     @overload
-    def __init__(self, sizer: Sizer, flags: SizerFlags) -> None:
-        ...
-
+    def __init__(self, sizer: Sizer, flags: SizerFlags) -> None: ...
     @overload
-    def __init__(self, sizer: Sizer, proportion: int=0, flag: int=0, border: int=0, userData: Optional[PyUserData]=None) -> None:
-        ...
-
+    def __init__(self, sizer: Sizer, proportion: int=0, flag: int=0, border: int=0, userData: Optional[PyUserData]=None) -> None: ...
     @overload
-    def __init__(self, width: int, height: int, proportion: int=0, flag: int=0, border: int=0, userData: Optional[PyUserData]=None) -> None:
-        ...
-
+    def __init__(self, width: int, height: int, proportion: int=0, flag: int=0, border: int=0, userData: Optional[PyUserData]=None) -> None: ...
     @overload
     def __init__(self, window: Window, flags: SizerFlags) -> None:
         """
@@ -29256,9 +28265,7 @@ class SizerItem(Object):
         """
 
     @overload
-    def AssignSpacer(self, w: int, h: int) -> None:
-        ...
-
+    def AssignSpacer(self, w: int, h: int) -> None: ...
     @overload
     def AssignSpacer(self, size: Union[Size, _TwoInts]) -> None:
         """
@@ -29269,13 +28276,9 @@ class SizerItem(Object):
         """
 
     @overload
-    def SetRatio(self, size: Union[Size, _TwoInts]) -> None:
-        ...
-
+    def SetRatio(self, size: Union[Size, _TwoInts]) -> None: ...
     @overload
-    def SetRatio(self, ratio: float) -> None:
-        ...
-
+    def SetRatio(self, ratio: float) -> None: ...
     @overload
     def SetRatio(self, width: int, height: int) -> None:
         """
@@ -29353,9 +28356,7 @@ class SizerItem(Object):
         """
 
     @overload
-    def SetMinSize(self, x: int, y: int) -> None:
-        ...
-
+    def SetMinSize(self, x: int, y: int) -> None: ...
     @overload
     def SetMinSize(self, size: Union[Size, _TwoInts]) -> None:
         """
@@ -29513,6 +28514,7 @@ class SizerItem(Object):
         Set the show item attribute, which sizers use to determine if the item
         is to be made part of the layout or not.
         """
+
     @property
     def Border(self) -> int: ...
     @Border.setter
@@ -29578,9 +28580,7 @@ class SizerFlags:
         """
 
     @overload
-    def Border(self, direction: int=ALL) -> SizerFlags:
-        ...
-
+    def Border(self, direction: int=ALL) -> SizerFlags: ...
     @overload
     def Border(self, direction: int, borderinpixels: int) -> SizerFlags:
         """
@@ -29755,6 +28755,7 @@ class SizerFlags:
         
         Returns the border used by default, with fractional precision.
         """
+
 # end of class SizerFlags
 
 
@@ -29782,25 +28783,15 @@ class Sizer(Object):
         """
 
     @overload
-    def SetItemMinSize(self, window: Window, size: Union[Size, _TwoInts]) -> bool:
-        ...
-
+    def SetItemMinSize(self, window: Window, size: Union[Size, _TwoInts]) -> bool: ...
     @overload
-    def SetItemMinSize(self, sizer: Sizer, width: int, height: int) -> bool:
-        ...
-
+    def SetItemMinSize(self, sizer: Sizer, width: int, height: int) -> bool: ...
     @overload
-    def SetItemMinSize(self, sizer: Sizer, size: Union[Size, _TwoInts]) -> bool:
-        ...
-
+    def SetItemMinSize(self, sizer: Sizer, size: Union[Size, _TwoInts]) -> bool: ...
     @overload
-    def SetItemMinSize(self, index: int, width: int, height: int) -> bool:
-        ...
-
+    def SetItemMinSize(self, index: int, width: int, height: int) -> bool: ...
     @overload
-    def SetItemMinSize(self, index: int, size: Union[Size, _TwoInts]) -> bool:
-        ...
-
+    def SetItemMinSize(self, index: int, size: Union[Size, _TwoInts]) -> bool: ...
     @overload
     def SetItemMinSize(self, window: Window, width: int, height: int) -> bool:
         """
@@ -29815,37 +28806,21 @@ class Sizer(Object):
         """
 
     @overload
-    def Add(self, window: Window, proportion: int=0, flag: int=0, border: int=0, userData: Optional[PyUserData]=None) -> SizerItem:
-        ...
-
+    def Add(self, window: Window, proportion: int=0, flag: int=0, border: int=0, userData: Optional[PyUserData]=None) -> SizerItem: ...
     @overload
-    def Add(self, sizer: Sizer, flags: SizerFlags) -> SizerItem:
-        ...
-
+    def Add(self, sizer: Sizer, flags: SizerFlags) -> SizerItem: ...
     @overload
-    def Add(self, sizer: Sizer, proportion: int=0, flag: int=0, border: int=0, userData: Optional[PyUserData]=None) -> SizerItem:
-        ...
-
+    def Add(self, sizer: Sizer, proportion: int=0, flag: int=0, border: int=0, userData: Optional[PyUserData]=None) -> SizerItem: ...
     @overload
-    def Add(self, width: int, height: int, proportion: int=0, flag: int=0, border: int=0, userData: Optional[PyUserData]=None) -> SizerItem:
-        ...
-
+    def Add(self, width: int, height: int, proportion: int=0, flag: int=0, border: int=0, userData: Optional[PyUserData]=None) -> SizerItem: ...
     @overload
-    def Add(self, width: int, height: int, flags: SizerFlags) -> SizerItem:
-        ...
-
+    def Add(self, width: int, height: int, flags: SizerFlags) -> SizerItem: ...
     @overload
-    def Add(self, item: SizerItem) -> SizerItem:
-        ...
-
+    def Add(self, item: SizerItem) -> SizerItem: ...
     @overload
-    def Add(self, size: Union[Size, _TwoInts], proportion: int=0, flag: int=0, border: int=0, Transfer: Optional[PyUserDatauserData]=None) -> SizerItem:
-        ...
-
+    def Add(self, size: Union[Size, _TwoInts], proportion: int=0, flag: int=0, border: int=0, Transfer: Optional[PyUserDatauserData]=None) -> SizerItem: ...
     @overload
-    def Add(self, size: Union[Size, _TwoInts], flags: SizerFlags) -> SizerItem:
-        ...
-
+    def Add(self, size: Union[Size, _TwoInts], flags: SizerFlags) -> SizerItem: ...
     @overload
     def Add(self, window: Window, flags: SizerFlags) -> SizerItem:
         """
@@ -29909,13 +28884,9 @@ class Sizer(Object):
         """
 
     @overload
-    def Detach(self, sizer: Sizer) -> bool:
-        ...
-
+    def Detach(self, sizer: Sizer) -> bool: ...
     @overload
-    def Detach(self, index: int) -> bool:
-        ...
-
+    def Detach(self, index: int) -> bool: ...
     @overload
     def Detach(self, window: Window) -> bool:
         """
@@ -29973,13 +28944,9 @@ class Sizer(Object):
         """
 
     @overload
-    def GetItem(self, sizer: Sizer, recursive: bool=False) -> SizerItem:
-        ...
-
+    def GetItem(self, sizer: Sizer, recursive: bool=False) -> SizerItem: ...
     @overload
-    def GetItem(self, index: int) -> SizerItem:
-        ...
-
+    def GetItem(self, index: int) -> SizerItem: ...
     @overload
     def GetItem(self, window: Window, recursive: bool=False) -> SizerItem:
         """
@@ -30019,13 +28986,9 @@ class Sizer(Object):
         """
 
     @overload
-    def Hide(self, sizer: Sizer, recursive: bool=False) -> bool:
-        ...
-
+    def Hide(self, sizer: Sizer, recursive: bool=False) -> bool: ...
     @overload
-    def Hide(self, index: int) -> bool:
-        ...
-
+    def Hide(self, index: int) -> bool: ...
     @overload
     def Hide(self, window: Window, recursive: bool=False) -> bool:
         """
@@ -30037,37 +29000,21 @@ class Sizer(Object):
         """
 
     @overload
-    def Insert(self, index: int, window: Window, proportion: int=0, flag: int=0, border: int=0, userData: Optional[PyUserData]=None) -> SizerItem:
-        ...
-
+    def Insert(self, index: int, window: Window, proportion: int=0, flag: int=0, border: int=0, userData: Optional[PyUserData]=None) -> SizerItem: ...
     @overload
-    def Insert(self, index: int, sizer: Sizer, flags: SizerFlags) -> SizerItem:
-        ...
-
+    def Insert(self, index: int, sizer: Sizer, flags: SizerFlags) -> SizerItem: ...
     @overload
-    def Insert(self, index: int, sizer: Sizer, proportion: int=0, flag: int=0, border: int=0, userData: Optional[PyUserData]=None) -> SizerItem:
-        ...
-
+    def Insert(self, index: int, sizer: Sizer, proportion: int=0, flag: int=0, border: int=0, userData: Optional[PyUserData]=None) -> SizerItem: ...
     @overload
-    def Insert(self, index: int, width: int, height: int, proportion: int=0, flag: int=0, border: int=0, userData: Optional[PyUserData]=None) -> SizerItem:
-        ...
-
+    def Insert(self, index: int, width: int, height: int, proportion: int=0, flag: int=0, border: int=0, userData: Optional[PyUserData]=None) -> SizerItem: ...
     @overload
-    def Insert(self, index: int, width: int, height: int, flags: SizerFlags) -> SizerItem:
-        ...
-
+    def Insert(self, index: int, width: int, height: int, flags: SizerFlags) -> SizerItem: ...
     @overload
-    def Insert(self, index: int, item: SizerItem) -> SizerItem:
-        ...
-
+    def Insert(self, index: int, item: SizerItem) -> SizerItem: ...
     @overload
-    def Insert(self, index: int, size: Union[Size, _TwoInts], proportion: int=0, flag: int=0, border: int=0, Transfer: Optional[PyUserDatauserData]=None) -> SizerItem:
-        ...
-
+    def Insert(self, index: int, size: Union[Size, _TwoInts], proportion: int=0, flag: int=0, border: int=0, Transfer: Optional[PyUserDatauserData]=None) -> SizerItem: ...
     @overload
-    def Insert(self, index: int, size: Union[Size, _TwoInts], flags: SizerFlags) -> SizerItem:
-        ...
-
+    def Insert(self, index: int, size: Union[Size, _TwoInts], flags: SizerFlags) -> SizerItem: ...
     @overload
     def Insert(self, index: int, window: Window, flags: SizerFlags) -> SizerItem:
         """
@@ -30106,13 +29053,9 @@ class Sizer(Object):
         """
 
     @overload
-    def IsShown(self, sizer: Sizer) -> bool:
-        ...
-
+    def IsShown(self, sizer: Sizer) -> bool: ...
     @overload
-    def IsShown(self, index: int) -> bool:
-        ...
-
+    def IsShown(self, index: int) -> bool: ...
     @overload
     def IsShown(self, window: Window) -> bool:
         """
@@ -30133,37 +29076,21 @@ class Sizer(Object):
         """
 
     @overload
-    def Prepend(self, window: Window, proportion: int=0, flag: int=0, border: int=0, userData: Optional[PyUserData]=None) -> SizerItem:
-        ...
-
+    def Prepend(self, window: Window, proportion: int=0, flag: int=0, border: int=0, userData: Optional[PyUserData]=None) -> SizerItem: ...
     @overload
-    def Prepend(self, sizer: Sizer, flags: SizerFlags) -> SizerItem:
-        ...
-
+    def Prepend(self, sizer: Sizer, flags: SizerFlags) -> SizerItem: ...
     @overload
-    def Prepend(self, sizer: Sizer, proportion: int=0, flag: int=0, border: int=0, userData: Optional[PyUserData]=None) -> SizerItem:
-        ...
-
+    def Prepend(self, sizer: Sizer, proportion: int=0, flag: int=0, border: int=0, userData: Optional[PyUserData]=None) -> SizerItem: ...
     @overload
-    def Prepend(self, width: int, height: int, proportion: int=0, flag: int=0, border: int=0, userData: Optional[PyUserData]=None) -> SizerItem:
-        ...
-
+    def Prepend(self, width: int, height: int, proportion: int=0, flag: int=0, border: int=0, userData: Optional[PyUserData]=None) -> SizerItem: ...
     @overload
-    def Prepend(self, width: int, height: int, flags: SizerFlags) -> SizerItem:
-        ...
-
+    def Prepend(self, width: int, height: int, flags: SizerFlags) -> SizerItem: ...
     @overload
-    def Prepend(self, item: SizerItem) -> SizerItem:
-        ...
-
+    def Prepend(self, item: SizerItem) -> SizerItem: ...
     @overload
-    def Prepend(self, size: Union[Size, _TwoInts], proportion: int=0, flag: int=0, border: int=0, Transfer: Optional[PyUserDatauserData]=None) -> SizerItem:
-        ...
-
+    def Prepend(self, size: Union[Size, _TwoInts], proportion: int=0, flag: int=0, border: int=0, Transfer: Optional[PyUserDatauserData]=None) -> SizerItem: ...
     @overload
-    def Prepend(self, size: Union[Size, _TwoInts], flags: SizerFlags) -> SizerItem:
-        ...
-
+    def Prepend(self, size: Union[Size, _TwoInts], flags: SizerFlags) -> SizerItem: ...
     @overload
     def Prepend(self, window: Window, flags: SizerFlags) -> SizerItem:
         """
@@ -30210,9 +29137,7 @@ class Sizer(Object):
         """
 
     @overload
-    def Remove(self, index: int) -> bool:
-        ...
-
+    def Remove(self, index: int) -> bool: ...
     @overload
     def Remove(self, sizer: Sizer) -> bool:
         """
@@ -30223,13 +29148,9 @@ class Sizer(Object):
         """
 
     @overload
-    def Replace(self, oldsz: Sizer, newsz: Sizer, recursive: bool=False) -> bool:
-        ...
-
+    def Replace(self, oldsz: Sizer, newsz: Sizer, recursive: bool=False) -> bool: ...
     @overload
-    def Replace(self, index: int, newitem: SizerItem) -> bool:
-        ...
-
+    def Replace(self, index: int, newitem: SizerItem) -> bool: ...
     @overload
     def Replace(self, oldwin: Window, newwin: Window, recursive: bool=False) -> bool:
         """
@@ -30242,9 +29163,7 @@ class Sizer(Object):
         """
 
     @overload
-    def SetDimension(self, pos: Union[Point, _TwoInts], size: Union[Size, _TwoInts]) -> None:
-        ...
-
+    def SetDimension(self, pos: Union[Point, _TwoInts], size: Union[Size, _TwoInts]) -> None: ...
     @overload
     def SetDimension(self, x: int, y: int, width: int, height: int) -> None:
         """
@@ -30257,9 +29176,7 @@ class Sizer(Object):
         """
 
     @overload
-    def SetMinSize(self, width: int, height: int) -> None:
-        ...
-
+    def SetMinSize(self, width: int, height: int) -> None: ...
     @overload
     def SetMinSize(self, size: Union[Size, _TwoInts]) -> None:
         """
@@ -30278,13 +29195,9 @@ class Sizer(Object):
         """
 
     @overload
-    def Show(self, sizer: Sizer, show: bool=True, recursive: bool=False) -> bool:
-        ...
-
+    def Show(self, sizer: Sizer, show: bool=True, recursive: bool=False) -> bool: ...
     @overload
-    def Show(self, index: int, show: bool=True) -> bool:
-        ...
-
+    def Show(self, index: int, show: bool=True) -> bool: ...
     @overload
     def Show(self, window: Window, show: bool=True, recursive: bool=False) -> bool:
         """
@@ -30325,6 +29238,7 @@ class Sizer(Object):
         """
 
     __bool__ = __nonzero__
+
     @property
     def Children(self) -> SizerItemList: ...
     @property
@@ -30406,6 +29320,7 @@ class BoxSizer(Sizer):
         Inform sizer about the first direction that has been decided (by
         parent item).
         """
+
     @property
     def Orientation(self) -> int: ...
     @Orientation.setter
@@ -30423,9 +29338,7 @@ class StaticBoxSizer(BoxSizer):
     """
 
     @overload
-    def __init__(self, orient: int, parent: Window, label: str='') -> None:
-        ...
-
+    def __init__(self, orient: int, parent: Window, label: str='') -> None: ...
     @overload
     def __init__(self, box: StaticBox, orient: int=HORIZONTAL) -> None:
         """
@@ -30456,6 +29369,7 @@ class StaticBoxSizer(BoxSizer):
         
         Method which must be overridden in the derived sizer classes.
         """
+
     @property
     def StaticBox(self) -> StaticBox: ...
 # end of class StaticBoxSizer
@@ -30473,17 +29387,11 @@ class GridSizer(Sizer):
     """
 
     @overload
-    def __init__(self, cols: int, gap: Union[Size, _TwoInts]=Size(0,0)) -> None:
-        ...
-
+    def __init__(self, cols: int, gap: Union[Size, _TwoInts]=Size(0,0)) -> None: ...
     @overload
-    def __init__(self, rows: int, cols: int, vgap: int, hgap: int) -> None:
-        ...
-
+    def __init__(self, rows: int, cols: int, vgap: int, hgap: int) -> None: ...
     @overload
-    def __init__(self, rows: int, cols: int, gap: Union[Size, _TwoInts]) -> None:
-        ...
-
+    def __init__(self, rows: int, cols: int, gap: Union[Size, _TwoInts]) -> None: ...
     @overload
     def __init__(self, cols: int, vgap: int, hgap: int) -> None:
         """
@@ -30589,6 +29497,7 @@ class GridSizer(Sizer):
         on the current number of items and also the rows, cols specified
         in the constructor.
         """
+
     @property
     def Cols(self) -> int: ...
     @Cols.setter
@@ -30627,17 +29536,11 @@ class FlexGridSizer(GridSizer):
     """
 
     @overload
-    def __init__(self, cols: int, gap: Union[Size, _TwoInts]=Size(0,0)) -> None:
-        ...
-
+    def __init__(self, cols: int, gap: Union[Size, _TwoInts]=Size(0,0)) -> None: ...
     @overload
-    def __init__(self, rows: int, cols: int, vgap: int, hgap: int) -> None:
-        ...
-
+    def __init__(self, rows: int, cols: int, vgap: int, hgap: int) -> None: ...
     @overload
-    def __init__(self, rows: int, cols: int, gap: Union[Size, _TwoInts]) -> None:
-        ...
-
+    def __init__(self, rows: int, cols: int, gap: Union[Size, _TwoInts]) -> None: ...
     @overload
     def __init__(self, cols: int, vgap: int, hgap: int) -> None:
         """
@@ -30760,6 +29663,7 @@ class FlexGridSizer(GridSizer):
         This method is abstract and has to be overwritten by any derived
         class.
         """
+
     @property
     def ColWidths(self) -> list[int]: ...
     @property
@@ -30842,6 +29746,7 @@ class StdDialogButtonSizer(BoxSizer):
         
         Implements the calculation of a box sizer's minimal.
         """
+
 # end of class StdDialogButtonSizer
 
 
@@ -30859,9 +29764,7 @@ class GBPosition:
     """
 
     @overload
-    def __init__(self, row: int, col: int) -> None:
-        ...
-
+    def __init__(self, row: int, col: int) -> None: ...
     @overload
     def __init__(self) -> None:
         """
@@ -30900,14 +29803,8 @@ class GBPosition:
         Set a new row value.
         """
 
-    def __ne__(self, p: Union[GBPosition, _TwoInts]) -> bool:
-        """
-        """
-
-    def __eq__(self, p: Union[GBPosition, _TwoInts]) -> bool:
-        """
-        """
-
+    def __ne__(self, p: Union[GBPosition, _TwoInts]) -> bool: ...
+    def __eq__(self, p: Union[GBPosition, _TwoInts]) -> bool: ...
     def Get(self) -> Any:
         """
         Get() -> (row, col)
@@ -30931,47 +29828,16 @@ class GBPosition:
         with a simple statement like this: ``obj = wx.GBPosition(imObj)``.
         """
 
-    def __str__(self):
-        """
-        
-        """
-
-    def __repr__(self):
-        """
-        
-        """
-
-    def __len__(self):
-        """
-        
-        """
-
-    def __nonzero__(self):
-        """
-        
-        """
-
-    def __bool__(self):
-        """
-        
-        """
-
-    def __reduce__(self):
-        """
-        
-        """
-
-    def __getitem__(self, idx):
-        """
-        
-        """
-
-    def __setitem__(self, idx, val):
-        """
-        
-        """
-
+    def __str__(self): ...
+    def __repr__(self): ...
+    def __len__(self): ...
+    def __nonzero__(self): ...
+    def __bool__(self): ...
+    def __reduce__(self): ...
+    def __getitem__(self, idx): ...
+    def __setitem__(self, idx, val): ...
     __safe_for_unpickling__ = True
+
     @property
     def Row(self) -> int: ...
     @Row.setter
@@ -31001,9 +29867,7 @@ class GBSpan:
     """
 
     @overload
-    def __init__(self, rowspan: int, colspan: int) -> None:
-        ...
-
+    def __init__(self, rowspan: int, colspan: int) -> None: ...
     @overload
     def __init__(self) -> None:
         """
@@ -31042,14 +29906,8 @@ class GBSpan:
         Set a new rowspan value.
         """
 
-    def __ne__(self, o: Union[GBSpan, _TwoInts]) -> bool:
-        """
-        """
-
-    def __eq__(self, o: Union[GBSpan, _TwoInts]) -> bool:
-        """
-        """
-
+    def __ne__(self, o: Union[GBSpan, _TwoInts]) -> bool: ...
+    def __eq__(self, o: Union[GBSpan, _TwoInts]) -> bool: ...
     def Get(self) -> Any:
         """
         Get() -> (rowspan, colspan)
@@ -31073,47 +29931,16 @@ class GBSpan:
         with a simple statement like this: ``obj = wx.GBSpan(imObj)``.
         """
 
-    def __str__(self):
-        """
-        
-        """
-
-    def __repr__(self):
-        """
-        
-        """
-
-    def __len__(self):
-        """
-        
-        """
-
-    def __nonzero__(self):
-        """
-        
-        """
-
-    def __bool__(self):
-        """
-        
-        """
-
-    def __reduce__(self):
-        """
-        
-        """
-
-    def __getitem__(self, idx):
-        """
-        
-        """
-
-    def __setitem__(self, idx, val):
-        """
-        
-        """
-
+    def __str__(self): ...
+    def __repr__(self): ...
+    def __len__(self): ...
+    def __nonzero__(self): ...
+    def __bool__(self): ...
+    def __reduce__(self): ...
+    def __getitem__(self, idx): ...
+    def __setitem__(self, idx, val): ...
     __safe_for_unpickling__ = True
+
     @property
     def Rowspan(self) -> int: ...
     @Rowspan.setter
@@ -31144,13 +29971,9 @@ class GBSizerItem(SizerItem):
     """
 
     @overload
-    def __init__(self, window: Window, pos: Union[GBPosition, _TwoInts], span: Union[GBSpan, _TwoInts]=DefaultSpan, flag: int=0, border: int=0, userData: Optional[PyUserData]=None) -> None:
-        ...
-
+    def __init__(self, window: Window, pos: Union[GBPosition, _TwoInts], span: Union[GBSpan, _TwoInts]=DefaultSpan, flag: int=0, border: int=0, userData: Optional[PyUserData]=None) -> None: ...
     @overload
-    def __init__(self, sizer: Sizer, pos: Union[GBPosition, _TwoInts], span: Union[GBSpan, _TwoInts]=DefaultSpan, flag: int=0, border: int=0, userData: Optional[PyUserData]=None) -> None:
-        ...
-
+    def __init__(self, sizer: Sizer, pos: Union[GBPosition, _TwoInts], span: Union[GBSpan, _TwoInts]=DefaultSpan, flag: int=0, border: int=0, userData: Optional[PyUserData]=None) -> None: ...
     @overload
     def __init__(self, width: int, height: int, pos: Union[GBPosition, _TwoInts], span: Union[GBSpan, _TwoInts]=DefaultSpan, flag: int=0, border: int=0, userData: Optional[PyUserData]=None) -> None:
         """
@@ -31184,9 +30007,7 @@ class GBSizerItem(SizerItem):
         """
 
     @overload
-    def Intersects(self, pos: Union[GBPosition, _TwoInts], span: Union[GBSpan, _TwoInts]) -> bool:
-        ...
-
+    def Intersects(self, pos: Union[GBPosition, _TwoInts], span: Union[GBSpan, _TwoInts]) -> bool: ...
     @overload
     def Intersects(self, other: GBSizerItem) -> bool:
         """
@@ -31223,6 +30044,7 @@ class GBSizerItem(SizerItem):
         """
         SetGBSizer(sizer) -> None
         """
+
     @property
     def GBSizer(self) -> GridBagSizer: ...
     @GBSizer.setter
@@ -31259,21 +30081,13 @@ class GridBagSizer(FlexGridSizer):
         """
 
     @overload
-    def Add(self, sizer: Sizer, pos: Union[GBPosition, _TwoInts], span: Union[GBSpan, _TwoInts]=DefaultSpan, flag: int=0, border: int=0, userData: Optional[PyUserData]=None) -> SizerItem:
-        ...
-
+    def Add(self, sizer: Sizer, pos: Union[GBPosition, _TwoInts], span: Union[GBSpan, _TwoInts]=DefaultSpan, flag: int=0, border: int=0, userData: Optional[PyUserData]=None) -> SizerItem: ...
     @overload
-    def Add(self, item: GBSizerItem) -> SizerItem:
-        ...
-
+    def Add(self, item: GBSizerItem) -> SizerItem: ...
     @overload
-    def Add(self, width: int, height: int, pos: Union[GBPosition, _TwoInts], span: Union[GBSpan, _TwoInts]=DefaultSpan, flag: int=0, border: int=0, userData: Optional[PyUserData]=None) -> SizerItem:
-        ...
-
+    def Add(self, width: int, height: int, pos: Union[GBPosition, _TwoInts], span: Union[GBSpan, _TwoInts]=DefaultSpan, flag: int=0, border: int=0, userData: Optional[PyUserData]=None) -> SizerItem: ...
     @overload
-    def Add(self, size: Union[Size, _TwoInts], pos: Union[GBPosition, _TwoInts], span: Union[GBSpan, _TwoInts]=DefaultSpan, flag: int=0, border: int=0, Transfer: Optional[ObjectuserData]=None) -> SizerItem:
-        ...
-
+    def Add(self, size: Union[Size, _TwoInts], pos: Union[GBPosition, _TwoInts], span: Union[GBSpan, _TwoInts]=DefaultSpan, flag: int=0, border: int=0, Transfer: Optional[ObjectuserData]=None) -> SizerItem: ...
     @overload
     def Add(self, window: Window, pos: Union[GBPosition, _TwoInts], span: Union[GBSpan, _TwoInts]=DefaultSpan, flag: int=0, border: int=0, userData: Optional[PyUserData]=None) -> SizerItem:
         """
@@ -31287,9 +30101,7 @@ class GridBagSizer(FlexGridSizer):
         """
 
     @overload
-    def CheckForIntersection(self, pos: Union[GBPosition, _TwoInts], span: Union[GBSpan, _TwoInts], excludeItem: Optional[GBSizerItem]=None) -> bool:
-        ...
-
+    def CheckForIntersection(self, pos: Union[GBPosition, _TwoInts], span: Union[GBSpan, _TwoInts], excludeItem: Optional[GBSizerItem]=None) -> bool: ...
     @overload
     def CheckForIntersection(self, item: GBSizerItem, excludeItem: Optional[GBSizerItem]=None) -> bool:
         """
@@ -31301,9 +30113,7 @@ class GridBagSizer(FlexGridSizer):
         """
 
     @overload
-    def FindItem(self, sizer: Sizer) -> GBSizerItem:
-        ...
-
+    def FindItem(self, sizer: Sizer) -> GBSizerItem: ...
     @overload
     def FindItem(self, window: Window) -> GBSizerItem:
         """
@@ -31315,13 +30125,9 @@ class GridBagSizer(FlexGridSizer):
         """
 
     @overload
-    def GetItemPosition(self, sizer: Sizer) -> GBPosition:
-        ...
-
+    def GetItemPosition(self, sizer: Sizer) -> GBPosition: ...
     @overload
-    def GetItemPosition(self, index: int) -> GBPosition:
-        ...
-
+    def GetItemPosition(self, index: int) -> GBPosition: ...
     @overload
     def GetItemPosition(self, window: Window) -> GBPosition:
         """
@@ -31333,13 +30139,9 @@ class GridBagSizer(FlexGridSizer):
         """
 
     @overload
-    def GetItemSpan(self, sizer: Sizer) -> GBSpan:
-        ...
-
+    def GetItemSpan(self, sizer: Sizer) -> GBSpan: ...
     @overload
-    def GetItemSpan(self, index: int) -> GBSpan:
-        ...
-
+    def GetItemSpan(self, index: int) -> GBSpan: ...
     @overload
     def GetItemSpan(self, window: Window) -> GBSpan:
         """
@@ -31351,13 +30153,9 @@ class GridBagSizer(FlexGridSizer):
         """
 
     @overload
-    def SetItemPosition(self, sizer: Sizer, pos: Union[GBPosition, _TwoInts]) -> bool:
-        ...
-
+    def SetItemPosition(self, sizer: Sizer, pos: Union[GBPosition, _TwoInts]) -> bool: ...
     @overload
-    def SetItemPosition(self, index: int, pos: Union[GBPosition, _TwoInts]) -> bool:
-        ...
-
+    def SetItemPosition(self, index: int, pos: Union[GBPosition, _TwoInts]) -> bool: ...
     @overload
     def SetItemPosition(self, window: Window, pos: Union[GBPosition, _TwoInts]) -> bool:
         """
@@ -31369,13 +30167,9 @@ class GridBagSizer(FlexGridSizer):
         """
 
     @overload
-    def SetItemSpan(self, sizer: Sizer, span: Union[GBSpan, _TwoInts]) -> bool:
-        ...
-
+    def SetItemSpan(self, sizer: Sizer, span: Union[GBSpan, _TwoInts]) -> bool: ...
     @overload
-    def SetItemSpan(self, index: int, span: Union[GBSpan, _TwoInts]) -> bool:
-        ...
-
+    def SetItemSpan(self, index: int, span: Union[GBSpan, _TwoInts]) -> bool: ...
     @overload
     def SetItemSpan(self, window: Window, span: Union[GBSpan, _TwoInts]) -> bool:
         """
@@ -31448,6 +30242,7 @@ class GridBagSizer(FlexGridSizer):
         """
 
     CheckForIntersectionPos = wx.deprecated(CheckForIntersection, 'Use CheckForIntersection instead.')
+
     @property
     def EmptyCellSize(self) -> Size: ...
     @EmptyCellSize.setter
@@ -31518,6 +30313,7 @@ class WrapSizer(BoxSizer):
         Can be overridden in the derived classes to treat some normal items as
         spacers.
         """
+
 # end of class WrapSizer
 
 #-- end-wrapsizer --#
@@ -31735,6 +30531,7 @@ class StandardPaths:
         
         Returns location of Windows shell special folder.
         """
+
     @property
     def AppDocumentsDir(self) -> str: ...
     @property
@@ -31763,10 +30560,7 @@ class StandardPaths:
     def UserDataDir(self) -> str: ...
     @property
     def UserLocalDataDir(self) -> str: ...
-
-    def __init__(self) -> None:
-        """
-        """
+    def __init__(self) -> None: ...
 # end of class StandardPaths
 
 #-- end-stdpaths --#
@@ -31802,6 +30596,7 @@ class EventFilter:
         
         Override this method to implement event pre-processing.
         """
+
 # end of class EventFilter
 
 #-- end-eventfilter --#
@@ -31956,6 +30751,7 @@ class EventLoopBase:
         happens normally (because of Exit() call) or abnormally (because of an
         exception thrown from inside the loop).
         """
+
 # end of class EventLoopBase
 
 
@@ -31973,15 +30769,8 @@ class EventLoopActivator:
         Makes an event loop temporarily active.
         """
 
-    def __enter__(self):
-        """
-        
-        """
-
-    def __exit__(self, exc_type, exc_val, exc_tb):
-        """
-        
-        """
+    def __enter__(self): ...
+    def __exit__(self, exc_type, exc_val, exc_tb): ...
 # end of class EventLoopActivator
 
 
@@ -31998,6 +30787,7 @@ class GUIEventLoop(EventLoopBase):
         
         A generic implementation of the GUI event loop.
         """
+
 # end of class GUIEventLoop
 
 
@@ -32097,6 +30887,7 @@ class AppTraits:
         Helper function mostly useful for derived classes ShowAssertDialog()
         implementation.
         """
+
     @property
     def AssertStackTrace(self) -> str: ...
     @property
@@ -32372,6 +31163,7 @@ class AppConsole(EvtHandler, EventFilter):
         Returns true if the main event loop is currently running, i.e. if the
         application is inside OnRun().
         """
+
     @property
     def AppDisplayName(self) -> str: ...
     @AppDisplayName.setter
@@ -32652,6 +31444,7 @@ class PyApp(AppConsole):
         Returns True if the application is able to connect to the system's
         display, or whatever the equivallent is for the platform.
         """
+
     @property
     def AssertMode(self) -> AppAssertMode: ...
     @AssertMode.setter
@@ -32732,7 +31525,6 @@ def YieldIfNeeded():
     """
     Convenience function for wx.GetApp().Yield(True)
     """
-    pass
 
 class PyOnDemandOutputWindow(object):
     """
@@ -32742,20 +31534,16 @@ class PyOnDemandOutputWindow(object):
     and write the text there.
     """
 
-    def __init__(self, title="wxPython: stdout/stderr"):
-        pass
+    def __init__(self, title="wxPython: stdout/stderr"): ...
 
     def SetParent(self, parent):
         """
         Set the window to be used as the popup Frame's parent.
         """
-        pass
 
-    def CreateOutputWindow(self, txt):
-        pass
+    def CreateOutputWindow(self, txt): ...
 
-    def OnCloseWindow(self, event):
-        pass
+    def OnCloseWindow(self, event): ...
 
     def write(self, text):
         """
@@ -32763,13 +31551,10 @@ class PyOnDemandOutputWindow(object):
         If not called in the context of the gui thread then CallAfter is
         used to do the work there.
         """
-        pass
 
-    def close(self):
-        pass
+    def close(self): ...
 
-    def flush(self):
-        pass
+    def flush(self): ...
 
 class App(PyApp):
     """
@@ -32828,7 +31613,6 @@ class App(PyApp):
             initialization to ensure that the system, toolkit and
             wxWidgets are fully initialized.
         """
-        pass
 
     def OnPreInit(self):
         """
@@ -32837,10 +31621,8 @@ class App(PyApp):
         called.  This can be overridden in derived classes, but be sure to call
         this method from there.
         """
-        pass
 
-    def __del__(self):
-        pass
+    def __del__(self): ...
 
     def SetTopWindow(self, frame):
         """
@@ -32848,22 +31630,18 @@ class App(PyApp):
         the on-demand output window as well as for dialogs that do not have
         an explicit parent set.
         """
-        pass
 
     def MainLoop(self):
         """
         Execute the main GUI event loop
         """
-        pass
 
     def RedirectStdio(self, filename=None):
         """
         Redirect sys.stdout and sys.stderr to a file or a popup window.
         """
-        pass
 
-    def RestoreStdio(self):
-        pass
+    def RestoreStdio(self): ...
 
     def SetOutputWindowAttributes(self, title=None, pos=None, size=None):
         """
@@ -32871,7 +31649,6 @@ class App(PyApp):
         has been redirected. This should be called before any output would
         cause the output window to be created.
         """
-        pass
 
     def InitLocale(self):
         """
@@ -32885,13 +31662,11 @@ class App(PyApp):
         override it in a derived class to behave differently. Please report
         the problem you encountered.
         """
-        pass
 
     def ResetLocale(self):
         """
         This method is now a NOP and will be deprecated.
         """
-        pass
 
     @staticmethod
     def Get():
@@ -32899,7 +31674,6 @@ class App(PyApp):
         A staticmethod returning the currently active application object.
         Essentially just a more pythonic version of :meth:`GetApp`.
         """
-        pass
 
 @deprecated
 class PySimpleApp(App):
@@ -32907,8 +31681,7 @@ class PySimpleApp(App):
     This class is deprecated.  Please use :class:`App` instead.
     """
 
-    def __init__(self, *args, **kw):
-        pass
+    def __init__(self, *args, **kw): ...
 #-- end-app --#
 #-- begin-timer --#
 TIMER_CONTINUOUS: bool
@@ -32924,9 +31697,7 @@ class Timer(EvtHandler):
     """
 
     @overload
-    def __init__(self, owner: EvtHandler, id: int=-1) -> None:
-        ...
-
+    def __init__(self, owner: EvtHandler, id: int=-1) -> None: ...
     @overload
     def __init__(self) -> None:
         """
@@ -33007,6 +31778,7 @@ class Timer(EvtHandler):
         
         Stops the timer.
         """
+
     @property
     def Id(self) -> int: ...
     @property
@@ -33027,9 +31799,7 @@ class TimerRunner:
     """
 
     @overload
-    def __init__(self, timer: Timer, milli: int, oneShot: bool=False) -> None:
-        ...
-
+    def __init__(self, timer: Timer, milli: int, oneShot: bool=False) -> None: ...
     @overload
     def __init__(self, timer: Timer) -> None:
         """
@@ -33043,6 +31813,7 @@ class TimerRunner:
         """
         Start(milli, oneShot=False) -> None
         """
+
 # end of class TimerRunner
 
 
@@ -33075,6 +31846,7 @@ class TimerEvent(Event):
         
         Returns the timer object which generated this event.
         """
+
     @property
     def Interval(self) -> int: ...
     @property
@@ -33162,6 +31934,7 @@ class VisualAttributes:
     """
     Struct containing all the visual attributes of a control.
     """
+
     font: Font
     colFg: Colour
     colBg: Colour
@@ -33183,6 +31956,7 @@ class WindowBase(EvtHandler):
         """
         RemoveChild(child) -> None
         """
+
 # end of class WindowBase
 
 
@@ -33208,13 +31982,12 @@ class Window(WindowBase):
             
             Helper for ensuring EndRepositioningChildren() is called correctly.
             """
+
     # end of class ChildrenRepositioningGuard
 
 
     @overload
-    def __init__(self, parent: Window, id: int=ID_ANY, pos: Union[Point, _TwoInts]=DefaultPosition, size: Union[Size, _TwoInts]=DefaultSize, style: int=0, name: str=PanelNameStr) -> None:
-        ...
-
+    def __init__(self, parent: Window, id: int=ID_ANY, pos: Union[Point, _TwoInts]=DefaultPosition, size: Union[Size, _TwoInts]=DefaultSize, style: int=0, name: str=PanelNameStr) -> None: ...
     @overload
     def __init__(self) -> None:
         """
@@ -33335,9 +32108,7 @@ class Window(WindowBase):
         """
 
     @overload
-    def FindWindow(self, name: str) -> Window:
-        ...
-
+    def FindWindow(self, name: str) -> Window: ...
     @overload
     def FindWindow(self, id: int) -> Window:
         """
@@ -33575,28 +32346,18 @@ class Window(WindowBase):
         """
 
     @overload
-    def FromDIP(self, pt: Union[Point, _TwoInts]) -> Point:
-        ...
-
+    def FromDIP(self, pt: Union[Point, _TwoInts]) -> Point: ...
     @overload
-    def FromDIP(self, d: int) -> int:
-        ...
-
+    def FromDIP(self, d: int) -> int: ...
     @overload
     @staticmethod
-    def FromDIP(sz: Union[Size, _TwoInts], w: Window) -> Size:
-        ...
-
+    def FromDIP(sz: Union[Size, _TwoInts], w: Window) -> Size: ...
     @overload
     @staticmethod
-    def FromDIP(pt: Union[Point, _TwoInts], w: Window) -> Point:
-        ...
-
+    def FromDIP(pt: Union[Point, _TwoInts], w: Window) -> Point: ...
     @overload
     @staticmethod
-    def FromDIP(d: int, w: Window) -> int:
-        ...
-
+    def FromDIP(d: int, w: Window) -> int: ...
     @overload
     def FromDIP(self, sz: Union[Size, _TwoInts]) -> Size:
         """
@@ -33612,28 +32373,18 @@ class Window(WindowBase):
         """
 
     @overload
-    def ToDIP(self, pt: Union[Point, _TwoInts]) -> Point:
-        ...
-
+    def ToDIP(self, pt: Union[Point, _TwoInts]) -> Point: ...
     @overload
-    def ToDIP(self, d: int) -> int:
-        ...
-
+    def ToDIP(self, d: int) -> int: ...
     @overload
     @staticmethod
-    def ToDIP(sz: Union[Size, _TwoInts], w: Window) -> Size:
-        ...
-
+    def ToDIP(sz: Union[Size, _TwoInts], w: Window) -> Size: ...
     @overload
     @staticmethod
-    def ToDIP(pt: Union[Point, _TwoInts], w: Window) -> Point:
-        ...
-
+    def ToDIP(pt: Union[Point, _TwoInts], w: Window) -> Point: ...
     @overload
     @staticmethod
-    def ToDIP(d: int, w: Window) -> int:
-        ...
-
+    def ToDIP(d: int, w: Window) -> int: ...
     @overload
     def ToDIP(self, sz: Union[Size, _TwoInts]) -> Size:
         """
@@ -33649,28 +32400,18 @@ class Window(WindowBase):
         """
 
     @overload
-    def FromPhys(self, pt: Union[Point, _TwoInts]) -> Point:
-        ...
-
+    def FromPhys(self, pt: Union[Point, _TwoInts]) -> Point: ...
     @overload
-    def FromPhys(self, d: int) -> int:
-        ...
-
+    def FromPhys(self, d: int) -> int: ...
     @overload
     @staticmethod
-    def FromPhys(sz: Union[Size, _TwoInts], w: Window) -> Size:
-        ...
-
+    def FromPhys(sz: Union[Size, _TwoInts], w: Window) -> Size: ...
     @overload
     @staticmethod
-    def FromPhys(pt: Union[Point, _TwoInts], w: Window) -> Point:
-        ...
-
+    def FromPhys(pt: Union[Point, _TwoInts], w: Window) -> Point: ...
     @overload
     @staticmethod
-    def FromPhys(d: int, w: Window) -> int:
-        ...
-
+    def FromPhys(d: int, w: Window) -> int: ...
     @overload
     def FromPhys(self, sz: Union[Size, _TwoInts]) -> Size:
         """
@@ -33685,28 +32426,18 @@ class Window(WindowBase):
         """
 
     @overload
-    def ToPhys(self, pt: Union[Point, _TwoInts]) -> Point:
-        ...
-
+    def ToPhys(self, pt: Union[Point, _TwoInts]) -> Point: ...
     @overload
-    def ToPhys(self, d: int) -> int:
-        ...
-
+    def ToPhys(self, d: int) -> int: ...
     @overload
     @staticmethod
-    def ToPhys(sz: Union[Size, _TwoInts], w: Window) -> Size:
-        ...
-
+    def ToPhys(sz: Union[Size, _TwoInts], w: Window) -> Size: ...
     @overload
     @staticmethod
-    def ToPhys(pt: Union[Point, _TwoInts], w: Window) -> Point:
-        ...
-
+    def ToPhys(pt: Union[Point, _TwoInts], w: Window) -> Point: ...
     @overload
     @staticmethod
-    def ToPhys(d: int, w: Window) -> int:
-        ...
-
+    def ToPhys(d: int, w: Window) -> int: ...
     @overload
     def ToPhys(self, sz: Union[Size, _TwoInts]) -> Size:
         """
@@ -33910,13 +32641,9 @@ class Window(WindowBase):
         """
 
     @overload
-    def SetClientSize(self, size: Union[Size, _TwoInts]) -> None:
-        ...
-
+    def SetClientSize(self, size: Union[Size, _TwoInts]) -> None: ...
     @overload
-    def SetClientSize(self, rect: Union[Rect, _FourInts]) -> None:
-        ...
-
+    def SetClientSize(self, rect: Union[Rect, _FourInts]) -> None: ...
     @overload
     def SetClientSize(self, width: int, height: int) -> None:
         """
@@ -33978,17 +32705,11 @@ class Window(WindowBase):
         """
 
     @overload
-    def SetSize(self, rect: Union[Rect, _FourInts]) -> None:
-        ...
-
+    def SetSize(self, rect: Union[Rect, _FourInts]) -> None: ...
     @overload
-    def SetSize(self, size: Union[Size, _TwoInts]) -> None:
-        ...
-
+    def SetSize(self, size: Union[Size, _TwoInts]) -> None: ...
     @overload
-    def SetSize(self, width: int, height: int) -> None:
-        ...
-
+    def SetSize(self, width: int, height: int) -> None: ...
     @overload
     def SetSize(self, x: int, y: int, width: int, height: int, sizeFlags: int=SIZE_AUTO) -> None:
         """
@@ -34001,9 +32722,7 @@ class Window(WindowBase):
         """
 
     @overload
-    def SetSizeHints(self, minW: int, minH: int, maxW: int=-1, maxH: int=-1, incW: int=-1, incH: int=-1) -> None:
-        ...
-
+    def SetSizeHints(self, minW: int, minH: int, maxW: int=-1, maxH: int=-1, incW: int=-1, incH: int=-1) -> None: ...
     @overload
     def SetSizeHints(self, minSize: Union[Size, _TwoInts], maxSize: Union[Size, _TwoInts]=DefaultSize, incSize: Union[Size, _TwoInts]=DefaultSize) -> None:
         """
@@ -34015,9 +32734,7 @@ class Window(WindowBase):
         """
 
     @overload
-    def SetVirtualSize(self, size: Union[Size, _TwoInts]) -> None:
-        ...
-
+    def SetVirtualSize(self, size: Union[Size, _TwoInts]) -> None: ...
     @overload
     def SetVirtualSize(self, width: int, height: int) -> None:
         """
@@ -34104,9 +32821,7 @@ class Window(WindowBase):
         """
 
     @overload
-    def Move(self, pt: Union[Point, _TwoInts], flags: int=SIZE_USE_EXISTING) -> None:
-        ...
-
+    def Move(self, pt: Union[Point, _TwoInts], flags: int=SIZE_USE_EXISTING) -> None: ...
     @overload
     def Move(self, x: int, y: int, flags: int=SIZE_USE_EXISTING) -> None:
         """
@@ -34124,9 +32839,7 @@ class Window(WindowBase):
         """
 
     @overload
-    def ClientToScreen(self, pt: Union[Point, _TwoInts]) -> Point:
-        ...
-
+    def ClientToScreen(self, pt: Union[Point, _TwoInts]) -> Point: ...
     @overload
     def ClientToScreen(self, x: int, y: int) -> tuple[int, int]:
         """
@@ -34138,9 +32851,7 @@ class Window(WindowBase):
         """
 
     @overload
-    def ConvertDialogToPixels(self, sz: Union[Size, _TwoInts]) -> Size:
-        ...
-
+    def ConvertDialogToPixels(self, sz: Union[Size, _TwoInts]) -> Size: ...
     @overload
     def ConvertDialogToPixels(self, pt: Union[Point, _TwoInts]) -> Point:
         """
@@ -34151,9 +32862,7 @@ class Window(WindowBase):
         """
 
     @overload
-    def ConvertPixelsToDialog(self, sz: Union[Size, _TwoInts]) -> Size:
-        ...
-
+    def ConvertPixelsToDialog(self, sz: Union[Size, _TwoInts]) -> Size: ...
     @overload
     def ConvertPixelsToDialog(self, pt: Union[Point, _TwoInts]) -> Point:
         """
@@ -34164,9 +32873,7 @@ class Window(WindowBase):
         """
 
     @overload
-    def ScreenToClient(self, pt: Union[Point, _TwoInts]) -> Point:
-        ...
-
+    def ScreenToClient(self, pt: Union[Point, _TwoInts]) -> Point: ...
     @overload
     def ScreenToClient(self, x: int, y: int) -> tuple[int, int]:
         """
@@ -34325,7 +33032,7 @@ class Window(WindowBase):
         children recursively.
         """
 
-    def SetBackgroundColour(self, colour: Union[Colour, wx.Colour, _ThreeInts, _FourInts, str, None]) -> bool:
+    def SetBackgroundColour(self, colour: Union[Colour, _ThreeInts, _FourInts, str, None]) -> bool:
         """
         SetBackgroundColour(colour) -> bool
         
@@ -34353,14 +33060,14 @@ class Window(WindowBase):
         Sets the font for this window.
         """
 
-    def SetForegroundColour(self, colour: Union[Colour, wx.Colour, _ThreeInts, _FourInts, str, None]) -> bool:
+    def SetForegroundColour(self, colour: Union[Colour, _ThreeInts, _FourInts, str, None]) -> bool:
         """
         SetForegroundColour(colour) -> bool
         
         Sets the foreground colour of the window.
         """
 
-    def SetOwnBackgroundColour(self, colour: Union[Colour, wx.Colour, _ThreeInts, _FourInts, str, None]) -> None:
+    def SetOwnBackgroundColour(self, colour: Union[Colour, _ThreeInts, _FourInts, str, None]) -> None:
         """
         SetOwnBackgroundColour(colour) -> None
         
@@ -34398,7 +33105,7 @@ class Window(WindowBase):
         the children of this window.
         """
 
-    def SetOwnForegroundColour(self, colour: Union[Colour, wx.Colour, _ThreeInts, _FourInts, str, None]) -> None:
+    def SetOwnForegroundColour(self, colour: Union[Colour, _ThreeInts, _FourInts, str, None]) -> None:
         """
         SetOwnForegroundColour(colour) -> None
         
@@ -34681,17 +33388,11 @@ class Window(WindowBase):
         """
 
     @overload
-    def IsExposed(self, pt: Union[Point, _TwoInts]) -> bool:
-        ...
-
+    def IsExposed(self, pt: Union[Point, _TwoInts]) -> bool: ...
     @overload
-    def IsExposed(self, x: int, y: int, w: int, h: int) -> bool:
-        ...
-
+    def IsExposed(self, x: int, y: int, w: int, h: int) -> bool: ...
     @overload
-    def IsExposed(self, rect: Union[Rect, _FourInts]) -> bool:
-        ...
-
+    def IsExposed(self, rect: Union[Rect, _FourInts]) -> bool: ...
     @overload
     def IsExposed(self, x: int, y: int) -> bool:
         """
@@ -34788,9 +33489,7 @@ class Window(WindowBase):
         """
 
     @overload
-    def SetToolTip(self, tip: ToolTip) -> None:
-        ...
-
+    def SetToolTip(self, tip: ToolTip) -> None: ...
     @overload
     def SetToolTip(self, tipString: str) -> None:
         """
@@ -34808,9 +33507,7 @@ class Window(WindowBase):
         """
 
     @overload
-    def GetPopupMenuSelectionFromUser(self, menu: Menu, x: int, y: int) -> int:
-        ...
-
+    def GetPopupMenuSelectionFromUser(self, menu: Menu, x: int, y: int) -> int: ...
     @overload
     def GetPopupMenuSelectionFromUser(self, menu: Menu, pos: Union[Point, _TwoInts]=DefaultPosition) -> int:
         """
@@ -34822,9 +33519,7 @@ class Window(WindowBase):
         """
 
     @overload
-    def PopupMenu(self, menu: Menu, x: int, y: int) -> bool:
-        ...
-
+    def PopupMenu(self, menu: Menu, x: int, y: int) -> bool: ...
     @overload
     def PopupMenu(self, menu: Menu, pos: Union[Point, _TwoInts]=DefaultPosition) -> bool:
         """
@@ -35172,9 +33867,7 @@ class Window(WindowBase):
         """
 
     @overload
-    def HitTest(self, pt: Union[Point, _TwoInts]) -> HitTest:
-        ...
-
+    def HitTest(self, pt: Union[Point, _TwoInts]) -> HitTest: ...
     @overload
     def HitTest(self, x: int, y: int) -> HitTest:
         """
@@ -35185,9 +33878,7 @@ class Window(WindowBase):
         """
 
     @overload
-    def GetBorder(self) -> Border:
-        ...
-
+    def GetBorder(self) -> Border: ...
     @overload
     def GetBorder(self, flags: int) -> Border:
         """
@@ -35389,24 +34080,16 @@ class Window(WindowBase):
         Construct the actual window object after creating the C++ object.
         """
 
-    def SetRect(self, rect):
-        """
-        
-        """
+    def SetRect(self, rect): ...
     @property
     def Rect(self) -> Rect: ...
     @Rect.setter
     def Rect(self, value: Rect, /) -> None: ...
-
-    def SetClientRect(self, rect):
-        """
-        
-        """
+    def SetClientRect(self, rect): ...
     @property
     def ClientRect(self) -> Rect: ...
     @ClientRect.setter
     def ClientRect(self, value: Rect, /) -> None: ...
-
     def GetGtkWidget(self) -> Any:
         """
         GetGtkWidget() -> Any
@@ -35473,10 +34156,7 @@ class Window(WindowBase):
         A convenience wrapper for :meth:`ConvertDialogToPixels`.
         """
 
-    def PostCreate(self, pre):
-        """
-        
-        """
+    def PostCreate(self, pre): ...
     @property
     def AcceleratorTable(self) -> AcceleratorTable: ...
     @AcceleratorTable.setter
@@ -35488,7 +34168,7 @@ class Window(WindowBase):
     @property
     def BackgroundColour(self) -> Colour: ...
     @BackgroundColour.setter
-    def BackgroundColour(self, value: Union[Colour, wx.Colour, _ThreeInts, _FourInts, str, None], /) -> None: ...
+    def BackgroundColour(self, value: Union[Colour, _ThreeInts, _FourInts, str, None], /) -> None: ...
     @property
     def BackgroundStyle(self) -> BackgroundStyle: ...
     @BackgroundStyle.setter
@@ -35550,7 +34230,7 @@ class Window(WindowBase):
     @property
     def ForegroundColour(self) -> Colour: ...
     @ForegroundColour.setter
-    def ForegroundColour(self, value: Union[Colour, wx.Colour, _ThreeInts, _FourInts, str, None], /) -> None: ...
+    def ForegroundColour(self, value: Union[Colour, _ThreeInts, _FourInts, str, None], /) -> None: ...
     @property
     def GrandParent(self) -> Window: ...
     @property
@@ -35661,57 +34341,16 @@ class Window(WindowBase):
     def MaxClientSize(self) -> Size: ...
     @MaxClientSize.setter
     def MaxClientSize(self, value: Union[Size, _TwoInts], /) -> None: ...
-
-    def GetPositionTuple(self):
-        """
-        
-        """
-
-    def GetSizeTuple(self):
-        """
-        
-        """
-
-    def MoveXY(self, x, y):
-        """
-        
-        """
-
-    def SetSizeWH(self, w, h):
-        """
-        
-        """
-
-    def SetVirtualSizeWH(self, w, h):
-        """
-        
-        """
-
-    def GetVirtualSizeTuple(self):
-        """
-        
-        """
-
-    def SetToolTipString(self, string):
-        """
-        
-        """
-
-    def ConvertDialogPointToPixels(self, point):
-        """
-        
-        """
-
-    def ConvertDialogSizeToPixels(self, size):
-        """
-        
-        """
-
-    def SetSizeHintsSz(self, minSize, maxSize=wx.DefaultSize, incSize=wx.DefaultSize):
-        """
-        
-        """
-
+    def GetPositionTuple(self): ...
+    def GetSizeTuple(self): ...
+    def MoveXY(self, x, y): ...
+    def SetSizeWH(self, w, h): ...
+    def SetVirtualSizeWH(self, w, h): ...
+    def GetVirtualSizeTuple(self): ...
+    def SetToolTipString(self, string): ...
+    def ConvertDialogPointToPixels(self, point): ...
+    def ConvertDialogSizeToPixels(self, size): ...
+    def SetSizeHintsSz(self, minSize, maxSize=wx.DefaultSize, incSize=wx.DefaultSize): ...
     def DoGetBestSize(self) -> Size:
         """
         DoGetBestSize() -> Size
@@ -35742,6 +34381,7 @@ class Window(WindowBase):
         pointer returned by GetEventHandler() and not on the wxWindow object
         itself.
         """
+
 # end of class Window
 
 
@@ -35942,6 +34582,7 @@ class Validator(EvtHandler):
         
         Returns if the error sound is currently disabled.
         """
+
     @property
     def Window(self) -> Window: ...
     @Window.setter
@@ -35963,9 +34604,7 @@ class Panel(Window):
     """
 
     @overload
-    def __init__(self, parent: Window, id: int=ID_ANY, pos: Union[Point, _TwoInts]=DefaultPosition, size: Union[Size, _TwoInts]=DefaultSize, style: int=TAB_TRAVERSAL, name: str=PanelNameStr) -> None:
-        ...
-
+    def __init__(self, parent: Window, id: int=ID_ANY, pos: Union[Point, _TwoInts]=DefaultPosition, size: Union[Size, _TwoInts]=DefaultSize, style: int=TAB_TRAVERSAL, name: str=PanelNameStr) -> None: ...
     @overload
     def __init__(self) -> None:
         """
@@ -36027,6 +34666,7 @@ class Panel(Window):
         """
         GetClassDefaultAttributes(variant=WINDOW_VARIANT_NORMAL) -> VisualAttributes
         """
+
 # end of class Panel
 
 
@@ -36056,9 +34696,7 @@ class MenuItem(Object):
         """
 
     @overload
-    def GetBitmap(self, checked: bool) -> Bitmap:
-        ...
-
+    def GetBitmap(self, checked: bool) -> Bitmap: ...
     @overload
     def GetBitmap(self) -> Bitmap:
         """
@@ -36214,7 +34852,7 @@ class MenuItem(Object):
         Returns true if the item is a submenu.
         """
 
-    def SetBackgroundColour(self, colour: Union[Colour, wx.Colour, _ThreeInts, _FourInts, str, None]) -> None:
+    def SetBackgroundColour(self, colour: Union[Colour, _ThreeInts, _FourInts, str, None]) -> None:
         """
         SetBackgroundColour(colour) -> None
         
@@ -36222,11 +34860,9 @@ class MenuItem(Object):
         """
 
     @overload
-    def SetBitmap(self, bmp: Union[BitmapBundle, wx.Bitmap, wx.Icon], checked: bool) -> None:
-        ...
-
+    def SetBitmap(self, bmp: Union[BitmapBundle, Bitmap, Icon], checked: bool) -> None: ...
     @overload
-    def SetBitmap(self, bmp: Union[BitmapBundle, wx.Bitmap, wx.Icon]) -> None:
+    def SetBitmap(self, bmp: Union[BitmapBundle, Bitmap, Icon]) -> None:
         """
         SetBitmap(bmp) -> None
         SetBitmap(bmp, checked) -> None
@@ -36234,14 +34870,14 @@ class MenuItem(Object):
         Sets the bitmap for the menu item.
         """
 
-    def SetBitmaps(self, checked: Union[BitmapBundle, wx.Bitmap, wx.Icon], unchecked: Union[BitmapBundle, wx.Bitmap, wx.Icon]=NullBitmap) -> None:
+    def SetBitmaps(self, checked: Union[BitmapBundle, Bitmap, Icon], unchecked: Union[BitmapBundle, Bitmap, Icon]=NullBitmap) -> None:
         """
         SetBitmaps(checked, unchecked=NullBitmap) -> None
         
         Sets the checked/unchecked bitmaps for the menu item.
         """
 
-    def SetDisabledBitmap(self, disabled: Union[BitmapBundle, wx.Bitmap, wx.Icon]) -> None:
+    def SetDisabledBitmap(self, disabled: Union[BitmapBundle, Bitmap, Icon]) -> None:
         """
         SetDisabledBitmap(disabled) -> None
         
@@ -36290,7 +34926,7 @@ class MenuItem(Object):
         Sets the submenu of this menu item.
         """
 
-    def SetTextColour(self, colour: Union[Colour, wx.Colour, _ThreeInts, _FourInts, str, None]) -> None:
+    def SetTextColour(self, colour: Union[Colour, _ThreeInts, _FourInts, str, None]) -> None:
         """
         SetTextColour(colour) -> None
         
@@ -36340,6 +34976,7 @@ class MenuItem(Object):
         
         Strips all accelerator characters and mnemonics from the given text.
         """
+
     @property
     def Accel(self) -> AcceleratorEntry: ...
     @Accel.setter
@@ -36347,17 +34984,17 @@ class MenuItem(Object):
     @property
     def BackgroundColour(self) -> Colour: ...
     @BackgroundColour.setter
-    def BackgroundColour(self, value: Union[Colour, wx.Colour, _ThreeInts, _FourInts, str, None], /) -> None: ...
+    def BackgroundColour(self, value: Union[Colour, _ThreeInts, _FourInts, str, None], /) -> None: ...
     @property
     def Bitmap(self) -> Bitmap: ...
     @Bitmap.setter
-    def Bitmap(self, value: Union[BitmapBundle, wx.Bitmap, wx.Icon], /) -> None: ...
+    def Bitmap(self, value: Union[BitmapBundle, Bitmap, Icon], /) -> None: ...
     @property
     def BitmapBundle(self) -> BitmapBundle: ...
     @property
     def DisabledBitmap(self) -> Bitmap: ...
     @DisabledBitmap.setter
-    def DisabledBitmap(self, value: Union[BitmapBundle, wx.Bitmap, wx.Icon], /) -> None: ...
+    def DisabledBitmap(self, value: Union[BitmapBundle, Bitmap, Icon], /) -> None: ...
     @property
     def Font(self) -> Font: ...
     @Font.setter
@@ -36391,7 +35028,7 @@ class MenuItem(Object):
     @property
     def TextColour(self) -> Colour: ...
     @TextColour.setter
-    def TextColour(self, value: Union[Colour, wx.Colour, _ThreeInts, _FourInts, str, None], /) -> None: ...
+    def TextColour(self, value: Union[Colour, _ThreeInts, _FourInts, str, None], /) -> None: ...
     @property
     def Enabled(self) -> bool: ...
     @Enabled.setter
@@ -36413,13 +35050,9 @@ class Menu(EvtHandler):
     """
 
     @overload
-    def __init__(self, style: int) -> None:
-        ...
-
+    def __init__(self, style: int) -> None: ...
     @overload
-    def __init__(self, title: str, style: int=0) -> None:
-        ...
-
+    def __init__(self, title: str, style: int=0) -> None: ...
     @overload
     def __init__(self) -> None:
         """
@@ -36440,13 +35073,9 @@ class Menu(EvtHandler):
         """
 
     @overload
-    def Append(self, id: int, item: str, subMenu: Menu, helpString: str='') -> MenuItem:
-        ...
-
+    def Append(self, id: int, item: str, subMenu: Menu, helpString: str='') -> MenuItem: ...
     @overload
-    def Append(self, menuItem: MenuItem) -> MenuItem:
-        ...
-
+    def Append(self, menuItem: MenuItem) -> MenuItem: ...
     @overload
     def Append(self, id: int, item: str='', helpString: str='', kind: ItemKind=ITEM_NORMAL) -> MenuItem:
         """
@@ -36501,9 +35130,7 @@ class Menu(EvtHandler):
         """
 
     @overload
-    def Delete(self, item: MenuItem) -> bool:
-        ...
-
+    def Delete(self, item: MenuItem) -> bool: ...
     @overload
     def Delete(self, id: int) -> bool:
         """
@@ -36514,9 +35141,7 @@ class Menu(EvtHandler):
         """
 
     @overload
-    def DestroyItem(self, item: MenuItem) -> bool:
-        ...
-
+    def DestroyItem(self, item: MenuItem) -> bool: ...
     @overload
     def DestroyItem(self, id: int) -> bool:
         """
@@ -36542,9 +35167,7 @@ class Menu(EvtHandler):
         """
 
     @overload
-    def FindItem(self, id: int) -> tuple[MenuItem, Menu]:
-        ...
-
+    def FindItem(self, id: int) -> tuple[MenuItem, Menu]: ...
     @overload
     def FindItem(self, itemString: str) -> int:
         """
@@ -36598,13 +35221,9 @@ class Menu(EvtHandler):
         """
 
     @overload
-    def Insert(self, pos: int, id: int, item: str='', helpString: str='', kind: ItemKind=ITEM_NORMAL) -> MenuItem:
-        ...
-
+    def Insert(self, pos: int, id: int, item: str='', helpString: str='', kind: ItemKind=ITEM_NORMAL) -> MenuItem: ...
     @overload
-    def Insert(self, pos: int, id: int, text: str, submenu: Menu, help: str='') -> MenuItem:
-        ...
-
+    def Insert(self, pos: int, id: int, text: str, submenu: Menu, help: str='') -> MenuItem: ...
     @overload
     def Insert(self, pos: int, menuItem: MenuItem) -> MenuItem:
         """
@@ -36651,13 +35270,9 @@ class Menu(EvtHandler):
         """
 
     @overload
-    def Prepend(self, id: int, item: str='', helpString: str='', kind: ItemKind=ITEM_NORMAL) -> MenuItem:
-        ...
-
+    def Prepend(self, id: int, item: str='', helpString: str='', kind: ItemKind=ITEM_NORMAL) -> MenuItem: ...
     @overload
-    def Prepend(self, id: int, text: str, subMenu: Menu, help: str='') -> MenuItem:
-        ...
-
+    def Prepend(self, id: int, text: str, subMenu: Menu, help: str='') -> MenuItem: ...
     @overload
     def Prepend(self, menuItem: MenuItem) -> MenuItem:
         """
@@ -36691,9 +35306,7 @@ class Menu(EvtHandler):
         """
 
     @overload
-    def Remove(self, item: MenuItem) -> MenuItem:
-        ...
-
+    def Remove(self, item: MenuItem) -> MenuItem: ...
     @overload
     def Remove(self, id: int) -> MenuItem:
         """
@@ -36777,46 +35390,14 @@ class Menu(EvtHandler):
         IsAttached() -> bool
         """
 
-    def AppendMenu(self, id, item, subMenu, help=""):
-        """
-        
-        """
-
-    def AppendItem(self, menuItem):
-        """
-        
-        """
-
-    def InsertMenu(self, pos, id, item, subMenu, help=""):
-        """
-        
-        """
-
-    def InsertItem(self, pos, menuItem):
-        """
-        
-        """
-
-    def PrependMenu(self, id, item, subMenu, help=""):
-        """
-        
-        """
-
-    def PrependItem(self, menuItem):
-        """
-        
-        """
-
-    def RemoveMenu(self, id, item, subMenu, help=""):
-        """
-        
-        """
-
-    def RemoveItem(self, menuItem):
-        """
-        
-        """
-
+    def AppendMenu(self, id, item, subMenu, help=""): ...
+    def AppendItem(self, menuItem): ...
+    def InsertMenu(self, pos, id, item, subMenu, help=""): ...
+    def InsertItem(self, pos, menuItem): ...
+    def PrependMenu(self, id, item, subMenu, help=""): ...
+    def PrependItem(self, menuItem): ...
+    def RemoveMenu(self, id, item, subMenu, help=""): ...
+    def RemoveItem(self, menuItem): ...
     def FindItemById(self, id: int) -> MenuItem:
         """
         FindItemById(id) -> MenuItem
@@ -36826,6 +35407,7 @@ class Menu(EvtHandler):
         Finds the menu item object associated with the given menu item
         identifier.
         """
+
     @property
     def InvokingWindow(self) -> Window: ...
     @InvokingWindow.setter
@@ -37094,6 +35676,7 @@ class MenuBar(Window):
         
         Clear and add new menus to the :class:`MenuBar` from a list of (menu, label) items.
         """
+
     Menus = property(GetMenus, SetMenus)
 # end of class MenuBar
 
@@ -37121,9 +35704,7 @@ class Scrolled:
     """
 
     @overload
-    def __init__(self, parent: Window, id: int=-1, pos: Union[Point, _TwoInts]=DefaultPosition, size: Union[Size, _TwoInts]=DefaultSize, style: int=HSCROLL|VSCROLL, name: str="scrolledWindow") -> None:
-        ...
-
+    def __init__(self, parent: Window, id: int=-1, pos: Union[Point, _TwoInts]=DefaultPosition, size: Union[Size, _TwoInts]=DefaultSize, style: int=HSCROLL|VSCROLL, name: str="scrolledWindow") -> None: ...
     @overload
     def __init__(self) -> None:
         """
@@ -37137,9 +35718,7 @@ class Scrolled:
         """
 
     @overload
-    def CalcScrolledPosition(self, pt: Union[Point, _TwoInts]) -> Point:
-        ...
-
+    def CalcScrolledPosition(self, pt: Union[Point, _TwoInts]) -> Point: ...
     @overload
     def CalcScrolledPosition(self, x: int, y: int) -> tuple[int, int]:
         """
@@ -37150,9 +35729,7 @@ class Scrolled:
         """
 
     @overload
-    def CalcUnscrolledPosition(self, pt: Union[Point, _TwoInts]) -> Point:
-        ...
-
+    def CalcUnscrolledPosition(self, pt: Union[Point, _TwoInts]) -> Point: ...
     @overload
     def CalcUnscrolledPosition(self, x: int, y: int) -> tuple[int, int]:
         """
@@ -37238,9 +35815,7 @@ class Scrolled:
         """
 
     @overload
-    def Scroll(self, pt: Union[Point, _TwoInts]) -> None:
-        ...
-
+    def Scroll(self, pt: Union[Point, _TwoInts]) -> None: ...
     @overload
     def Scroll(self, x: int, y: int) -> None:
         """
@@ -37352,6 +35927,7 @@ class Scrolled:
         """
         GetClassDefaultAttributes(variant=WINDOW_VARIANT_NORMAL) -> VisualAttributes
         """
+
     @property
     def ScaleX(self) -> float: ...
     @property
@@ -37364,7 +35940,6 @@ class Scrolled:
     def TargetWindow(self) -> Window: ...
     @TargetWindow.setter
     def TargetWindow(self, value: Window, /) -> None: ...
-
     def ShouldScrollToChildOnFocus(self, child: Window) -> bool:
         """
         ShouldScrollToChildOnFocus(child) -> bool
@@ -37380,6 +35955,7 @@ class Scrolled:
         Function which must be overridden to implement the size available for
         the scroll target for the given size of the main window.
         """
+
 # end of class Scrolled
 
 class ScrolledCanvas(Window, Scrolled):
@@ -37400,9 +35976,7 @@ class ScrolledWindow(Window, Scrolled):
     """
 
     @overload
-    def __init__(self, parent: Window, id: int=ID_ANY, pos: Union[Point, _TwoInts]=DefaultPosition, size: Union[Size, _TwoInts]=DefaultSize, style: int=ScrolledWindowStyle, name: str=PanelNameStr) -> None:
-        ...
-
+    def __init__(self, parent: Window, id: int=ID_ANY, pos: Union[Point, _TwoInts]=DefaultPosition, size: Union[Size, _TwoInts]=DefaultSize, style: int=ScrolledWindowStyle, name: str=PanelNameStr) -> None: ...
     @overload
     def __init__(self) -> None:
         """
@@ -37425,6 +35999,7 @@ class ScrolledWindow(Window, Scrolled):
         """
         GetClassDefaultAttributes(variant=WINDOW_VARIANT_NORMAL) -> VisualAttributes
         """
+
 # end of class ScrolledWindow
 
 
@@ -37568,6 +36143,7 @@ class VarScrollHelperBase:
         Returns the virtual scroll unit under the device unit given accounting
         for scroll position or wxNOT_FOUND if none (i.e.
         """
+
     @property
     def NonOrientationTargetSize(self) -> int: ...
     @property
@@ -37582,7 +36158,6 @@ class VarScrollHelperBase:
     def VisibleBegin(self) -> int: ...
     @property
     def VisibleEnd(self) -> int: ...
-
     def OnGetUnitsSizeHint(self, unitMin: int, unitMax: int) -> None:
         """
         OnGetUnitsSizeHint(unitMin, unitMax) -> None
@@ -37608,6 +36183,7 @@ class VarScrollHelperBase:
         This function must be overridden in the derived class, and should
         return the size of the given unit in pixels.
         """
+
 # end of class VarScrollHelperBase
 
 
@@ -37703,6 +36279,7 @@ class VarVScrollHelper(VarScrollHelperBase):
         
         Set the number of rows the window contains.
         """
+
     @property
     def RowCount(self) -> int: ...
     @RowCount.setter
@@ -37711,7 +36288,6 @@ class VarVScrollHelper(VarScrollHelperBase):
     def VisibleRowsBegin(self) -> int: ...
     @property
     def VisibleRowsEnd(self) -> int: ...
-
     def OnGetRowsHeightHint(self, rowMin: int, rowMax: int) -> None:
         """
         OnGetRowsHeightHint(rowMin, rowMax) -> None
@@ -37739,6 +36315,7 @@ class VarVScrollHelper(VarScrollHelperBase):
         This function must be overridden in the derived class, and should
         return the height of the given row in pixels.
         """
+
 # end of class VarVScrollHelper
 
 
@@ -37834,6 +36411,7 @@ class VarHScrollHelper(VarScrollHelperBase):
         
         Set the number of columns the window contains.
         """
+
     @property
     def ColumnCount(self) -> int: ...
     @ColumnCount.setter
@@ -37842,7 +36420,6 @@ class VarHScrollHelper(VarScrollHelperBase):
     def VisibleColumnsBegin(self) -> int: ...
     @property
     def VisibleColumnsEnd(self) -> int: ...
-
     def EstimateTotalWidth(self) -> int:
         """
         EstimateTotalWidth() -> int
@@ -37870,6 +36447,7 @@ class VarHScrollHelper(VarScrollHelperBase):
         This function must be overridden in the derived class, and should
         return the width of the given column in pixels.
         """
+
 # end of class VarHScrollHelper
 
 
@@ -37892,9 +36470,7 @@ class VarHVScrollHelper(VarVScrollHelper, VarHScrollHelper):
         """
 
     @overload
-    def IsVisible(self, pos: Union[Position, _TwoInts]) -> bool:
-        ...
-
+    def IsVisible(self, pos: Union[Position, _TwoInts]) -> bool: ...
     @overload
     def IsVisible(self, row: int, column: int) -> bool:
         """
@@ -37906,9 +36482,7 @@ class VarHVScrollHelper(VarVScrollHelper, VarHScrollHelper):
         """
 
     @overload
-    def RefreshRowColumn(self, pos: Union[Position, _TwoInts]) -> None:
-        ...
-
+    def RefreshRowColumn(self, pos: Union[Position, _TwoInts]) -> None: ...
     @overload
     def RefreshRowColumn(self, row: int, column: int) -> None:
         """
@@ -37920,9 +36494,7 @@ class VarHVScrollHelper(VarVScrollHelper, VarHScrollHelper):
         """
 
     @overload
-    def RefreshRowsColumns(self, _from: Union[Position, _TwoInts], to: Union[Position, _TwoInts]) -> None:
-        ...
-
+    def RefreshRowsColumns(self, _from: Union[Position, _TwoInts], to: Union[Position, _TwoInts]) -> None: ...
     @overload
     def RefreshRowsColumns(self, fromRow: int, toRow: int, fromColumn: int, toColumn: int) -> None:
         """
@@ -37934,9 +36506,7 @@ class VarHVScrollHelper(VarVScrollHelper, VarHScrollHelper):
         """
 
     @overload
-    def ScrollToRowColumn(self, pos: Union[Position, _TwoInts]) -> bool:
-        ...
-
+    def ScrollToRowColumn(self, pos: Union[Position, _TwoInts]) -> bool: ...
     @overload
     def ScrollToRowColumn(self, row: int, column: int) -> bool:
         """
@@ -37947,9 +36517,7 @@ class VarHVScrollHelper(VarVScrollHelper, VarHScrollHelper):
         """
 
     @overload
-    def VirtualHitTest(self, pos: Union[Point, _TwoInts]) -> Position:
-        ...
-
+    def VirtualHitTest(self, pos: Union[Point, _TwoInts]) -> Position: ...
     @overload
     def VirtualHitTest(self, x: int, y: int) -> Position:
         """
@@ -38000,6 +36568,7 @@ class VarHVScrollHelper(VarVScrollHelper, VarHScrollHelper):
         
         Set the number of rows and columns the target window will contain.
         """
+
     @property
     def RowColumnCount(self) -> Size: ...
     @RowColumnCount.setter
@@ -38024,9 +36593,7 @@ class VScrolledWindow(Panel, VarVScrollHelper):
     """
 
     @overload
-    def __init__(self, parent: Window, id: int=ID_ANY, pos: Union[Point, _TwoInts]=DefaultPosition, size: Union[Size, _TwoInts]=DefaultSize, style: int=0, name: str=PanelNameStr) -> None:
-        ...
-
+    def __init__(self, parent: Window, id: int=ID_ANY, pos: Union[Point, _TwoInts]=DefaultPosition, size: Union[Size, _TwoInts]=DefaultSize, style: int=0, name: str=PanelNameStr) -> None: ...
     @overload
     def __init__(self) -> None:
         """
@@ -38121,6 +36688,7 @@ class VScrolledWindow(Panel, VarVScrollHelper):
         
         Deprecated compatibility helper.
         """
+
     @property
     def FirstVisibleLine(self) -> int: ...
     @property
@@ -38142,9 +36710,7 @@ class HScrolledWindow(Panel, VarHScrollHelper):
     """
 
     @overload
-    def __init__(self, parent: Window, id: int=ID_ANY, pos: Union[Point, _TwoInts]=DefaultPosition, size: Union[Size, _TwoInts]=DefaultSize, style: int=0, name: str=PanelNameStr) -> None:
-        ...
-
+    def __init__(self, parent: Window, id: int=ID_ANY, pos: Union[Point, _TwoInts]=DefaultPosition, size: Union[Size, _TwoInts]=DefaultSize, style: int=0, name: str=PanelNameStr) -> None: ...
     @overload
     def __init__(self) -> None:
         """
@@ -38168,6 +36734,7 @@ class HScrolledWindow(Panel, VarHScrollHelper):
         """
         GetClassDefaultAttributes(variant=WINDOW_VARIANT_NORMAL) -> VisualAttributes
         """
+
 # end of class HScrolledWindow
 
 
@@ -38181,9 +36748,7 @@ class HVScrolledWindow(Panel, VarHVScrollHelper):
     """
 
     @overload
-    def __init__(self, parent: Window, id: int=ID_ANY, pos: Union[Point, _TwoInts]=DefaultPosition, size: Union[Size, _TwoInts]=DefaultSize, style: int=0, name: str=PanelNameStr) -> None:
-        ...
-
+    def __init__(self, parent: Window, id: int=ID_ANY, pos: Union[Point, _TwoInts]=DefaultPosition, size: Union[Size, _TwoInts]=DefaultSize, style: int=0, name: str=PanelNameStr) -> None: ...
     @overload
     def __init__(self) -> None:
         """
@@ -38207,6 +36772,7 @@ class HVScrolledWindow(Panel, VarHVScrollHelper):
         """
         GetClassDefaultAttributes(variant=WINDOW_VARIANT_NORMAL) -> VisualAttributes
         """
+
 # end of class HVScrolledWindow
 
 #-- end-vscroll --#
@@ -38222,9 +36788,7 @@ class Control(Window):
     """
 
     @overload
-    def __init__(self) -> None:
-        ...
-
+    def __init__(self) -> None: ...
     @overload
     def __init__(self, parent: Window, id: int=ID_ANY, pos: Union[Point, _TwoInts]=DefaultPosition, size: Union[Size, _TwoInts]=DefaultSize, style: int=0, validator: Validator=DefaultValidator, name: str=ControlNameStr) -> None:
         """
@@ -38255,9 +36819,7 @@ class Control(Window):
 
     @overload
     @staticmethod
-    def GetLabelText(label: str) -> str:
-        ...
-
+    def GetLabelText(label: str) -> str: ...
     @overload
     def GetLabelText(self) -> str:
         """
@@ -38268,9 +36830,7 @@ class Control(Window):
         """
 
     @overload
-    def GetSizeFromTextSize(self, tsize: Union[Size, _TwoInts]) -> Size:
-        ...
-
+    def GetSizeFromTextSize(self, tsize: Union[Size, _TwoInts]) -> Size: ...
     @overload
     def GetSizeFromTextSize(self, xlen: int, ylen: int=-1) -> Size:
         """
@@ -38340,6 +36900,7 @@ class Control(Window):
         """
         GetClassDefaultAttributes(variant=WINDOW_VARIANT_NORMAL) -> VisualAttributes
         """
+
     @property
     def Label(self) -> str: ...
     @Label.setter
@@ -38451,6 +37012,7 @@ class ItemContainerImmutable:
         This is the same as SetSelection() and exists only because it is
         slightly more natural for controls which support multiple selection.
         """
+
     @property
     def Count(self) -> int: ...
     @property
@@ -38474,13 +37036,9 @@ class ItemContainer(ItemContainerImmutable):
     """
 
     @overload
-    def Append(self, item: str, clientData: ClientData) -> int:
-        ...
-
+    def Append(self, item: str, clientData: ClientData) -> int: ...
     @overload
-    def Append(self, items: list[str]) -> int:
-        ...
-
+    def Append(self, items: list[str]) -> int: ...
     @overload
     def Append(self, item: str) -> int:
         """
@@ -38510,13 +37068,9 @@ class ItemContainer(ItemContainerImmutable):
         """
 
     @overload
-    def Insert(self, item: str, pos: int, clientData: ClientData) -> int:
-        ...
-
+    def Insert(self, item: str, pos: int, clientData: ClientData) -> int: ...
     @overload
-    def Insert(self, items: list[str], pos: int) -> int:
-        ...
-
+    def Insert(self, items: list[str], pos: int) -> int: ...
     @overload
     def Insert(self, item: str, pos: int) -> int:
         """
@@ -38604,6 +37158,7 @@ class ItemContainer(ItemContainerImmutable):
         """
         Alias for :meth:`Set`
         """
+
     Items = property(GetItems, SetItems)
 # end of class ItemContainer
 
@@ -38613,6 +37168,7 @@ class ControlWithItems(Control, ItemContainer):
     This is convenience class that derives from both wxControl and
     wxItemContainer.
     """
+
 # end of class ControlWithItems
 
 #-- end-ctrlsub --#
@@ -38639,9 +37195,7 @@ class StaticBitmap(Control):
     Scale_AspectFill = _ScaleMode.Scale_AspectFill
 
     @overload
-    def __init__(self, parent: Window, id: int=ID_ANY, bitmap: Union[BitmapBundle, wx.Bitmap, wx.Icon]=NullBitmap, pos: Union[Point, _TwoInts]=DefaultPosition, size: Union[Size, _TwoInts]=DefaultSize, style: int=0, name: str=StaticBitmapNameStr) -> None:
-        ...
-
+    def __init__(self, parent: Window, id: int=ID_ANY, bitmap: Union[BitmapBundle, Bitmap, Icon]=NullBitmap, pos: Union[Point, _TwoInts]=DefaultPosition, size: Union[Size, _TwoInts]=DefaultSize, style: int=0, name: str=StaticBitmapNameStr) -> None: ...
     @overload
     def __init__(self) -> None:
         """
@@ -38651,7 +37205,7 @@ class StaticBitmap(Control):
         A static bitmap control displays a bitmap.
         """
 
-    def Create(self, parent: Window, id: int=ID_ANY, bitmap: Union[BitmapBundle, wx.Bitmap, wx.Icon]=NullBitmap, pos: Union[Point, _TwoInts]=DefaultPosition, size: Union[Size, _TwoInts]=DefaultSize, style: int=0, name: str=StaticBitmapNameStr) -> bool:
+    def Create(self, parent: Window, id: int=ID_ANY, bitmap: Union[BitmapBundle, Bitmap, Icon]=NullBitmap, pos: Union[Point, _TwoInts]=DefaultPosition, size: Union[Size, _TwoInts]=DefaultSize, style: int=0, name: str=StaticBitmapNameStr) -> bool:
         """
         Create(parent, id=ID_ANY, bitmap=NullBitmap, pos=DefaultPosition, size=DefaultSize, style=0, name=StaticBitmapNameStr) -> bool
         
@@ -38672,7 +37226,7 @@ class StaticBitmap(Control):
         Returns the icon currently used in the control.
         """
 
-    def SetBitmap(self, label: Union[BitmapBundle, wx.Bitmap, wx.Icon]) -> None:
+    def SetBitmap(self, label: Union[BitmapBundle, Bitmap, Icon]) -> None:
         """
         SetBitmap(label) -> None
         
@@ -38705,10 +37259,11 @@ class StaticBitmap(Control):
         """
         GetClassDefaultAttributes(variant=WINDOW_VARIANT_NORMAL) -> VisualAttributes
         """
+
     @property
     def Bitmap(self) -> Bitmap: ...
     @Bitmap.setter
-    def Bitmap(self, value: Union[BitmapBundle, wx.Bitmap, wx.Icon], /) -> None: ...
+    def Bitmap(self, value: Union[BitmapBundle, Bitmap, Icon], /) -> None: ...
     @property
     def Icon(self) -> Icon: ...
     @Icon.setter
@@ -38736,9 +37291,7 @@ class GenericStaticBitmap(Control):
     Scale_AspectFill = _ScaleMode.Scale_AspectFill
 
     @overload
-    def __init__(self, parent: Window, id: int=ID_ANY, bitmap: Union[BitmapBundle, wx.Bitmap, wx.Icon]=NullBitmap, pos: Union[Point, _TwoInts]=DefaultPosition, size: Union[Size, _TwoInts]=DefaultSize, style: int=0, name: str=StaticBitmapNameStr) -> None:
-        ...
-
+    def __init__(self, parent: Window, id: int=ID_ANY, bitmap: Union[BitmapBundle, Bitmap, Icon]=NullBitmap, pos: Union[Point, _TwoInts]=DefaultPosition, size: Union[Size, _TwoInts]=DefaultSize, style: int=0, name: str=StaticBitmapNameStr) -> None: ...
     @overload
     def __init__(self) -> None:
         """
@@ -38748,7 +37301,7 @@ class GenericStaticBitmap(Control):
         A static bitmap control displays a bitmap.
         """
 
-    def Create(self, parent: Window, id: int=ID_ANY, bitmap: Union[BitmapBundle, wx.Bitmap, wx.Icon]=NullBitmap, pos: Union[Point, _TwoInts]=DefaultPosition, size: Union[Size, _TwoInts]=DefaultSize, style: int=0, name: str=StaticBitmapNameStr) -> bool:
+    def Create(self, parent: Window, id: int=ID_ANY, bitmap: Union[BitmapBundle, Bitmap, Icon]=NullBitmap, pos: Union[Point, _TwoInts]=DefaultPosition, size: Union[Size, _TwoInts]=DefaultSize, style: int=0, name: str=StaticBitmapNameStr) -> bool:
         """
         Create(parent, id=ID_ANY, bitmap=NullBitmap, pos=DefaultPosition, size=DefaultSize, style=0, name=StaticBitmapNameStr) -> bool
         
@@ -38769,7 +37322,7 @@ class GenericStaticBitmap(Control):
         Returns the icon currently used in the control.
         """
 
-    def SetBitmap(self, label: Union[BitmapBundle, wx.Bitmap, wx.Icon]) -> None:
+    def SetBitmap(self, label: Union[BitmapBundle, Bitmap, Icon]) -> None:
         """
         SetBitmap(label) -> None
         
@@ -38802,10 +37355,11 @@ class GenericStaticBitmap(Control):
         """
         GetClassDefaultAttributes(variant=WINDOW_VARIANT_NORMAL) -> VisualAttributes
         """
+
     @property
     def Bitmap(self) -> Bitmap: ...
     @Bitmap.setter
-    def Bitmap(self, value: Union[BitmapBundle, wx.Bitmap, wx.Icon], /) -> None: ...
+    def Bitmap(self, value: Union[BitmapBundle, Bitmap, Icon], /) -> None: ...
     @property
     def Icon(self) -> Icon: ...
     @Icon.setter
@@ -38829,9 +37383,7 @@ class StaticText(Control):
     """
 
     @overload
-    def __init__(self, parent: Window, id: int=ID_ANY, label: str='', pos: Union[Point, _TwoInts]=DefaultPosition, size: Union[Size, _TwoInts]=DefaultSize, style: int=0, name: str=StaticTextNameStr) -> None:
-        ...
-
+    def __init__(self, parent: Window, id: int=ID_ANY, label: str='', pos: Union[Point, _TwoInts]=DefaultPosition, size: Union[Size, _TwoInts]=DefaultSize, style: int=0, name: str=StaticTextNameStr) -> None: ...
     @overload
     def __init__(self) -> None:
         """
@@ -38878,6 +37430,7 @@ class StaticText(Control):
         """
         GetClassDefaultAttributes(variant=WINDOW_VARIANT_NORMAL) -> VisualAttributes
         """
+
 # end of class StaticText
 
 #-- end-stattext --#
@@ -38894,9 +37447,7 @@ class StaticBox(Control):
     """
 
     @overload
-    def __init__(self, parent: Window, id: int=ID_ANY, label: str='', pos: Union[Point, _TwoInts]=DefaultPosition, size: Union[Size, _TwoInts]=DefaultSize, style: int=0, name: str=StaticBoxNameStr) -> None:
-        ...
-
+    def __init__(self, parent: Window, id: int=ID_ANY, label: str='', pos: Union[Point, _TwoInts]=DefaultPosition, size: Union[Size, _TwoInts]=DefaultSize, style: int=0, name: str=StaticBoxNameStr) -> None: ...
     @overload
     def __init__(self) -> None:
         """
@@ -38933,6 +37484,7 @@ class StaticBox(Control):
         
         Returns extra space that may be needed for borders within a StaticBox.
         """
+
 # end of class StaticBox
 
 #-- end-statbox --#
@@ -38959,9 +37511,7 @@ class StatusBar(Control):
     """
 
     @overload
-    def __init__(self, parent: Window, id: int=ID_ANY, style: int=STB_DEFAULT_STYLE, name: str=StatusBarNameStr) -> None:
-        ...
-
+    def __init__(self, parent: Window, id: int=ID_ANY, style: int=STB_DEFAULT_STYLE, name: str=StatusBarNameStr) -> None: ...
     @overload
     def __init__(self) -> None:
         """
@@ -39087,6 +37637,7 @@ class StatusBar(Control):
         """
         GetClassDefaultAttributes(variant=WINDOW_VARIANT_NORMAL) -> VisualAttributes
         """
+
     @property
     def Borders(self) -> Size: ...
     @property
@@ -39137,6 +37688,7 @@ class StatusBarPane:
         
         Returns the text currently shown in this pane.
         """
+
     @property
     def Style(self) -> int: ...
     @property
@@ -39158,9 +37710,7 @@ class Choice(Control, ItemContainer):
     """
 
     @overload
-    def __init__(self, parent: Window, id: int=ID_ANY, pos: Union[Point, _TwoInts]=DefaultPosition, size: Union[Size, _TwoInts]=DefaultSize, choices: list[str]=[], style: int=0, validator: Validator=DefaultValidator, name: str=ChoiceNameStr) -> None:
-        ...
-
+    def __init__(self, parent: Window, id: int=ID_ANY, pos: Union[Point, _TwoInts]=DefaultPosition, size: Union[Size, _TwoInts]=DefaultSize, choices: list[str]=[], style: int=0, validator: Validator=DefaultValidator, name: str=ChoiceNameStr) -> None: ...
     @overload
     def __init__(self) -> None:
         """
@@ -39255,6 +37805,7 @@ class Choice(Control, ItemContainer):
         """
         GetClassDefaultAttributes(variant=WINDOW_VARIANT_NORMAL) -> VisualAttributes
         """
+
     @property
     def Columns(self) -> int: ...
     @Columns.setter
@@ -39297,9 +37848,7 @@ class AnyButton(Control):
         """
 
     @overload
-    def SetBitmapMargins(self, sz: Union[Size, _TwoInts]) -> None:
-        ...
-
+    def SetBitmapMargins(self, sz: Union[Size, _TwoInts]) -> None: ...
     @overload
     def SetBitmapMargins(self, x: int, y: int) -> None:
         """
@@ -39351,28 +37900,28 @@ class AnyButton(Control):
         Returns the bitmap used when the button is pressed.
         """
 
-    def SetBitmap(self, bitmap: Union[BitmapBundle, wx.Bitmap, wx.Icon], dir: Direction=LEFT) -> None:
+    def SetBitmap(self, bitmap: Union[BitmapBundle, Bitmap, Icon], dir: Direction=LEFT) -> None:
         """
         SetBitmap(bitmap, dir=LEFT) -> None
         
         Sets the bitmap to display in the button.
         """
 
-    def SetBitmapCurrent(self, bitmap: Union[BitmapBundle, wx.Bitmap, wx.Icon]) -> None:
+    def SetBitmapCurrent(self, bitmap: Union[BitmapBundle, Bitmap, Icon]) -> None:
         """
         SetBitmapCurrent(bitmap) -> None
         
         Sets the bitmap to be shown when the mouse is over the button.
         """
 
-    def SetBitmapDisabled(self, bitmap: Union[BitmapBundle, wx.Bitmap, wx.Icon]) -> None:
+    def SetBitmapDisabled(self, bitmap: Union[BitmapBundle, Bitmap, Icon]) -> None:
         """
         SetBitmapDisabled(bitmap) -> None
         
         Sets the bitmap for the disabled button appearance.
         """
 
-    def SetBitmapFocus(self, bitmap: Union[BitmapBundle, wx.Bitmap, wx.Icon]) -> None:
+    def SetBitmapFocus(self, bitmap: Union[BitmapBundle, Bitmap, Icon]) -> None:
         """
         SetBitmapFocus(bitmap) -> None
         
@@ -39380,14 +37929,14 @@ class AnyButton(Control):
         focus.
         """
 
-    def SetBitmapLabel(self, bitmap: Union[BitmapBundle, wx.Bitmap, wx.Icon]) -> None:
+    def SetBitmapLabel(self, bitmap: Union[BitmapBundle, Bitmap, Icon]) -> None:
         """
         SetBitmapLabel(bitmap) -> None
         
         Sets the bitmap label for the button.
         """
 
-    def SetBitmapPressed(self, bitmap: Union[BitmapBundle, wx.Bitmap, wx.Icon]) -> None:
+    def SetBitmapPressed(self, bitmap: Union[BitmapBundle, Bitmap, Icon]) -> None:
         """
         SetBitmapPressed(bitmap) -> None
         
@@ -39407,6 +37956,7 @@ class AnyButton(Control):
         
         Set the position at which the bitmap is displayed.
         """
+
     @property
     def Bitmap(self) -> Bitmap: ...
     @Bitmap.setter
@@ -39414,19 +37964,19 @@ class AnyButton(Control):
     @property
     def BitmapCurrent(self) -> Bitmap: ...
     @BitmapCurrent.setter
-    def BitmapCurrent(self, value: Union[BitmapBundle, wx.Bitmap, wx.Icon], /) -> None: ...
+    def BitmapCurrent(self, value: Union[BitmapBundle, Bitmap, Icon], /) -> None: ...
     @property
     def BitmapDisabled(self) -> Bitmap: ...
     @BitmapDisabled.setter
-    def BitmapDisabled(self, value: Union[BitmapBundle, wx.Bitmap, wx.Icon], /) -> None: ...
+    def BitmapDisabled(self, value: Union[BitmapBundle, Bitmap, Icon], /) -> None: ...
     @property
     def BitmapFocus(self) -> Bitmap: ...
     @BitmapFocus.setter
-    def BitmapFocus(self, value: Union[BitmapBundle, wx.Bitmap, wx.Icon], /) -> None: ...
+    def BitmapFocus(self, value: Union[BitmapBundle, Bitmap, Icon], /) -> None: ...
     @property
     def BitmapLabel(self) -> Bitmap: ...
     @BitmapLabel.setter
-    def BitmapLabel(self, value: Union[BitmapBundle, wx.Bitmap, wx.Icon], /) -> None: ...
+    def BitmapLabel(self, value: Union[BitmapBundle, Bitmap, Icon], /) -> None: ...
     @property
     def BitmapMargins(self) -> Size: ...
     @BitmapMargins.setter
@@ -39434,7 +37984,7 @@ class AnyButton(Control):
     @property
     def BitmapPressed(self) -> Bitmap: ...
     @BitmapPressed.setter
-    def BitmapPressed(self, value: Union[BitmapBundle, wx.Bitmap, wx.Icon], /) -> None: ...
+    def BitmapPressed(self, value: Union[BitmapBundle, Bitmap, Icon], /) -> None: ...
 # end of class AnyButton
 
 #-- end-anybutton --#
@@ -39451,9 +38001,7 @@ class Button(AnyButton):
     """
 
     @overload
-    def __init__(self, parent: Window, id: int=ID_ANY, label: str='', pos: Union[Point, _TwoInts]=DefaultPosition, size: Union[Size, _TwoInts]=DefaultSize, style: int=0, validator: Validator=DefaultValidator, name: str=ButtonNameStr) -> None:
-        ...
-
+    def __init__(self, parent: Window, id: int=ID_ANY, label: str='', pos: Union[Point, _TwoInts]=DefaultPosition, size: Union[Size, _TwoInts]=DefaultSize, style: int=0, validator: Validator=DefaultValidator, name: str=ButtonNameStr) -> None: ...
     @overload
     def __init__(self) -> None:
         """
@@ -39522,6 +38070,7 @@ class Button(AnyButton):
         """
         GetClassDefaultAttributes(variant=WINDOW_VARIANT_NORMAL) -> VisualAttributes
         """
+
     @property
     def AuthNeeded(self) -> bool: ...
     @AuthNeeded.setter
@@ -39544,9 +38093,7 @@ class BitmapButton(Button):
     """
 
     @overload
-    def __init__(self, parent: Window, id: int=ID_ANY, bitmap: Union[BitmapBundle, wx.Bitmap, wx.Icon]=NullBitmap, pos: Union[Point, _TwoInts]=DefaultPosition, size: Union[Size, _TwoInts]=DefaultSize, style: int=0, validator: Validator=DefaultValidator, name: str=ButtonNameStr) -> None:
-        ...
-
+    def __init__(self, parent: Window, id: int=ID_ANY, bitmap: Union[BitmapBundle, Bitmap, Icon]=NullBitmap, pos: Union[Point, _TwoInts]=DefaultPosition, size: Union[Size, _TwoInts]=DefaultSize, style: int=0, validator: Validator=DefaultValidator, name: str=ButtonNameStr) -> None: ...
     @overload
     def __init__(self) -> None:
         """
@@ -39556,7 +38103,7 @@ class BitmapButton(Button):
         A bitmap button is a control that contains a bitmap.
         """
 
-    def Create(self, parent: Window, id: int=ID_ANY, bitmap: Union[BitmapBundle, wx.Bitmap, wx.Icon]=NullBitmap, pos: Union[Point, _TwoInts]=DefaultPosition, size: Union[Size, _TwoInts]=DefaultSize, style: int=0, validator: Validator=DefaultValidator, name: str=ButtonNameStr) -> bool:
+    def Create(self, parent: Window, id: int=ID_ANY, bitmap: Union[BitmapBundle, Bitmap, Icon]=NullBitmap, pos: Union[Point, _TwoInts]=DefaultPosition, size: Union[Size, _TwoInts]=DefaultSize, style: int=0, validator: Validator=DefaultValidator, name: str=ButtonNameStr) -> bool:
         """
         Create(parent, id=ID_ANY, bitmap=NullBitmap, pos=DefaultPosition, size=DefaultSize, style=0, validator=DefaultValidator, name=ButtonNameStr) -> bool
         
@@ -39583,6 +38130,7 @@ class BitmapButton(Button):
         """
         GetClassDefaultAttributes(variant=WINDOW_VARIANT_NORMAL) -> VisualAttributes
         """
+
 # end of class BitmapButton
 
 #-- end-bmpbuttn --#
@@ -39656,6 +38204,7 @@ class WithImages:
         Returns the image list updated to reflect the DPI scaling used for the
         given window if possible.
         """
+
     @property
     def ImageCount(self) -> int: ...
     @property
@@ -39700,9 +38249,7 @@ class BookCtrlBase(Control, WithImages):
     NO_IMAGE = _enum_3.NO_IMAGE
 
     @overload
-    def __init__(self, parent: Window, winid: int, pos: Union[Point, _TwoInts]=DefaultPosition, size: Union[Size, _TwoInts]=DefaultSize, style: int=0, name: str='') -> None:
-        ...
-
+    def __init__(self, parent: Window, winid: int, pos: Union[Point, _TwoInts]=DefaultPosition, size: Union[Size, _TwoInts]=DefaultSize, style: int=0, name: str='') -> None: ...
     @overload
     def __init__(self) -> None:
         """
@@ -39864,6 +38411,7 @@ class BookCtrlBase(Control, WithImages):
         Returns the index of the tab at the specified position or wxNOT_FOUND
         if none.
         """
+
     @property
     def ControlSizer(self) -> Sizer: ...
     @property
@@ -39922,6 +38470,7 @@ class BookCtrlEvent(NotifyEvent):
         
         Sets the selection member variable.
         """
+
     @property
     def OldSelection(self) -> int: ...
     @OldSelection.setter
@@ -39968,9 +38517,7 @@ class Notebook(BookCtrlBase):
     """
 
     @overload
-    def __init__(self, parent: Window, id: int=ID_ANY, pos: Union[Point, _TwoInts]=DefaultPosition, size: Union[Size, _TwoInts]=DefaultSize, style: int=0, name: str=NotebookNameStr) -> None:
-        ...
-
+    def __init__(self, parent: Window, id: int=ID_ANY, pos: Union[Point, _TwoInts]=DefaultPosition, size: Union[Size, _TwoInts]=DefaultSize, style: int=0, name: str=NotebookNameStr) -> None: ...
     @overload
     def __init__(self) -> None:
         """
@@ -40075,6 +38622,7 @@ class Notebook(BookCtrlBase):
         """
         GetClassDefaultAttributes(variant=WINDOW_VARIANT_NORMAL) -> VisualAttributes
         """
+
     @property
     def RowCount(self) -> int: ...
     @property
@@ -40146,9 +38694,7 @@ class SplitterWindow(Window):
     """
 
     @overload
-    def __init__(self, parent: Window, id: int=ID_ANY, pos: Union[Point, _TwoInts]=DefaultPosition, size: Union[Size, _TwoInts]=DefaultSize, style: int=SP_3D, name: str="splitterWindow") -> None:
-        ...
-
+    def __init__(self, parent: Window, id: int=ID_ANY, pos: Union[Point, _TwoInts]=DefaultPosition, size: Union[Size, _TwoInts]=DefaultSize, style: int=SP_3D, name: str="splitterWindow") -> None: ...
     @overload
     def __init__(self) -> None:
         """
@@ -40321,6 +38867,7 @@ class SplitterWindow(Window):
         """
         GetClassDefaultAttributes(variant=WINDOW_VARIANT_NORMAL) -> VisualAttributes
         """
+
     @property
     def DefaultSashSize(self) -> int: ...
     @property
@@ -40416,6 +38963,7 @@ class SplitterEvent(NotifyEvent):
         
         Returns the old size before the update.
         """
+
     @property
     def OldSize(self) -> int: ...
     @property
@@ -40460,9 +39008,7 @@ class CollapsiblePane(Control):
     """
 
     @overload
-    def __init__(self, parent: Window, id: int=ID_ANY, label: str='', pos: Union[Point, _TwoInts]=DefaultPosition, size: Union[Size, _TwoInts]=DefaultSize, style: int=CP_DEFAULT_STYLE, validator: Validator=DefaultValidator, name: str=CollapsiblePaneNameStr) -> None:
-        ...
-
+    def __init__(self, parent: Window, id: int=ID_ANY, label: str='', pos: Union[Point, _TwoInts]=DefaultPosition, size: Union[Size, _TwoInts]=DefaultSize, style: int=CP_DEFAULT_STYLE, validator: Validator=DefaultValidator, name: str=CollapsiblePaneNameStr) -> None: ...
     @overload
     def __init__(self) -> None:
         """
@@ -40519,6 +39065,7 @@ class CollapsiblePane(Control):
         """
         GetClassDefaultAttributes(variant=WINDOW_VARIANT_NORMAL) -> VisualAttributes
         """
+
     @property
     def Pane(self) -> Window: ...
 # end of class CollapsiblePane
@@ -40554,6 +39101,7 @@ class CollapsiblePaneEvent(CommandEvent):
         Sets this as a collapsed pane event (if collapsed is true) or as an
         expanded pane event (if collapsed is false).
         """
+
     @property
     def Collapsed(self) -> bool: ...
     @Collapsed.setter
@@ -40579,9 +39127,7 @@ class StaticLine(Control):
     """
 
     @overload
-    def __init__(self, parent: Window, id: int=ID_ANY, pos: Union[Point, _TwoInts]=DefaultPosition, size: Union[Size, _TwoInts]=DefaultSize, style: int=LI_HORIZONTAL, name: str=StaticLineNameStr) -> None:
-        ...
-
+    def __init__(self, parent: Window, id: int=ID_ANY, pos: Union[Point, _TwoInts]=DefaultPosition, size: Union[Size, _TwoInts]=DefaultSize, style: int=LI_HORIZONTAL, name: str=StaticLineNameStr) -> None: ...
     @overload
     def __init__(self) -> None:
         """
@@ -40620,6 +39166,7 @@ class StaticLine(Control):
         """
         GetClassDefaultAttributes(variant=WINDOW_VARIANT_NORMAL) -> VisualAttributes
         """
+
 # end of class StaticLine
 
 #-- end-statline --#
@@ -40644,6 +39191,7 @@ class TextCompleter:
         
         Called to retrieve the next completion.
         """
+
     @property
     def Next(self) -> str: ...
 # end of class TextCompleter
@@ -40676,6 +39224,7 @@ class TextCompleterSimple(TextCompleter):
         
         Called to retrieve the next completion.
         """
+
     @property
     def Next(self) -> str: ...
 # end of class TextCompleterSimple
@@ -40689,9 +39238,7 @@ class TextEntry:
     """
 
     @overload
-    def SetMargins(self, left: int, top: int=-1) -> bool:
-        ...
-
+    def SetMargins(self, left: int, top: int=-1) -> bool: ...
     @overload
     def SetMargins(self, pt: Union[Point, _TwoInts]) -> bool:
         """
@@ -40709,9 +39256,7 @@ class TextEntry:
         """
 
     @overload
-    def AutoComplete(self, completer: TextCompleter) -> bool:
-        ...
-
+    def AutoComplete(self, completer: TextCompleter) -> bool: ...
     @overload
     def AutoComplete(self, choices: list[str]) -> bool:
         """
@@ -40995,6 +39540,7 @@ class TextEntry:
         Writes the text into the text control at the current insertion
         position.
         """
+
     @property
     def Hint(self) -> str: ...
     @Hint.setter
@@ -41245,13 +39791,9 @@ class TextAttr:
     """
 
     @overload
-    def __init__(self, colText: Union[Colour, wx.Colour, _ThreeInts, _FourInts, str, None], colBack: Union[Colour, wx.Colour, _ThreeInts, _FourInts, str, None]=NullColour, font: Font=NullFont, alignment: TextAttrAlignment=TEXT_ALIGNMENT_DEFAULT) -> None:
-        ...
-
+    def __init__(self, colText: Union[Colour, _ThreeInts, _FourInts, str, None], colBack: Union[Colour, _ThreeInts, _FourInts, str, None]=NullColour, font: Font=NullFont, alignment: TextAttrAlignment=TEXT_ALIGNMENT_DEFAULT) -> None: ...
     @overload
-    def __init__(self, attr: TextAttr) -> None:
-        ...
-
+    def __init__(self, attr: TextAttr) -> None: ...
     @overload
     def __init__(self) -> None:
         """
@@ -41765,7 +40307,7 @@ class TextAttr:
         Sets the paragraph alignment.
         """
 
-    def SetBackgroundColour(self, colBack: Union[Colour, wx.Colour, _ThreeInts, _FourInts, str, None]) -> None:
+    def SetBackgroundColour(self, colBack: Union[Colour, _ThreeInts, _FourInts, str, None]) -> None:
         """
         SetBackgroundColour(colBack) -> None
         
@@ -41886,7 +40428,7 @@ class TextAttr:
         Sets the font underlining (solid line, text colour).
         """
 
-    def SetFontUnderlineType(self, type: TextAttrUnderlineType, colour: Union[Colour, wx.Colour, _ThreeInts, _FourInts, str, None]=NullColour) -> None:
+    def SetFontUnderlineType(self, type: TextAttrUnderlineType, colour: Union[Colour, _ThreeInts, _FourInts, str, None]=NullColour) -> None:
         """
         SetFontUnderlineType(type, colour=NullColour) -> None
         
@@ -41970,7 +40512,7 @@ class TextAttr:
         Sets the tab stops, expressed in tenths of a millimetre.
         """
 
-    def SetTextColour(self, colText: Union[Colour, wx.Colour, _ThreeInts, _FourInts, str, None]) -> None:
+    def SetTextColour(self, colText: Union[Colour, _ThreeInts, _FourInts, str, None]) -> None:
         """
         SetTextColour(colText) -> None
         
@@ -42009,9 +40551,7 @@ class TextAttr:
 
     @overload
     @staticmethod
-    def Merge(base: TextAttr, overlay: TextAttr) -> TextAttr:
-        ...
-
+    def Merge(base: TextAttr, overlay: TextAttr) -> TextAttr: ...
     @overload
     def Merge(self, overlay: TextAttr) -> None:
         """
@@ -42027,6 +40567,7 @@ class TextAttr:
         
         Partial equality test.
         """
+
     @property
     def Alignment(self) -> TextAttrAlignment: ...
     @Alignment.setter
@@ -42034,7 +40575,7 @@ class TextAttr:
     @property
     def BackgroundColour(self) -> Colour: ...
     @BackgroundColour.setter
-    def BackgroundColour(self, value: Union[Colour, wx.Colour, _ThreeInts, _FourInts, str, None], /) -> None: ...
+    def BackgroundColour(self, value: Union[Colour, _ThreeInts, _FourInts, str, None], /) -> None: ...
     @property
     def BulletFont(self) -> str: ...
     @BulletFont.setter
@@ -42136,7 +40677,7 @@ class TextAttr:
     @property
     def TextColour(self) -> Colour: ...
     @TextColour.setter
-    def TextColour(self, value: Union[Colour, wx.Colour, _ThreeInts, _FourInts, str, None], /) -> None: ...
+    def TextColour(self, value: Union[Colour, _ThreeInts, _FourInts, str, None], /) -> None: ...
     @property
     def TextEffectFlags(self) -> int: ...
     @TextEffectFlags.setter
@@ -42166,9 +40707,7 @@ class TextCtrl(Control, TextEntry):
     """
 
     @overload
-    def __init__(self, parent: Window, id: int=ID_ANY, value: str='', pos: Union[Point, _TwoInts]=DefaultPosition, size: Union[Size, _TwoInts]=DefaultSize, style: int=0, validator: Validator=DefaultValidator, name: str=TextCtrlNameStr) -> None:
-        ...
-
+    def __init__(self, parent: Window, id: int=ID_ANY, value: str='', pos: Union[Point, _TwoInts]=DefaultPosition, size: Union[Size, _TwoInts]=DefaultSize, style: int=0, validator: Validator=DefaultValidator, name: str=TextCtrlNameStr) -> None: ...
     @overload
     def __init__(self) -> None:
         """
@@ -42425,6 +40964,7 @@ class TextCtrl(Control, TextEntry):
         
         NOP, for file-like compatibility.
         """
+
     @property
     def DefaultStyle(self) -> TextAttr: ...
     @DefaultStyle.setter
@@ -42441,9 +40981,7 @@ class TextUrlEvent(CommandEvent):
     """
 
     @overload
-    def __init__(self, event: TextUrlEvent) -> None:
-        ...
-
+    def __init__(self, event: TextUrlEvent) -> None: ...
     @overload
     def __init__(self, winid: int, evtMouse: MouseEvent, start: int, end: int) -> None:
         """
@@ -42472,6 +41010,7 @@ class TextUrlEvent(CommandEvent):
         
         Returns a copy of the event.
         """
+
     @property
     def MouseEvent(self) -> MouseEvent: ...
     @property
@@ -42510,9 +41049,7 @@ class ComboBox(Control, ItemContainer, TextEntry):
     """
 
     @overload
-    def __init__(self, parent: Window, id: int=ID_ANY, value: str='', pos: Union[Point, _TwoInts]=DefaultPosition, size: Union[Size, _TwoInts]=DefaultSize, choices: list[str]=[], style: int=0, validator: Validator=DefaultValidator, name: str=ComboBoxNameStr) -> None:
-        ...
-
+    def __init__(self, parent: Window, id: int=ID_ANY, value: str='', pos: Union[Point, _TwoInts]=DefaultPosition, size: Union[Size, _TwoInts]=DefaultSize, choices: list[str]=[], style: int=0, validator: Validator=DefaultValidator, name: str=ComboBoxNameStr) -> None: ...
     @overload
     def __init__(self) -> None:
         """
@@ -42558,9 +41095,7 @@ class ComboBox(Control, ItemContainer, TextEntry):
         """
 
     @overload
-    def SetSelection(self, n: int) -> None:
-        ...
-
+    def SetSelection(self, n: int) -> None: ...
     @overload
     def SetSelection(self, from_: int, to_: int) -> None:
         """
@@ -42657,6 +41192,7 @@ class ComboBox(Control, ItemContainer, TextEntry):
     SetMark = wx.deprecated(SetTextSelection, 'Use SetTextSelection instead.')
 
     GetMark = wx.deprecated(GetTextSelection, 'Use GetTextSelection instead.')
+
     @property
     def Count(self) -> int: ...
     @property
@@ -42697,9 +41233,7 @@ class CheckBox(Control):
     """
 
     @overload
-    def __init__(self, parent: Window, id: int=ID_ANY, label: str='', pos: Union[Point, _TwoInts]=DefaultPosition, size: Union[Size, _TwoInts]=DefaultSize, style: int=0, validator: Validator=DefaultValidator, name: str=CheckBoxNameStr) -> None:
-        ...
-
+    def __init__(self, parent: Window, id: int=ID_ANY, label: str='', pos: Union[Point, _TwoInts]=DefaultPosition, size: Union[Size, _TwoInts]=DefaultSize, style: int=0, validator: Validator=DefaultValidator, name: str=CheckBoxNameStr) -> None: ...
     @overload
     def __init__(self) -> None:
         """
@@ -42768,6 +41302,7 @@ class CheckBox(Control):
         
         Sets the checkbox to the given state.
         """
+
     @property
     def Value(self) -> bool: ...
     @Value.setter
@@ -42776,12 +41311,12 @@ class CheckBox(Control):
     def ThreeStateValue(self) -> CheckBoxState: ...
     @ThreeStateValue.setter
     def ThreeStateValue(self, value: CheckBoxState, /) -> None: ...
-
     @staticmethod
     def GetClassDefaultAttributes(variant: WindowVariant=WINDOW_VARIANT_NORMAL) -> VisualAttributes:
         """
         GetClassDefaultAttributes(variant=WINDOW_VARIANT_NORMAL) -> VisualAttributes
         """
+
 # end of class CheckBox
 
 #-- end-checkbox --#
@@ -42797,9 +41332,7 @@ class ListBox(Control, ItemContainer):
     """
 
     @overload
-    def __init__(self, parent: Window, id: int=ID_ANY, pos: Union[Point, _TwoInts]=DefaultPosition, size: Union[Size, _TwoInts]=DefaultSize, choices: list[str]=[], style: int=0, validator: Validator=DefaultValidator, name: str=ListBoxNameStr) -> None:
-        ...
-
+    def __init__(self, parent: Window, id: int=ID_ANY, pos: Union[Point, _TwoInts]=DefaultPosition, size: Union[Size, _TwoInts]=DefaultSize, choices: list[str]=[], style: int=0, validator: Validator=DefaultValidator, name: str=ListBoxNameStr) -> None: ...
     @overload
     def __init__(self) -> None:
         """
@@ -42840,9 +41373,7 @@ class ListBox(Control, ItemContainer):
         """
 
     @overload
-    def SetStringSelection(self, s: str) -> bool:
-        ...
-
+    def SetStringSelection(self, s: str) -> bool: ...
     @overload
     def SetStringSelection(self, s: str, select: bool) -> bool:
         """
@@ -42859,9 +41390,7 @@ class ListBox(Control, ItemContainer):
         """
 
     @overload
-    def HitTest(self, x: int, y: int) -> int:
-        ...
-
+    def HitTest(self, x: int, y: int) -> int: ...
     @overload
     def HitTest(self, point: Union[Point, _TwoInts]) -> int:
         """
@@ -42887,9 +41416,7 @@ class ListBox(Control, ItemContainer):
         """
 
     @overload
-    def SetFirstItem(self, string: str) -> None:
-        ...
-
+    def SetFirstItem(self, string: str) -> None: ...
     @overload
     def SetFirstItem(self, n: int) -> None:
         """
@@ -42961,7 +41488,7 @@ class ListBox(Control, ItemContainer):
         Finds an item whose label matches the given string.
         """
 
-    def SetItemForegroundColour(self, item: int, c: Union[Colour, wx.Colour, _ThreeInts, _FourInts, str, None]) -> None:
+    def SetItemForegroundColour(self, item: int, c: Union[Colour, _ThreeInts, _FourInts, str, None]) -> None:
         """
         SetItemForegroundColour(item, c) -> None
         
@@ -42969,7 +41496,7 @@ class ListBox(Control, ItemContainer):
         Only valid on MSW and if the ``wx.LB_OWNERDRAW`` flag is set.
         """
 
-    def SetItemBackgroundColour(self, item: int, c: Union[Colour, wx.Colour, _ThreeInts, _FourInts, str, None]) -> None:
+    def SetItemBackgroundColour(self, item: int, c: Union[Colour, _ThreeInts, _FourInts, str, None]) -> None:
         """
         SetItemBackgroundColour(item, c) -> None
         
@@ -42990,6 +41517,7 @@ class ListBox(Control, ItemContainer):
         """
         GetClassDefaultAttributes(variant=WINDOW_VARIANT_NORMAL) -> VisualAttributes
         """
+
     @property
     def Count(self) -> int: ...
     @property
@@ -43017,9 +41545,7 @@ class CheckListBox(ListBox):
     """
 
     @overload
-    def __init__(self) -> None:
-        ...
-
+    def __init__(self) -> None: ...
     @overload
     def __init__(self, parent: Window, id: int=ID_ANY, pos: Union[Point, _TwoInts]=DefaultPosition, size: Union[Size, _TwoInts]=DefaultSize, choices: list[str]=[], style: int=0, validator: Validator=DefaultValidator, name: str="listBox") -> None:
         """
@@ -43094,15 +41620,8 @@ class CheckListBox(ListBox):
         in the strings sequence.
         """
 
-    def GetChecked(self):
-        """
-        
-        """
-
-    def SetChecked(self, indexes):
-        """
-        
-        """
+    def GetChecked(self): ...
+    def SetChecked(self, indexes): ...
     Checked = property(GetChecked, SetChecked)
     CheckedItems = property(GetCheckedItems, SetCheckedItems)
     CheckedStrings = property(GetCheckedStrings, SetCheckedStrings)
@@ -43127,9 +41646,7 @@ class Gauge(Control):
     """
 
     @overload
-    def __init__(self, parent: Window, id: int=ID_ANY, range: int=100, pos: Union[Point, _TwoInts]=DefaultPosition, size: Union[Size, _TwoInts]=DefaultSize, style: int=GA_HORIZONTAL, validator: Validator=DefaultValidator, name: str=GaugeNameStr) -> None:
-        ...
-
+    def __init__(self, parent: Window, id: int=ID_ANY, range: int=100, pos: Union[Point, _TwoInts]=DefaultPosition, size: Union[Size, _TwoInts]=DefaultSize, style: int=GA_HORIZONTAL, validator: Validator=DefaultValidator, name: str=GaugeNameStr) -> None: ...
     @overload
     def __init__(self) -> None:
         """
@@ -43197,6 +41714,7 @@ class Gauge(Control):
         """
         GetClassDefaultAttributes(variant=WINDOW_VARIANT_NORMAL) -> VisualAttributes
         """
+
     @property
     def Range(self) -> int: ...
     @Range.setter
@@ -43342,6 +41860,7 @@ class HeaderColumn:
         
         Returns true, if the sort order is ascending.
         """
+
     @property
     def Alignment(self) -> Alignment: ...
     @property
@@ -43385,7 +41904,7 @@ class SettableHeaderColumn(HeaderColumn):
         Set the text to display in the column header.
         """
 
-    def SetBitmap(self, bitmap: Union[BitmapBundle, wx.Bitmap, wx.Icon]) -> None:
+    def SetBitmap(self, bitmap: Union[BitmapBundle, Bitmap, Icon]) -> None:
         """
         SetBitmap(bitmap) -> None
         
@@ -43498,14 +42017,15 @@ class SettableHeaderColumn(HeaderColumn):
         
         Inverses the sort order.
         """
+
     @property
     def Title(self) -> str: ...
     @Title.setter
     def Title(self, value: str, /) -> None: ...
     @property
-    def Bitmap(self) -> Union[BitmapBundle, wx.Bitmap, wx.Icon]: ...
+    def Bitmap(self) -> Union[BitmapBundle, Bitmap, Icon]: ...
     @Bitmap.setter
-    def Bitmap(self, value: Union[BitmapBundle, wx.Bitmap, wx.Icon], /) -> None: ...
+    def Bitmap(self, value: Union[BitmapBundle, Bitmap, Icon], /) -> None: ...
     @property
     def Width(self) -> int: ...
     @Width.setter
@@ -43550,9 +42070,7 @@ class HeaderColumnSimple(SettableHeaderColumn):
     """
 
     @overload
-    def __init__(self, bitmap: Union[BitmapBundle, wx.Bitmap, wx.Icon], width: int=COL_WIDTH_DEFAULT, align: Alignment=ALIGN_CENTER, flags: int=COL_DEFAULT_FLAGS) -> None:
-        ...
-
+    def __init__(self, bitmap: Union[BitmapBundle, Bitmap, Icon], width: int=COL_WIDTH_DEFAULT, align: Alignment=ALIGN_CENTER, flags: int=COL_DEFAULT_FLAGS) -> None: ...
     @overload
     def __init__(self, title: str, width: int=COL_WIDTH_DEFAULT, align: Alignment=ALIGN_NOT, flags: int=COL_DEFAULT_FLAGS) -> None:
         """
@@ -43576,7 +42094,7 @@ class HeaderColumnSimple(SettableHeaderColumn):
         Trivial implementations of the base class pure virtual functions.
         """
 
-    def SetBitmap(self, bitmap: Union[BitmapBundle, wx.Bitmap, wx.Icon]) -> None:
+    def SetBitmap(self, bitmap: Union[BitmapBundle, Bitmap, Icon]) -> None:
         """
         SetBitmap(bitmap) -> None
         
@@ -43673,6 +42191,7 @@ class HeaderColumnSimple(SettableHeaderColumn):
         
         Trivial implementations of the base class pure virtual functions.
         """
+
     @property
     def Alignment(self) -> Alignment: ...
     @Alignment.setter
@@ -43680,7 +42199,7 @@ class HeaderColumnSimple(SettableHeaderColumn):
     @property
     def Bitmap(self) -> Bitmap: ...
     @Bitmap.setter
-    def Bitmap(self, value: Union[BitmapBundle, wx.Bitmap, wx.Icon], /) -> None: ...
+    def Bitmap(self, value: Union[BitmapBundle, Bitmap, Icon], /) -> None: ...
     @property
     def BitmapBundle(self) -> BitmapBundle: ...
     @property
@@ -43738,9 +42257,7 @@ class HeaderCtrl(Control):
     """
 
     @overload
-    def __init__(self, parent: Window, winid: int=ID_ANY, pos: Union[Point, _TwoInts]=DefaultPosition, size: Union[Size, _TwoInts]=DefaultSize, style: int=HD_DEFAULT_STYLE, name: str=HeaderCtrlNameStr) -> None:
-        ...
-
+    def __init__(self, parent: Window, winid: int=ID_ANY, pos: Union[Point, _TwoInts]=DefaultPosition, size: Union[Size, _TwoInts]=DefaultSize, style: int=HD_DEFAULT_STYLE, name: str=HeaderCtrlNameStr) -> None: ...
     @overload
     def __init__(self) -> None:
         """
@@ -43844,9 +42361,7 @@ class HeaderCtrl(Control):
         """
 
     @overload
-    def GetColumnTitleWidth(self, idx: int) -> int:
-        ...
-
+    def GetColumnTitleWidth(self, idx: int) -> int: ...
     @overload
     def GetColumnTitleWidth(self, col: HeaderColumn) -> int:
         """
@@ -43869,6 +42384,7 @@ class HeaderCtrl(Control):
         """
         GetClassDefaultAttributes(variant=WINDOW_VARIANT_NORMAL) -> VisualAttributes
         """
+
     @property
     def ColumnCount(self) -> int: ...
     @ColumnCount.setter
@@ -43877,7 +42393,6 @@ class HeaderCtrl(Control):
     def ColumnsOrder(self) -> list[int]: ...
     @ColumnsOrder.setter
     def ColumnsOrder(self, value: list[int], /) -> None: ...
-
     def GetColumn(self, idx: int) -> HeaderColumn:
         """
         GetColumn(idx) -> HeaderColumn
@@ -43917,6 +42432,7 @@ class HeaderCtrl(Control):
         Can be overridden in the derived class to update internal data
         structures when the number of the columns in the control changes.
         """
+
 # end of class HeaderCtrl
 
 
@@ -43931,9 +42447,7 @@ class HeaderCtrlSimple(HeaderCtrl):
     """
 
     @overload
-    def __init__(self, parent: Window, winid: int=ID_ANY, pos: Union[Point, _TwoInts]=DefaultPosition, size: Union[Size, _TwoInts]=DefaultSize, style: int=HD_DEFAULT_STYLE, name: str=HeaderCtrlNameStr) -> None:
-        ...
-
+    def __init__(self, parent: Window, winid: int=ID_ANY, pos: Union[Point, _TwoInts]=DefaultPosition, size: Union[Size, _TwoInts]=DefaultSize, style: int=HD_DEFAULT_STYLE, name: str=HeaderCtrlNameStr) -> None: ...
     @overload
     def __init__(self) -> None:
         """
@@ -44007,6 +42521,7 @@ class HeaderCtrlSimple(HeaderCtrl):
         This function can be overridden in the classes deriving from this
         control instead of overriding UpdateColumnWidthToFit().
         """
+
 # end of class HeaderCtrlSimple
 
 
@@ -44019,9 +42534,7 @@ class HeaderCtrlEvent(NotifyEvent):
     """
 
     @overload
-    def __init__(self, event: HeaderCtrlEvent) -> None:
-        ...
-
+    def __init__(self, event: HeaderCtrlEvent) -> None: ...
     @overload
     def __init__(self, commandType: EventType=wxEVT_NULL, winid: int=0) -> None:
         """
@@ -44066,6 +42579,7 @@ class HeaderCtrlEvent(NotifyEvent):
         """
         SetNewOrder(order) -> None
         """
+
     @property
     def Column(self) -> int: ...
     @Column.setter
@@ -44125,9 +42639,7 @@ class SearchCtrl(Control):
     """
 
     @overload
-    def __init__(self, parent: Window, id: int=ID_ANY, value: str='', pos: Union[Point, _TwoInts]=DefaultPosition, size: Union[Size, _TwoInts]=DefaultSize, style: int=0, validator: Validator=DefaultValidator, name: str=SearchCtrlNameStr) -> None:
-        ...
-
+    def __init__(self, parent: Window, id: int=ID_ANY, value: str='', pos: Union[Point, _TwoInts]=DefaultPosition, size: Union[Size, _TwoInts]=DefaultSize, style: int=0, validator: Validator=DefaultValidator, name: str=SearchCtrlNameStr) -> None: ...
     @overload
     def __init__(self) -> None:
         """
@@ -44217,9 +42729,7 @@ class SearchCtrl(Control):
         """
 
     @overload
-    def SetMargins(self, left: int, top: int=-1) -> bool:
-        ...
-
+    def SetMargins(self, left: int, top: int=-1) -> bool: ...
     @overload
     def SetMargins(self, pt: Union[Point, _TwoInts]) -> bool:
         """
@@ -44237,9 +42747,7 @@ class SearchCtrl(Control):
         """
 
     @overload
-    def AutoComplete(self, completer: TextCompleter) -> bool:
-        ...
-
+    def AutoComplete(self, completer: TextCompleter) -> bool: ...
     @overload
     def AutoComplete(self, choices: list[str]) -> bool:
         """
@@ -44523,6 +43031,7 @@ class SearchCtrl(Control):
         Writes the text into the text control at the current insertion
         position.
         """
+
     @property
     def SearchButtonVisible(self) -> bool: ...
     @SearchButtonVisible.setter
@@ -44559,12 +43068,12 @@ class SearchCtrl(Control):
     def Value(self) -> str: ...
     @Value.setter
     def Value(self, value: str, /) -> None: ...
-
     @staticmethod
     def GetClassDefaultAttributes(variant: WindowVariant=WINDOW_VARIANT_NORMAL) -> VisualAttributes:
         """
         GetClassDefaultAttributes(variant=WINDOW_VARIANT_NORMAL) -> VisualAttributes
         """
+
 # end of class SearchCtrl
 
 
@@ -44592,9 +43101,7 @@ class RadioBox(Control, ItemContainerImmutable):
     """
 
     @overload
-    def __init__(self, parent: Window, id: int=ID_ANY, label: str='', pos: Union[Point, _TwoInts]=DefaultPosition, size: Union[Size, _TwoInts]=DefaultSize, choices: list[str]=[], majorDimension: int=0, style: int=RA_SPECIFY_COLS, validator: Validator=DefaultValidator, name: str=RadioBoxNameStr) -> None:
-        ...
-
+    def __init__(self, parent: Window, id: int=ID_ANY, label: str='', pos: Union[Point, _TwoInts]=DefaultPosition, size: Union[Size, _TwoInts]=DefaultSize, choices: list[str]=[], majorDimension: int=0, style: int=RA_SPECIFY_COLS, validator: Validator=DefaultValidator, name: str=RadioBoxNameStr) -> None: ...
     @overload
     def __init__(self) -> None:
         """
@@ -44755,6 +43262,7 @@ class RadioBox(Control, ItemContainerImmutable):
         """
         GetClassDefaultAttributes(variant=WINDOW_VARIANT_NORMAL) -> VisualAttributes
         """
+
     @property
     def ColumnCount(self) -> int: ...
     @property
@@ -44781,9 +43289,7 @@ class RadioButton(Control):
     """
 
     @overload
-    def __init__(self, parent: Window, id: int=ID_ANY, label: str='', pos: Union[Point, _TwoInts]=DefaultPosition, size: Union[Size, _TwoInts]=DefaultSize, style: int=0, validator: Validator=DefaultValidator, name: str=RadioButtonNameStr) -> None:
-        ...
-
+    def __init__(self, parent: Window, id: int=ID_ANY, label: str='', pos: Union[Point, _TwoInts]=DefaultPosition, size: Union[Size, _TwoInts]=DefaultSize, style: int=0, validator: Validator=DefaultValidator, name: str=RadioButtonNameStr) -> None: ...
     @overload
     def __init__(self) -> None:
         """
@@ -44850,6 +43356,7 @@ class RadioButton(Control):
         """
         GetClassDefaultAttributes(variant=WINDOW_VARIANT_NORMAL) -> VisualAttributes
         """
+
     @property
     def FirstInGroup(self) -> RadioButton: ...
     @property
@@ -44892,9 +43399,7 @@ class Slider(Control):
     """
 
     @overload
-    def __init__(self, parent: Window, id: int=ID_ANY, value: int=0, minValue: int=0, maxValue: int=100, pos: Union[Point, _TwoInts]=DefaultPosition, size: Union[Size, _TwoInts]=DefaultSize, style: int=SL_HORIZONTAL, validator: Validator=DefaultValidator, name: str=SliderNameStr) -> None:
-        ...
-
+    def __init__(self, parent: Window, id: int=ID_ANY, value: int=0, minValue: int=0, maxValue: int=100, pos: Union[Point, _TwoInts]=DefaultPosition, size: Union[Size, _TwoInts]=DefaultSize, style: int=SL_HORIZONTAL, validator: Validator=DefaultValidator, name: str=SliderNameStr) -> None: ...
     @overload
     def __init__(self) -> None:
         """
@@ -45059,16 +43564,13 @@ class Slider(Control):
         Sets the slider position.
         """
 
-    def GetRange(self):
-        """
-        
-        """
-
+    def GetRange(self): ...
     @staticmethod
     def GetClassDefaultAttributes(variant: WindowVariant=WINDOW_VARIANT_NORMAL) -> VisualAttributes:
         """
         GetClassDefaultAttributes(variant=WINDOW_VARIANT_NORMAL) -> VisualAttributes
         """
+
     @property
     def LineSize(self) -> int: ...
     @LineSize.setter
@@ -45117,9 +43619,7 @@ class SpinButton(Control):
     """
 
     @overload
-    def __init__(self, parent: Window, id: int=-1, pos: Union[Point, _TwoInts]=DefaultPosition, size: Union[Size, _TwoInts]=DefaultSize, style: int=SP_VERTICAL, name: str="spinButton") -> None:
-        ...
-
+    def __init__(self, parent: Window, id: int=-1, pos: Union[Point, _TwoInts]=DefaultPosition, size: Union[Size, _TwoInts]=DefaultSize, style: int=SP_VERTICAL, name: str="spinButton") -> None: ...
     @overload
     def __init__(self) -> None:
         """
@@ -45186,26 +43686,15 @@ class SpinButton(Control):
         Sets the value of the spin button.
         """
 
-    def GetRange(self):
-        """
-        
-        """
-
-    def SetMin(self, minVal):
-        """
-        
-        """
-
-    def SetMax(self, maxVal):
-        """
-        
-        """
-
+    def GetRange(self): ...
+    def SetMin(self, minVal): ...
+    def SetMax(self, maxVal): ...
     @staticmethod
     def GetClassDefaultAttributes(variant: WindowVariant=WINDOW_VARIANT_NORMAL) -> VisualAttributes:
         """
         GetClassDefaultAttributes(variant=WINDOW_VARIANT_NORMAL) -> VisualAttributes
         """
+
     @property
     def Increment(self) -> int: ...
     @Increment.setter
@@ -45255,6 +43744,7 @@ class SpinEvent(NotifyEvent):
         
         Set the value associated with the event.
         """
+
     @property
     def Position(self) -> int: ...
     @Position.setter
@@ -45279,9 +43769,7 @@ class SpinCtrl(Control):
     """
 
     @overload
-    def __init__(self, parent: Window, id: int=ID_ANY, value: str='', pos: Union[Point, _TwoInts]=DefaultPosition, size: Union[Size, _TwoInts]=DefaultSize, style: int=SP_ARROW_KEYS, min: int=0, max: int=100, initial: int=0, name: str="wxSpinCtrl") -> None:
-        ...
-
+    def __init__(self, parent: Window, id: int=ID_ANY, value: str='', pos: Union[Point, _TwoInts]=DefaultPosition, size: Union[Size, _TwoInts]=DefaultSize, style: int=SP_ARROW_KEYS, min: int=0, max: int=100, initial: int=0, name: str="wxSpinCtrl") -> None: ...
     @overload
     def __init__(self) -> None:
         """
@@ -45363,9 +43851,7 @@ class SpinCtrl(Control):
         """
 
     @overload
-    def SetValue(self, value: int) -> None:
-        ...
-
+    def SetValue(self, value: int) -> None: ...
     @overload
     def SetValue(self, text: str) -> None:
         """
@@ -45382,26 +43868,15 @@ class SpinCtrl(Control):
         Sets the increment for the control.
         """
 
-    def GetRange(self):
-        """
-        
-        """
-
-    def SetMin(self, minVal):
-        """
-        
-        """
-
-    def SetMax(self, maxVal):
-        """
-        
-        """
-
+    def GetRange(self): ...
+    def SetMin(self, minVal): ...
+    def SetMax(self, maxVal): ...
     @staticmethod
     def GetClassDefaultAttributes(variant: WindowVariant=WINDOW_VARIANT_NORMAL) -> VisualAttributes:
         """
         GetClassDefaultAttributes(variant=WINDOW_VARIANT_NORMAL) -> VisualAttributes
         """
+
     @property
     def Base(self) -> int: ...
     @Base.setter
@@ -45438,9 +43913,7 @@ class SpinCtrlDouble(Control):
     """
 
     @overload
-    def __init__(self, parent: Window, id: int=-1, value: str='', pos: Union[Point, _TwoInts]=DefaultPosition, size: Union[Size, _TwoInts]=DefaultSize, style: int=SP_ARROW_KEYS, min: float=0, max: float=100, initial: float=0, inc: float=1, name: str=T("wxSpinCtrlDouble")) -> None:
-        ...
-
+    def __init__(self, parent: Window, id: int=-1, value: str='', pos: Union[Point, _TwoInts]=DefaultPosition, size: Union[Size, _TwoInts]=DefaultSize, style: int=SP_ARROW_KEYS, min: float=0, max: float=100, initial: float=0, inc: float=1, name: str=T("wxSpinCtrlDouble")) -> None: ...
     @overload
     def __init__(self) -> None:
         """
@@ -45522,9 +43995,7 @@ class SpinCtrlDouble(Control):
         """
 
     @overload
-    def SetValue(self, value: float) -> None:
-        ...
-
+    def SetValue(self, value: float) -> None: ...
     @overload
     def SetValue(self, text: str) -> None:
         """
@@ -45534,26 +44005,15 @@ class SpinCtrlDouble(Control):
         Sets the value of the spin control.
         """
 
-    def GetRange(self):
-        """
-        
-        """
-
-    def SetMin(self, minVal):
-        """
-        
-        """
-
-    def SetMax(self, maxVal):
-        """
-        
-        """
-
+    def GetRange(self): ...
+    def SetMin(self, minVal): ...
+    def SetMax(self, maxVal): ...
     @staticmethod
     def GetClassDefaultAttributes(variant: WindowVariant=WINDOW_VARIANT_NORMAL) -> VisualAttributes:
         """
         GetClassDefaultAttributes(variant=WINDOW_VARIANT_NORMAL) -> VisualAttributes
         """
+
     @property
     def Digits(self) -> int: ...
     @Digits.setter
@@ -45589,9 +44049,7 @@ class SpinDoubleEvent(NotifyEvent):
     """
 
     @overload
-    def __init__(self, event: SpinDoubleEvent) -> None:
-        ...
-
+    def __init__(self, event: SpinDoubleEvent) -> None: ...
     @overload
     def __init__(self, commandType: EventType=wxEVT_NULL, winid: int=0, value: float=0) -> None:
         """
@@ -45614,6 +44072,7 @@ class SpinDoubleEvent(NotifyEvent):
         
         Set the value associated with the event.
         """
+
     @property
     def Value(self) -> float: ...
     @Value.setter
@@ -45641,9 +44100,7 @@ class ToggleButton(AnyButton):
     """
 
     @overload
-    def __init__(self, parent: Window, id: int=ID_ANY, label: str='', pos: Union[Point, _TwoInts]=DefaultPosition, size: Union[Size, _TwoInts]=DefaultSize, style: int=0, val: Validator=DefaultValidator, name: str=CheckBoxNameStr) -> None:
-        ...
-
+    def __init__(self, parent: Window, id: int=ID_ANY, label: str='', pos: Union[Point, _TwoInts]=DefaultPosition, size: Union[Size, _TwoInts]=DefaultSize, style: int=0, val: Validator=DefaultValidator, name: str=CheckBoxNameStr) -> None: ...
     @overload
     def __init__(self) -> None:
         """
@@ -45680,6 +44137,7 @@ class ToggleButton(AnyButton):
         """
         GetClassDefaultAttributes(variant=WINDOW_VARIANT_NORMAL) -> VisualAttributes
         """
+
     @property
     def Value(self) -> bool: ...
     @Value.setter
@@ -45697,9 +44155,7 @@ class BitmapToggleButton(ToggleButton):
     """
 
     @overload
-    def __init__(self, parent: Window, id: int=ID_ANY, label: Union[BitmapBundle, wx.Bitmap, wx.Icon]=NullBitmap, pos: Union[Point, _TwoInts]=DefaultPosition, size: Union[Size, _TwoInts]=DefaultSize, style: int=0, val: Validator=DefaultValidator, name: str=CheckBoxNameStr) -> None:
-        ...
-
+    def __init__(self, parent: Window, id: int=ID_ANY, label: Union[BitmapBundle, Bitmap, Icon]=NullBitmap, pos: Union[Point, _TwoInts]=DefaultPosition, size: Union[Size, _TwoInts]=DefaultSize, style: int=0, val: Validator=DefaultValidator, name: str=CheckBoxNameStr) -> None: ...
     @overload
     def __init__(self) -> None:
         """
@@ -45710,7 +44166,7 @@ class BitmapToggleButton(ToggleButton):
         instead of text.
         """
 
-    def Create(self, parent: Window, id: int=ID_ANY, label: Union[BitmapBundle, wx.Bitmap, wx.Icon]=NullBitmap, pos: Union[Point, _TwoInts]=DefaultPosition, size: Union[Size, _TwoInts]=DefaultSize, style: int=0, val: Validator=DefaultValidator, name: str=CheckBoxNameStr) -> bool:
+    def Create(self, parent: Window, id: int=ID_ANY, label: Union[BitmapBundle, Bitmap, Icon]=NullBitmap, pos: Union[Point, _TwoInts]=DefaultPosition, size: Union[Size, _TwoInts]=DefaultSize, style: int=0, val: Validator=DefaultValidator, name: str=CheckBoxNameStr) -> bool:
         """
         Create(parent, id=ID_ANY, label=NullBitmap, pos=DefaultPosition, size=DefaultSize, style=0, val=DefaultValidator, name=CheckBoxNameStr) -> bool
         
@@ -45736,6 +44192,7 @@ class BitmapToggleButton(ToggleButton):
         """
         GetClassDefaultAttributes(variant=WINDOW_VARIANT_NORMAL) -> VisualAttributes
         """
+
     @property
     def Value(self) -> bool: ...
     @Value.setter
@@ -45761,9 +44218,7 @@ class ScrollBar(Control):
     """
 
     @overload
-    def __init__(self, parent: Window, id: int=ID_ANY, pos: Union[Point, _TwoInts]=DefaultPosition, size: Union[Size, _TwoInts]=DefaultSize, style: int=SB_HORIZONTAL, validator: Validator=DefaultValidator, name: str=ScrollBarNameStr) -> None:
-        ...
-
+    def __init__(self, parent: Window, id: int=ID_ANY, pos: Union[Point, _TwoInts]=DefaultPosition, size: Union[Size, _TwoInts]=DefaultSize, style: int=SB_HORIZONTAL, validator: Validator=DefaultValidator, name: str=ScrollBarNameStr) -> None: ...
     @overload
     def __init__(self) -> None:
         """
@@ -45835,6 +44290,7 @@ class ScrollBar(Control):
         """
         GetClassDefaultAttributes(variant=WINDOW_VARIANT_NORMAL) -> VisualAttributes
         """
+
     @property
     def PageSize(self) -> int: ...
     @property
@@ -45902,11 +44358,9 @@ class ToolBarToolBase(Object):
     """
 
     @overload
-    def __init__(self, tbar: ToolBar, control: Control, label: str) -> None:
-        ...
-
+    def __init__(self, tbar: ToolBar, control: Control, label: str) -> None: ...
     @overload
-    def __init__(self, tbar: Optional[ToolBar]=None, toolid: int=ID_SEPARATOR, label: str='', bmpNormal: Union[BitmapBundle, wx.Bitmap, wx.Icon]=NullBitmap, bmpDisabled: Union[BitmapBundle, wx.Bitmap, wx.Icon]=NullBitmap, kind: ItemKind=ITEM_NORMAL, clientData: Optional[PyUserData]=None, shortHelpString: str='', longHelpString: str='') -> None:
+    def __init__(self, tbar: Optional[ToolBar]=None, toolid: int=ID_SEPARATOR, label: str='', bmpNormal: Union[BitmapBundle, Bitmap, Icon]=NullBitmap, bmpDisabled: Union[BitmapBundle, Bitmap, Icon]=NullBitmap, kind: ItemKind=ITEM_NORMAL, clientData: Optional[PyUserData]=None, shortHelpString: str='', longHelpString: str='') -> None:
         """
         ToolBarToolBase(tbar=None, toolid=ID_SEPARATOR, label='', bmpNormal=NullBitmap, bmpDisabled=NullBitmap, kind=ITEM_NORMAL, clientData=None, shortHelpString='', longHelpString='') -> None
         ToolBarToolBase(tbar, control, label) -> None
@@ -46041,9 +44495,7 @@ class ToolBarToolBase(Object):
         """
 
     @overload
-    def Toggle(self) -> None:
-        ...
-
+    def Toggle(self) -> None: ...
     @overload
     def Toggle(self, toggle: bool) -> bool:
         """
@@ -46066,12 +44518,12 @@ class ToolBarToolBase(Object):
         SetLongHelp(help) -> bool
         """
 
-    def SetNormalBitmap(self, bmp: Union[BitmapBundle, wx.Bitmap, wx.Icon]) -> None:
+    def SetNormalBitmap(self, bmp: Union[BitmapBundle, Bitmap, Icon]) -> None:
         """
         SetNormalBitmap(bmp) -> None
         """
 
-    def SetDisabledBitmap(self, bmp: Union[BitmapBundle, wx.Bitmap, wx.Icon]) -> None:
+    def SetDisabledBitmap(self, bmp: Union[BitmapBundle, Bitmap, Icon]) -> None:
         """
         SetDisabledBitmap(bmp) -> None
         """
@@ -46105,6 +44557,7 @@ class ToolBarToolBase(Object):
         """
         GetDropdownMenu() -> Menu
         """
+
     @property
     def Bitmap(self) -> Bitmap: ...
     @property
@@ -46116,7 +44569,7 @@ class ToolBarToolBase(Object):
     @property
     def DisabledBitmap(self) -> Bitmap: ...
     @DisabledBitmap.setter
-    def DisabledBitmap(self, value: Union[BitmapBundle, wx.Bitmap, wx.Icon], /) -> None: ...
+    def DisabledBitmap(self, value: Union[BitmapBundle, Bitmap, Icon], /) -> None: ...
     @property
     def DisabledBitmapBundle(self) -> BitmapBundle: ...
     @property
@@ -46138,7 +44591,7 @@ class ToolBarToolBase(Object):
     @property
     def NormalBitmap(self) -> Bitmap: ...
     @NormalBitmap.setter
-    def NormalBitmap(self, value: Union[BitmapBundle, wx.Bitmap, wx.Icon], /) -> None: ...
+    def NormalBitmap(self, value: Union[BitmapBundle, Bitmap, Icon], /) -> None: ...
     @property
     def NormalBitmapBundle(self) -> BitmapBundle: ...
     @property
@@ -46163,9 +44616,7 @@ class ToolBar(Control):
     """
 
     @overload
-    def __init__(self, parent: Window, id: int=ID_ANY, pos: Union[Point, _TwoInts]=DefaultPosition, size: Union[Size, _TwoInts]=DefaultSize, style: int=TB_HORIZONTAL, name: str=ToolBarNameStr) -> None:
-        ...
-
+    def __init__(self, parent: Window, id: int=ID_ANY, pos: Union[Point, _TwoInts]=DefaultPosition, size: Union[Size, _TwoInts]=DefaultSize, style: int=TB_HORIZONTAL, name: str=ToolBarNameStr) -> None: ...
     @overload
     def __init__(self) -> None:
         """
@@ -46177,13 +44628,9 @@ class ToolBar(Control):
         """
 
     @overload
-    def AddTool(self, toolId: int, label: str, bitmap: Union[BitmapBundle, wx.Bitmap, wx.Icon], shortHelp: str='', kind: ItemKind=ITEM_NORMAL) -> ToolBarToolBase:
-        ...
-
+    def AddTool(self, toolId: int, label: str, bitmap: Union[BitmapBundle, Bitmap, Icon], shortHelp: str='', kind: ItemKind=ITEM_NORMAL) -> ToolBarToolBase: ...
     @overload
-    def AddTool(self, toolId: int, label: str, bitmap: Union[BitmapBundle, wx.Bitmap, wx.Icon], bmpDisabled: Union[BitmapBundle, wx.Bitmap, wx.Icon], kind: ItemKind=ITEM_NORMAL, shortHelp: str='', longHelp: str='', clientData: Optional[PyUserData]=None) -> ToolBarToolBase:
-        ...
-
+    def AddTool(self, toolId: int, label: str, bitmap: Union[BitmapBundle, Bitmap, Icon], bmpDisabled: Union[BitmapBundle, Bitmap, Icon], kind: ItemKind=ITEM_NORMAL, shortHelp: str='', longHelp: str='', clientData: Optional[PyUserData]=None) -> ToolBarToolBase: ...
     @overload
     def AddTool(self, tool: ToolBarToolBase) -> ToolBarToolBase:
         """
@@ -46195,11 +44642,9 @@ class ToolBar(Control):
         """
 
     @overload
-    def InsertTool(self, pos: int, tool: ToolBarToolBase) -> ToolBarToolBase:
-        ...
-
+    def InsertTool(self, pos: int, tool: ToolBarToolBase) -> ToolBarToolBase: ...
     @overload
-    def InsertTool(self, pos: int, toolId: int, label: str, bitmap: Union[BitmapBundle, wx.Bitmap, wx.Icon], bmpDisabled: Union[BitmapBundle, wx.Bitmap, wx.Icon]=NullBitmap, kind: ItemKind=ITEM_NORMAL, shortHelp: str='', longHelp: str='', clientData: Optional[PyUserData]=None) -> ToolBarToolBase:
+    def InsertTool(self, pos: int, toolId: int, label: str, bitmap: Union[BitmapBundle, Bitmap, Icon], bmpDisabled: Union[BitmapBundle, Bitmap, Icon]=NullBitmap, kind: ItemKind=ITEM_NORMAL, shortHelp: str='', longHelp: str='', clientData: Optional[PyUserData]=None) -> ToolBarToolBase:
         """
         InsertTool(pos, toolId, label, bitmap, bmpDisabled=NullBitmap, kind=ITEM_NORMAL, shortHelp='', longHelp='', clientData=None) -> ToolBarToolBase
         InsertTool(pos, tool) -> ToolBarToolBase
@@ -46209,9 +44654,7 @@ class ToolBar(Control):
         """
 
     @overload
-    def SetMargins(self, size: Union[Size, _TwoInts]) -> None:
-        ...
-
+    def SetMargins(self, size: Union[Size, _TwoInts]) -> None: ...
     @overload
     def SetMargins(self, x: int, y: int) -> None:
         """
@@ -46221,7 +44664,7 @@ class ToolBar(Control):
         Set the values to be used as margins for the toolbar.
         """
 
-    def AddCheckTool(self, toolId: int, label: str, bitmap1: Union[BitmapBundle, wx.Bitmap, wx.Icon], bmpDisabled: Union[BitmapBundle, wx.Bitmap, wx.Icon]=NullBitmap, shortHelp: str='', longHelp: str='', clientData: Optional[PyUserData]=None) -> ToolBarToolBase:
+    def AddCheckTool(self, toolId: int, label: str, bitmap1: Union[BitmapBundle, Bitmap, Icon], bmpDisabled: Union[BitmapBundle, Bitmap, Icon]=NullBitmap, shortHelp: str='', longHelp: str='', clientData: Optional[PyUserData]=None) -> ToolBarToolBase:
         """
         AddCheckTool(toolId, label, bitmap1, bmpDisabled=NullBitmap, shortHelp='', longHelp='', clientData=None) -> ToolBarToolBase
         
@@ -46235,7 +44678,7 @@ class ToolBar(Control):
         Adds any control to the toolbar, typically e.g. a wxComboBox.
         """
 
-    def AddRadioTool(self, toolId: int, label: str, bitmap1: Union[BitmapBundle, wx.Bitmap, wx.Icon], bmpDisabled: Union[BitmapBundle, wx.Bitmap, wx.Icon]=NullBitmap, shortHelp: str='', longHelp: str='', clientData: Optional[PyUserData]=None) -> ToolBarToolBase:
+    def AddRadioTool(self, toolId: int, label: str, bitmap1: Union[BitmapBundle, Bitmap, Icon], bmpDisabled: Union[BitmapBundle, Bitmap, Icon]=NullBitmap, shortHelp: str='', longHelp: str='', clientData: Optional[PyUserData]=None) -> ToolBarToolBase:
         """
         AddRadioTool(toolId, label, bitmap1, bmpDisabled=NullBitmap, shortHelp='', longHelp='', clientData=None) -> ToolBarToolBase
         
@@ -46459,7 +44902,7 @@ class ToolBar(Control):
         Sets the client data associated with the tool.
         """
 
-    def SetToolDisabledBitmap(self, id: int, bitmap: Union[BitmapBundle, wx.Bitmap, wx.Icon]) -> None:
+    def SetToolDisabledBitmap(self, id: int, bitmap: Union[BitmapBundle, Bitmap, Icon]) -> None:
         """
         SetToolDisabledBitmap(id, bitmap) -> None
         
@@ -46474,7 +44917,7 @@ class ToolBar(Control):
         Sets the long help for the given tool.
         """
 
-    def SetToolNormalBitmap(self, id: int, bitmap: Union[BitmapBundle, wx.Bitmap, wx.Icon]) -> None:
+    def SetToolNormalBitmap(self, id: int, bitmap: Union[BitmapBundle, Bitmap, Icon]) -> None:
         """
         SetToolNormalBitmap(id, bitmap) -> None
         
@@ -46510,11 +44953,9 @@ class ToolBar(Control):
         """
 
     @overload
-    def CreateTool(self, control: Control, label: str) -> ToolBarToolBase:
-        ...
-
+    def CreateTool(self, control: Control, label: str) -> ToolBarToolBase: ...
     @overload
-    def CreateTool(self, toolId: int, label: str, bmpNormal: Union[BitmapBundle, wx.Bitmap, wx.Icon], bmpDisabled: Union[BitmapBundle, wx.Bitmap, wx.Icon]=NullBitmap, kind: ItemKind=ITEM_NORMAL, clientData: Optional[PyUserData]=None, shortHelp: str='', longHelp: str='') -> ToolBarToolBase:
+    def CreateTool(self, toolId: int, label: str, bmpNormal: Union[BitmapBundle, Bitmap, Icon], bmpDisabled: Union[BitmapBundle, Bitmap, Icon]=NullBitmap, kind: ItemKind=ITEM_NORMAL, clientData: Optional[PyUserData]=None, shortHelp: str='', longHelp: str='') -> ToolBarToolBase:
         """
         CreateTool(toolId, label, bmpNormal, bmpDisabled=NullBitmap, kind=ITEM_NORMAL, clientData=None, shortHelp='', longHelp='') -> ToolBarToolBase
         CreateTool(control, label) -> ToolBarToolBase
@@ -46554,6 +44995,7 @@ class ToolBar(Control):
         """
         Old style method to insert a tool in the toolbar.
         """
+
     @property
     def Margins(self) -> Size: ...
     @Margins.setter
@@ -46589,9 +45031,7 @@ class InfoBar(Control):
     """
 
     @overload
-    def __init__(self, parent: Window, winid: int=ID_ANY) -> None:
-        ...
-
+    def __init__(self, parent: Window, winid: int=ID_ANY) -> None: ...
     @overload
     def __init__(self) -> None:
         """
@@ -46705,6 +45145,7 @@ class InfoBar(Control):
         """
         GetClassDefaultAttributes(variant=WINDOW_VARIANT_NORMAL) -> VisualAttributes
         """
+
     @property
     def ButtonCount(self) -> int: ...
     @property
@@ -46850,9 +45291,7 @@ class ItemAttr:
     """
 
     @overload
-    def __init__(self, colText: Union[Colour, wx.Colour, _ThreeInts, _FourInts, str, None], colBack: Union[Colour, wx.Colour, _ThreeInts, _FourInts, str, None], font: Font) -> None:
-        ...
-
+    def __init__(self, colText: Union[Colour, _ThreeInts, _FourInts, str, None], colBack: Union[Colour, _ThreeInts, _FourInts, str, None], font: Font) -> None: ...
     @overload
     def __init__(self) -> None:
         """
@@ -46863,14 +45302,8 @@ class ItemAttr:
         with multiple items such as e.g.
         """
 
-    def __eq__(self, other: ItemAttr) -> bool:
-        """
-        """
-
-    def __ne__(self, other: ItemAttr) -> bool:
-        """
-        """
-
+    def __eq__(self, other: ItemAttr) -> bool: ...
+    def __ne__(self, other: ItemAttr) -> bool: ...
     def GetBackgroundColour(self) -> Colour:
         """
         GetBackgroundColour() -> Colour
@@ -46927,7 +45360,7 @@ class ItemAttr:
         Returns true if this object has no custom attributes set.
         """
 
-    def SetBackgroundColour(self, colour: Union[Colour, wx.Colour, _ThreeInts, _FourInts, str, None]) -> None:
+    def SetBackgroundColour(self, colour: Union[Colour, _ThreeInts, _FourInts, str, None]) -> None:
         """
         SetBackgroundColour(colour) -> None
         
@@ -46941,16 +45374,17 @@ class ItemAttr:
         Sets a new font.
         """
 
-    def SetTextColour(self, colour: Union[Colour, wx.Colour, _ThreeInts, _FourInts, str, None]) -> None:
+    def SetTextColour(self, colour: Union[Colour, _ThreeInts, _FourInts, str, None]) -> None:
         """
         SetTextColour(colour) -> None
         
         Sets a new text colour.
         """
+
     @property
     def BackgroundColour(self) -> Colour: ...
     @BackgroundColour.setter
-    def BackgroundColour(self, value: Union[Colour, wx.Colour, _ThreeInts, _FourInts, str, None], /) -> None: ...
+    def BackgroundColour(self, value: Union[Colour, _ThreeInts, _FourInts, str, None], /) -> None: ...
     @property
     def Font(self) -> Font: ...
     @Font.setter
@@ -46958,7 +45392,7 @@ class ItemAttr:
     @property
     def TextColour(self) -> Colour: ...
     @TextColour.setter
-    def TextColour(self, value: Union[Colour, wx.Colour, _ThreeInts, _FourInts, str, None], /) -> None: ...
+    def TextColour(self, value: Union[Colour, _ThreeInts, _FourInts, str, None], /) -> None: ...
 # end of class ItemAttr
 
 
@@ -47082,7 +45516,7 @@ class ListItem(Object):
         Sets the alignment for the item.
         """
 
-    def SetBackgroundColour(self, colBack: Union[Colour, wx.Colour, _ThreeInts, _FourInts, str, None]) -> None:
+    def SetBackgroundColour(self, colBack: Union[Colour, _ThreeInts, _FourInts, str, None]) -> None:
         """
         SetBackgroundColour(colBack) -> None
         
@@ -47149,7 +45583,7 @@ class ListItem(Object):
         Sets the text label for the item.
         """
 
-    def SetTextColour(self, colText: Union[Colour, wx.Colour, _ThreeInts, _FourInts, str, None]) -> None:
+    def SetTextColour(self, colText: Union[Colour, _ThreeInts, _FourInts, str, None]) -> None:
         """
         SetTextColour(colText) -> None
         
@@ -47162,6 +45596,7 @@ class ListItem(Object):
         
         Meaningful only for column headers in report mode.
         """
+
     @property
     def Align(self) -> ListColumnFormat: ...
     @Align.setter
@@ -47169,7 +45604,7 @@ class ListItem(Object):
     @property
     def BackgroundColour(self) -> Colour: ...
     @BackgroundColour.setter
-    def BackgroundColour(self, value: Union[Colour, wx.Colour, _ThreeInts, _FourInts, str, None], /) -> None: ...
+    def BackgroundColour(self, value: Union[Colour, _ThreeInts, _FourInts, str, None], /) -> None: ...
     @property
     def Column(self) -> int: ...
     @Column.setter
@@ -47205,7 +45640,7 @@ class ListItem(Object):
     @property
     def TextColour(self) -> Colour: ...
     @TextColour.setter
-    def TextColour(self, value: Union[Colour, wx.Colour, _ThreeInts, _FourInts, str, None], /) -> None: ...
+    def TextColour(self, value: Union[Colour, _ThreeInts, _FourInts, str, None], /) -> None: ...
     @property
     def Width(self) -> int: ...
     @Width.setter
@@ -47224,9 +45659,7 @@ class ListCtrl(Control):
     """
 
     @overload
-    def __init__(self, parent: Window, id: int=ID_ANY, pos: Union[Point, _TwoInts]=DefaultPosition, size: Union[Size, _TwoInts]=DefaultSize, style: int=LC_ICON, validator: Validator=DefaultValidator, name: str=ListCtrlNameStr) -> None:
-        ...
-
+    def __init__(self, parent: Window, id: int=ID_ANY, pos: Union[Point, _TwoInts]=DefaultPosition, size: Union[Size, _TwoInts]=DefaultSize, style: int=LC_ICON, validator: Validator=DefaultValidator, name: str=ListCtrlNameStr) -> None: ...
     @overload
     def __init__(self) -> None:
         """
@@ -47332,13 +45765,9 @@ class ListCtrl(Control):
         """
 
     @overload
-    def FindItem(self, start: int, data: UIntPtr) -> int:
-        ...
-
+    def FindItem(self, start: int, data: UIntPtr) -> int: ...
     @overload
-    def FindItem(self, start: int, pt: Union[Point, _TwoInts], direction: int) -> int:
-        ...
-
+    def FindItem(self, start: int, pt: Union[Point, _TwoInts], direction: int) -> int: ...
     @overload
     def FindItem(self, start: int, str: str, partial: bool=False) -> int:
         """
@@ -47543,7 +45972,7 @@ class ListCtrl(Control):
         Returns the rectangle taken by all items in the control.
         """
 
-    def SetAlternateRowColour(self, colour: Union[Colour, wx.Colour, _ThreeInts, _FourInts, str, None]) -> None:
+    def SetAlternateRowColour(self, colour: Union[Colour, _ThreeInts, _FourInts, str, None]) -> None:
         """
         SetAlternateRowColour(colour) -> None
         
@@ -47573,9 +46002,7 @@ class ListCtrl(Control):
         """
 
     @overload
-    def InsertColumn(self, col: int, heading: str, format: int=LIST_FORMAT_LEFT, width: int=LIST_AUTOSIZE) -> int:
-        ...
-
+    def InsertColumn(self, col: int, heading: str, format: int=LIST_FORMAT_LEFT, width: int=LIST_AUTOSIZE) -> int: ...
     @overload
     def InsertColumn(self, col: int, info: ListItem) -> int:
         """
@@ -47586,17 +46013,11 @@ class ListCtrl(Control):
         """
 
     @overload
-    def InsertItem(self, index: int, label: str) -> int:
-        ...
-
+    def InsertItem(self, index: int, label: str) -> int: ...
     @overload
-    def InsertItem(self, index: int, imageIndex: int) -> int:
-        ...
-
+    def InsertItem(self, index: int, imageIndex: int) -> int: ...
     @overload
-    def InsertItem(self, index: int, label: str, imageIndex: int) -> int:
-        ...
-
+    def InsertItem(self, index: int, label: str, imageIndex: int) -> int: ...
     @overload
     def InsertItem(self, info: ListItem) -> int:
         """
@@ -47644,7 +46065,7 @@ class ListCtrl(Control):
         Scrolls the list control.
         """
 
-    def SetBackgroundColour(self, col: Union[Colour, wx.Colour, _ThreeInts, _FourInts, str, None]) -> bool:
+    def SetBackgroundColour(self, col: Union[Colour, _ThreeInts, _FourInts, str, None]) -> bool:
         """
         SetBackgroundColour(col) -> bool
         
@@ -47709,9 +46130,7 @@ class ListCtrl(Control):
         """
 
     @overload
-    def SetItem(self, index: int, column: int, label: str, imageId: int=-1) -> bool:
-        ...
-
+    def SetItem(self, index: int, column: int, label: str, imageId: int=-1) -> bool: ...
     @overload
     def SetItem(self, info: ListItem) -> bool:
         """
@@ -47721,7 +46140,7 @@ class ListCtrl(Control):
         Sets the data of an item.
         """
 
-    def SetItemBackgroundColour(self, item: int, col: Union[Colour, wx.Colour, _ThreeInts, _FourInts, str, None]) -> None:
+    def SetItemBackgroundColour(self, item: int, col: Union[Colour, _ThreeInts, _FourInts, str, None]) -> None:
         """
         SetItemBackgroundColour(item, col) -> None
         
@@ -47784,7 +46203,7 @@ class ListCtrl(Control):
         Sets the item text for this item.
         """
 
-    def SetItemTextColour(self, item: int, col: Union[Colour, wx.Colour, _ThreeInts, _FourInts, str, None]) -> None:
+    def SetItemTextColour(self, item: int, col: Union[Colour, _ThreeInts, _FourInts, str, None]) -> None:
         """
         SetItemTextColour(item, col) -> None
         
@@ -47798,7 +46217,7 @@ class ListCtrl(Control):
         Adds or removes a single window style.
         """
 
-    def SetTextColour(self, col: Union[Colour, wx.Colour, _ThreeInts, _FourInts, str, None]) -> None:
+    def SetTextColour(self, col: Union[Colour, _ThreeInts, _FourInts, str, None]) -> None:
         """
         SetTextColour(col) -> None
         
@@ -47960,16 +46379,8 @@ class ListCtrl(Control):
         Returns ``True`` if the item is selected.
         """
 
-    def SetColumnImage(self, col, image):
-        """
-        
-        """
-
-    def ClearColumnImage(self, col):
-        """
-        
-        """
-
+    def SetColumnImage(self, col, image): ...
+    def ClearColumnImage(self, col): ...
     def Append(self, entry):
         """
         Append an item to the list control.  The `entry` parameter should be a
@@ -47980,10 +46391,11 @@ class ListCtrl(Control):
         """
         GetMainWindow() -> Window
         """
+
     @property
     def AlternateRowColour(self) -> Colour: ...
     @AlternateRowColour.setter
-    def AlternateRowColour(self, value: Union[Colour, wx.Colour, _ThreeInts, _FourInts, str, None], /) -> None: ...
+    def AlternateRowColour(self, value: Union[Colour, _ThreeInts, _FourInts, str, None], /) -> None: ...
     @property
     def Column(self) -> ListItem: ...
     @Column.setter
@@ -48024,12 +46436,11 @@ class ListCtrl(Control):
     @property
     def TextColour(self) -> Colour: ...
     @TextColour.setter
-    def TextColour(self, value: Union[Colour, wx.Colour, _ThreeInts, _FourInts, str, None], /) -> None: ...
+    def TextColour(self, value: Union[Colour, _ThreeInts, _FourInts, str, None], /) -> None: ...
     @property
     def TopItem(self) -> int: ...
     @property
     def ViewRect(self) -> Rect: ...
-
     def OnGetItemAttr(self, item: int) -> ItemAttr:
         """
         OnGetItemAttr(item) -> ItemAttr
@@ -48070,6 +46481,7 @@ class ListCtrl(Control):
         This function must be overridden in the derived class for a control
         with wxLC_VIRTUAL style that uses checkboxes.
         """
+
 # end of class ListCtrl
 
 
@@ -48084,9 +46496,7 @@ class ListView(ListCtrl):
     """
 
     @overload
-    def __init__(self, parent: Window, winid: int=ID_ANY, pos: Union[Point, _TwoInts]=DefaultPosition, size: Union[Size, _TwoInts]=DefaultSize, style: int=LC_REPORT, validator: Validator=DefaultValidator, name: str=ListCtrlNameStr) -> None:
-        ...
-
+    def __init__(self, parent: Window, winid: int=ID_ANY, pos: Union[Point, _TwoInts]=DefaultPosition, size: Union[Size, _TwoInts]=DefaultSize, style: int=LC_REPORT, validator: Validator=DefaultValidator, name: str=ListCtrlNameStr) -> None: ...
     @overload
     def __init__(self) -> None:
         """
@@ -48163,6 +46573,7 @@ class ListView(ListCtrl):
         """
         GetClassDefaultAttributes(variant=WINDOW_VARIANT_NORMAL) -> VisualAttributes
         """
+
     @property
     def FirstSelected(self) -> int: ...
     @property
@@ -48318,6 +46729,7 @@ class ListEvent(NotifyEvent):
         """
         SetCacheTo(cacheTo) -> None
         """
+
     @property
     def CacheFrom(self) -> int: ...
     @CacheFrom.setter
@@ -48481,9 +46893,7 @@ class TreeItemId:
     """
 
     @overload
-    def __init__(self, pItem: Any) -> None:
-        ...
-
+    def __init__(self, pItem: Any) -> None: ...
     @overload
     def __init__(self) -> None:
         """
@@ -48530,10 +46940,7 @@ class TreeItemId:
         __ne__(other) -> bool
         """
 
-    def __hash__(self):
-        """
-        
-        """
+    def __hash__(self): ...
     @property
     def ID(self) -> Any: ...
 # end of class TreeItemId
@@ -48550,9 +46957,7 @@ class TreeCtrl(Control, WithImages):
     """
 
     @overload
-    def __init__(self, parent: Window, id: int=ID_ANY, pos: Union[Point, _TwoInts]=DefaultPosition, size: Union[Size, _TwoInts]=DefaultSize, style: int=TR_DEFAULT_STYLE, validator: Validator=DefaultValidator, name: str=TreeCtrlNameStr) -> None:
-        ...
-
+    def __init__(self, parent: Window, id: int=ID_ANY, pos: Union[Point, _TwoInts]=DefaultPosition, size: Union[Size, _TwoInts]=DefaultSize, style: int=TR_DEFAULT_STYLE, validator: Validator=DefaultValidator, name: str=TreeCtrlNameStr) -> None: ...
     @overload
     def __init__(self) -> None:
         """
@@ -48924,9 +47329,7 @@ class TreeCtrl(Control, WithImages):
         """
 
     @overload
-    def InsertItem(self, parent: TreeItemId, pos: int, text: str, image: int=-1, selImage: int=-1, data: Optional[TreeItemData]=None) -> TreeItemId:
-        ...
-
+    def InsertItem(self, parent: TreeItemId, pos: int, text: str, image: int=-1, selImage: int=-1, data: Optional[TreeItemData]=None) -> TreeItemId: ...
     @overload
     def InsertItem(self, parent: TreeItemId, previous: TreeItemId, text: str, image: int=-1, selImage: int=-1, data: Optional[TreeItemData]=None) -> TreeItemId:
         """
@@ -49023,7 +47426,7 @@ class TreeCtrl(Control, WithImages):
         Sets the spacing for the tree control.
         """
 
-    def SetItemBackgroundColour(self, item: TreeItemId, col: Union[Colour, wx.Colour, _ThreeInts, _FourInts, str, None]) -> None:
+    def SetItemBackgroundColour(self, item: TreeItemId, col: Union[Colour, _ThreeInts, _FourInts, str, None]) -> None:
         """
         SetItemBackgroundColour(item, col) -> None
         
@@ -49090,7 +47493,7 @@ class TreeCtrl(Control, WithImages):
         Sets the item label.
         """
 
-    def SetItemTextColour(self, item: TreeItemId, col: Union[Colour, wx.Colour, _ThreeInts, _FourInts, str, None]) -> None:
+    def SetItemTextColour(self, item: TreeItemId, col: Union[Colour, _ThreeInts, _FourInts, str, None]) -> None:
         """
         SetItemTextColour(item, col) -> None
         
@@ -49190,6 +47593,7 @@ class TreeCtrl(Control, WithImages):
     SetItemPyData = wx.deprecated(SetItemData, 'Use SetItemData instead.')
     GetPyData = wx.deprecated(GetItemData, 'Use GetItemData instead.')
     SetPyData = wx.deprecated(SetItemData, 'Use SetItemData instead.')
+
     @property
     def BoundingRect(self) -> Any: ...
     @property
@@ -49301,6 +47705,7 @@ class TreeEvent(NotifyEvent):
         Set the tooltip for the item (valid for EVT_TREE_ITEM_GETTOOLTIP
         events).
         """
+
     @property
     def Item(self) -> TreeItemId: ...
     @property
@@ -49531,6 +47936,7 @@ class PickerBase(Control):
         """
         UpdateTextCtrlFromPicker() -> None
         """
+
     @property
     def InternalMargin(self) -> int: ...
     @InternalMargin.setter
@@ -49551,7 +47957,6 @@ class PickerBase(Control):
     def TextCtrlProportion(self) -> int: ...
     @TextCtrlProportion.setter
     def TextCtrlProportion(self, value: int, /) -> None: ...
-
     def GetTextCtrlStyle(self, style: int) -> int:
         """
         GetTextCtrlStyle(style) -> int
@@ -49566,6 +47971,7 @@ class PickerBase(Control):
         """
         PostCreation() -> None
         """
+
 # end of class PickerBase
 
 ColourPickerWidgetNameStr: str
@@ -49580,9 +47986,7 @@ class ColourPickerCtrl(PickerBase):
     """
 
     @overload
-    def __init__(self, parent: Window, id: int=ID_ANY, colour: Union[Colour, wx.Colour, _ThreeInts, _FourInts, str, None]=BLACK, pos: Union[Point, _TwoInts]=DefaultPosition, size: Union[Size, _TwoInts]=DefaultSize, style: int=CLRP_DEFAULT_STYLE, validator: Validator=DefaultValidator, name: str=ColourPickerCtrlNameStr) -> None:
-        ...
-
+    def __init__(self, parent: Window, id: int=ID_ANY, colour: Union[Colour, _ThreeInts, _FourInts, str, None]=BLACK, pos: Union[Point, _TwoInts]=DefaultPosition, size: Union[Size, _TwoInts]=DefaultSize, style: int=CLRP_DEFAULT_STYLE, validator: Validator=DefaultValidator, name: str=ColourPickerCtrlNameStr) -> None: ...
     @overload
     def __init__(self) -> None:
         """
@@ -49593,11 +47997,9 @@ class ColourPickerCtrl(PickerBase):
         """
 
     @overload
-    def SetColour(self, colname: str) -> None:
-        ...
-
+    def SetColour(self, colname: str) -> None: ...
     @overload
-    def SetColour(self, col: Union[Colour, wx.Colour, _ThreeInts, _FourInts, str, None]) -> None:
+    def SetColour(self, col: Union[Colour, _ThreeInts, _FourInts, str, None]) -> None:
         """
         SetColour(col) -> None
         SetColour(colname) -> None
@@ -49605,7 +48007,7 @@ class ColourPickerCtrl(PickerBase):
         Sets the currently selected colour.
         """
 
-    def Create(self, parent: Window, id: int=ID_ANY, colour: Union[Colour, wx.Colour, _ThreeInts, _FourInts, str, None]=BLACK, pos: Union[Point, _TwoInts]=DefaultPosition, size: Union[Size, _TwoInts]=DefaultSize, style: int=CLRP_DEFAULT_STYLE, validator: Validator=DefaultValidator, name: str=ColourPickerCtrlNameStr) -> bool:
+    def Create(self, parent: Window, id: int=ID_ANY, colour: Union[Colour, _ThreeInts, _FourInts, str, None]=BLACK, pos: Union[Point, _TwoInts]=DefaultPosition, size: Union[Size, _TwoInts]=DefaultSize, style: int=CLRP_DEFAULT_STYLE, validator: Validator=DefaultValidator, name: str=ColourPickerCtrlNameStr) -> bool:
         """
         Create(parent, id=ID_ANY, colour=BLACK, pos=DefaultPosition, size=DefaultSize, style=CLRP_DEFAULT_STYLE, validator=DefaultValidator, name=ColourPickerCtrlNameStr) -> bool
         
@@ -49624,10 +48026,11 @@ class ColourPickerCtrl(PickerBase):
         """
         GetClassDefaultAttributes(variant=WINDOW_VARIANT_NORMAL) -> VisualAttributes
         """
+
     @property
     def Colour(self) -> Colour: ...
     @Colour.setter
-    def Colour(self, value: Union[Union[Colour, wx.Colour, _ThreeInts, _FourInts, str, None], str], /) -> None: ...
+    def Colour(self, value: Union[Union[Colour, _ThreeInts, _FourInts, str, None], str], /) -> None: ...
 # end of class ColourPickerCtrl
 
 
@@ -49641,9 +48044,7 @@ class ColourPickerEvent(CommandEvent):
     """
 
     @overload
-    def __init__(self, generator: Object, id: int, colour: Union[Colour, wx.Colour, _ThreeInts, _FourInts, str, None]) -> None:
-        ...
-
+    def __init__(self, generator: Object, id: int, colour: Union[Colour, _ThreeInts, _FourInts, str, None]) -> None: ...
     @overload
     def __init__(self) -> None:
         """
@@ -49661,16 +48062,17 @@ class ColourPickerEvent(CommandEvent):
         Retrieve the colour the user has just selected.
         """
 
-    def SetColour(self, pos: Union[Colour, wx.Colour, _ThreeInts, _FourInts, str, None]) -> None:
+    def SetColour(self, pos: Union[Colour, _ThreeInts, _FourInts, str, None]) -> None:
         """
         SetColour(pos) -> None
         
         Set the colour associated with the event.
         """
+
     @property
     def Colour(self) -> Colour: ...
     @Colour.setter
-    def Colour(self, value: Union[Colour, wx.Colour, _ThreeInts, _FourInts, str, None], /) -> None: ...
+    def Colour(self, value: Union[Colour, _ThreeInts, _FourInts, str, None], /) -> None: ...
 # end of class ColourPickerEvent
 
 FilePickerWidgetLabel: str
@@ -49688,9 +48090,7 @@ class FilePickerCtrl(PickerBase):
     """
 
     @overload
-    def __init__(self, parent: Window, id: int=ID_ANY, path: str='', message: str=FileSelectorPromptStr, wildcard: str=FileSelectorDefaultWildcardStr, pos: Union[Point, _TwoInts]=DefaultPosition, size: Union[Size, _TwoInts]=DefaultSize, style: int=FLP_DEFAULT_STYLE, validator: Validator=DefaultValidator, name: str=FilePickerCtrlNameStr) -> None:
-        ...
-
+    def __init__(self, parent: Window, id: int=ID_ANY, path: str='', message: str=FileSelectorPromptStr, wildcard: str=FileSelectorDefaultWildcardStr, pos: Union[Point, _TwoInts]=DefaultPosition, size: Union[Size, _TwoInts]=DefaultSize, style: int=FLP_DEFAULT_STYLE, validator: Validator=DefaultValidator, name: str=FilePickerCtrlNameStr) -> None: ...
     @overload
     def __init__(self) -> None:
         """
@@ -49733,6 +48133,7 @@ class FilePickerCtrl(PickerBase):
         """
         GetClassDefaultAttributes(variant=WINDOW_VARIANT_NORMAL) -> VisualAttributes
         """
+
     @property
     def Path(self) -> str: ...
     @Path.setter
@@ -49753,9 +48154,7 @@ class DirPickerCtrl(PickerBase):
     """
 
     @overload
-    def __init__(self, parent: Window, id: int=ID_ANY, path: str='', message: str=DirSelectorPromptStr, pos: Union[Point, _TwoInts]=DefaultPosition, size: Union[Size, _TwoInts]=DefaultSize, style: int=DIRP_DEFAULT_STYLE, validator: Validator=DefaultValidator, name: str=DirPickerCtrlNameStr) -> None:
-        ...
-
+    def __init__(self, parent: Window, id: int=ID_ANY, path: str='', message: str=DirSelectorPromptStr, pos: Union[Point, _TwoInts]=DefaultPosition, size: Union[Size, _TwoInts]=DefaultSize, style: int=DIRP_DEFAULT_STYLE, validator: Validator=DefaultValidator, name: str=DirPickerCtrlNameStr) -> None: ...
     @overload
     def __init__(self) -> None:
         """
@@ -49798,6 +48197,7 @@ class DirPickerCtrl(PickerBase):
         """
         GetClassDefaultAttributes(variant=WINDOW_VARIANT_NORMAL) -> VisualAttributes
         """
+
     @property
     def Path(self) -> str: ...
     @Path.setter
@@ -49815,9 +48215,7 @@ class FileDirPickerEvent(CommandEvent):
     """
 
     @overload
-    def __init__(self, type: EventType, generator: Object, id: int, path: str) -> None:
-        ...
-
+    def __init__(self, type: EventType, generator: Object, id: int, path: str) -> None: ...
     @overload
     def __init__(self) -> None:
         """
@@ -49842,6 +48240,7 @@ class FileDirPickerEvent(CommandEvent):
         
         Set the absolute path of the file/directory associated with the event.
         """
+
     @property
     def Path(self) -> str: ...
     @Path.setter
@@ -49860,9 +48259,7 @@ class FontPickerCtrl(PickerBase):
     """
 
     @overload
-    def __init__(self, parent: Window, id: int=ID_ANY, font: Font=NullFont, pos: Union[Point, _TwoInts]=DefaultPosition, size: Union[Size, _TwoInts]=DefaultSize, style: int=FNTP_DEFAULT_STYLE, validator: Validator=DefaultValidator, name: str=FontPickerCtrlNameStr) -> None:
-        ...
-
+    def __init__(self, parent: Window, id: int=ID_ANY, font: Font=NullFont, pos: Union[Point, _TwoInts]=DefaultPosition, size: Union[Size, _TwoInts]=DefaultSize, style: int=FNTP_DEFAULT_STYLE, validator: Validator=DefaultValidator, name: str=FontPickerCtrlNameStr) -> None: ...
     @overload
     def __init__(self) -> None:
         """
@@ -49921,7 +48318,7 @@ class FontPickerCtrl(PickerBase):
         Sets the minimum point size value allowed for the user-chosen font.
         """
 
-    def SetSelectedColour(self, colour: Union[Colour, wx.Colour, _ThreeInts, _FourInts, str, None]) -> None:
+    def SetSelectedColour(self, colour: Union[Colour, _ThreeInts, _FourInts, str, None]) -> None:
         """
         SetSelectedColour(colour) -> None
         
@@ -49940,6 +48337,7 @@ class FontPickerCtrl(PickerBase):
         """
         GetClassDefaultAttributes(variant=WINDOW_VARIANT_NORMAL) -> VisualAttributes
         """
+
     @property
     def MaxPointSize(self) -> int: ...
     @MaxPointSize.setter
@@ -49951,7 +48349,7 @@ class FontPickerCtrl(PickerBase):
     @property
     def SelectedColour(self) -> Colour: ...
     @SelectedColour.setter
-    def SelectedColour(self, value: Union[Colour, wx.Colour, _ThreeInts, _FourInts, str, None], /) -> None: ...
+    def SelectedColour(self, value: Union[Colour, _ThreeInts, _FourInts, str, None], /) -> None: ...
     @property
     def SelectedFont(self) -> Font: ...
     @SelectedFont.setter
@@ -49986,6 +48384,7 @@ class FontPickerEvent(CommandEvent):
         
         Set the font associated with the event.
         """
+
     @property
     def Font(self) -> Font: ...
     @Font.setter
@@ -50191,9 +48590,7 @@ class FileCtrl(Control):
     """
 
     @overload
-    def __init__(self, parent: Window, id: int=ID_ANY, defaultDirectory: str='', defaultFilename: str='', wildCard: str=FileSelectorDefaultWildcardStr, style: int=FC_DEFAULT_STYLE, pos: Union[Point, _TwoInts]=DefaultPosition, size: Union[Size, _TwoInts]=DefaultSize, name: str=FileCtrlNameStr) -> None:
-        ...
-
+    def __init__(self, parent: Window, id: int=ID_ANY, defaultDirectory: str='', defaultFilename: str='', wildCard: str=FileSelectorDefaultWildcardStr, style: int=FC_DEFAULT_STYLE, pos: Union[Point, _TwoInts]=DefaultPosition, size: Union[Size, _TwoInts]=DefaultSize, name: str=FileCtrlNameStr) -> None: ...
     @overload
     def __init__(self) -> None:
         """
@@ -50313,6 +48710,7 @@ class FileCtrl(Control):
         """
         GetClassDefaultAttributes(variant=WINDOW_VARIANT_NORMAL) -> VisualAttributes
         """
+
     @property
     def Directory(self) -> str: ...
     @Directory.setter
@@ -50404,6 +48802,7 @@ class FileCtrlEvent(CommandEvent):
         
         Sets the filter index changed by this event.
         """
+
     @property
     def Directory(self) -> str: ...
     @Directory.setter
@@ -50580,6 +48979,7 @@ class ComboPopup:
         The derived class must implement this to receive string value changes
         from wxComboCtrl.
         """
+
     @property
     def ComboCtrl(self) -> ComboCtrl: ...
     @property
@@ -50613,6 +49013,7 @@ class ComboCtrlFeatures:
     PaintWritable = _enum_8.PaintWritable
     Borderless = _enum_8.Borderless
     All = _enum_8.All
+
 # end of class ComboCtrlFeatures
 
 
@@ -50626,9 +49027,7 @@ class ComboCtrl(Control, TextEntry):
     """
 
     @overload
-    def __init__(self, parent: Window, id: int=ID_ANY, value: str='', pos: Union[Point, _TwoInts]=DefaultPosition, size: Union[Size, _TwoInts]=DefaultSize, style: int=0, validator: Validator=DefaultValidator, name: str=ComboBoxNameStr) -> None:
-        ...
-
+    def __init__(self, parent: Window, id: int=ID_ANY, value: str='', pos: Union[Point, _TwoInts]=DefaultPosition, size: Union[Size, _TwoInts]=DefaultSize, style: int=0, validator: Validator=DefaultValidator, name: str=ComboBoxNameStr) -> None: ...
     @overload
     def __init__(self) -> None:
         """
@@ -50640,9 +49039,7 @@ class ComboCtrl(Control, TextEntry):
         """
 
     @overload
-    def SetMargins(self, left: int, top: int=-1) -> bool:
-        ...
-
+    def SetMargins(self, left: int, top: int=-1) -> bool: ...
     @overload
     def SetMargins(self, pt: Union[Point, _TwoInts]) -> bool:
         """
@@ -50878,7 +49275,7 @@ class ComboCtrl(Control, TextEntry):
         Replaces the text between two positions with the given text, in the combo control text field.
         """
 
-    def SetButtonBitmaps(self, bmpNormal: Union[BitmapBundle, wx.Bitmap, wx.Icon], pushButtonBg: bool=False, bmpPressed: Union[BitmapBundle, wx.Bitmap, wx.Icon]=BitmapBundle(), bmpHover: Union[BitmapBundle, wx.Bitmap, wx.Icon]=BitmapBundle(), bmpDisabled: Union[BitmapBundle, wx.Bitmap, wx.Icon]=BitmapBundle()) -> None:
+    def SetButtonBitmaps(self, bmpNormal: Union[BitmapBundle, Bitmap, Icon], pushButtonBg: bool=False, bmpPressed: Union[BitmapBundle, Bitmap, Icon]=BitmapBundle(), bmpHover: Union[BitmapBundle, Bitmap, Icon]=BitmapBundle(), bmpDisabled: Union[BitmapBundle, Bitmap, Icon]=BitmapBundle()) -> None:
         """
         SetButtonBitmaps(bmpNormal, pushButtonBg=False, bmpPressed=BitmapBundle(), bmpHover=BitmapBundle(), bmpDisabled=BitmapBundle()) -> None
         
@@ -51038,6 +49435,7 @@ class ComboCtrl(Control, TextEntry):
         """
         GetClassDefaultAttributes(variant=WINDOW_VARIANT_NORMAL) -> VisualAttributes
         """
+
     @property
     def BitmapDisabled(self) -> Bitmap: ...
     @property
@@ -51080,7 +49478,6 @@ class ComboCtrl(Control, TextEntry):
     def Value(self) -> str: ...
     @Value.setter
     def Value(self, value: str, /) -> None: ...
-
     def AnimateShow(self, rect: Union[Rect, _FourInts], flags: int) -> bool:
         """
         AnimateShow(rect, flags) -> bool
@@ -51101,6 +49498,7 @@ class ComboCtrl(Control, TextEntry):
         
         This member function is not normally called in application code.
         """
+
 # end of class ComboCtrl
 
 #-- end-combo --#
@@ -51124,9 +49522,7 @@ class Choicebook(BookCtrlBase):
     """
 
     @overload
-    def __init__(self, parent: Window, id: int=ID_ANY, pos: Union[Point, _TwoInts]=DefaultPosition, size: Union[Size, _TwoInts]=DefaultSize, style: int=0, name: str='') -> None:
-        ...
-
+    def __init__(self, parent: Window, id: int=ID_ANY, pos: Union[Point, _TwoInts]=DefaultPosition, size: Union[Size, _TwoInts]=DefaultSize, style: int=0, name: str='') -> None: ...
     @overload
     def __init__(self) -> None:
         """
@@ -51145,9 +49541,7 @@ class Choicebook(BookCtrlBase):
         """
 
     @overload
-    def GetChoiceCtrl(self) -> Choice:
-        ...
-
+    def GetChoiceCtrl(self) -> Choice: ...
     @overload
     def GetChoiceCtrl(self) -> Choice:
         """
@@ -51162,6 +49556,7 @@ class Choicebook(BookCtrlBase):
         """
         GetClassDefaultAttributes(variant=WINDOW_VARIANT_NORMAL) -> VisualAttributes
         """
+
     @property
     def ChoiceCtrl(self) -> Choice: ...
 # end of class Choicebook
@@ -51194,9 +49589,7 @@ class Listbook(BookCtrlBase):
     """
 
     @overload
-    def __init__(self, parent: Window, id: int=ID_ANY, pos: Union[Point, _TwoInts]=DefaultPosition, size: Union[Size, _TwoInts]=DefaultSize, style: int=0, name: str='') -> None:
-        ...
-
+    def __init__(self, parent: Window, id: int=ID_ANY, pos: Union[Point, _TwoInts]=DefaultPosition, size: Union[Size, _TwoInts]=DefaultSize, style: int=0, name: str='') -> None: ...
     @overload
     def __init__(self) -> None:
         """
@@ -51215,9 +49608,7 @@ class Listbook(BookCtrlBase):
         """
 
     @overload
-    def GetListView(self) -> ListView:
-        ...
-
+    def GetListView(self) -> ListView: ...
     @overload
     def GetListView(self) -> ListView:
         """
@@ -51232,6 +49623,7 @@ class Listbook(BookCtrlBase):
         """
         GetClassDefaultAttributes(variant=WINDOW_VARIANT_NORMAL) -> VisualAttributes
         """
+
     @property
     def ListView(self) -> ListView: ...
 # end of class Listbook
@@ -51260,9 +49652,7 @@ class Toolbook(BookCtrlBase):
     """
 
     @overload
-    def __init__(self, parent: Window, id: int=ID_ANY, pos: Union[Point, _TwoInts]=DefaultPosition, size: Union[Size, _TwoInts]=DefaultSize, style: int=0, name: str='') -> None:
-        ...
-
+    def __init__(self, parent: Window, id: int=ID_ANY, pos: Union[Point, _TwoInts]=DefaultPosition, size: Union[Size, _TwoInts]=DefaultSize, style: int=0, name: str='') -> None: ...
     @overload
     def __init__(self) -> None:
         """
@@ -51288,9 +49678,7 @@ class Toolbook(BookCtrlBase):
         """
 
     @overload
-    def EnablePage(self, page: Window, enable: bool) -> bool:
-        ...
-
+    def EnablePage(self, page: Window, enable: bool) -> bool: ...
     @overload
     def EnablePage(self, page: int, enable: bool) -> bool:
         """
@@ -51305,6 +49693,7 @@ class Toolbook(BookCtrlBase):
         """
         GetClassDefaultAttributes(variant=WINDOW_VARIANT_NORMAL) -> VisualAttributes
         """
+
     @property
     def ToolBar(self) -> ToolBar: ...
 # end of class Toolbook
@@ -51333,9 +49722,7 @@ class Treebook(BookCtrlBase):
     """
 
     @overload
-    def __init__(self, parent: Window, id: int=ID_ANY, pos: Union[Point, _TwoInts]=DefaultPosition, size: Union[Size, _TwoInts]=DefaultSize, style: int=BK_DEFAULT, name: str='') -> None:
-        ...
-
+    def __init__(self, parent: Window, id: int=ID_ANY, pos: Union[Point, _TwoInts]=DefaultPosition, size: Union[Size, _TwoInts]=DefaultSize, style: int=BK_DEFAULT, name: str='') -> None: ...
     @overload
     def __init__(self) -> None:
         """
@@ -51437,6 +49824,7 @@ class Treebook(BookCtrlBase):
         
         Returns the tree control used for selecting pages.
         """
+
     @property
     def Selection(self) -> int: ...
     @property
@@ -51466,9 +49854,7 @@ class Simplebook(BookCtrlBase):
     """
 
     @overload
-    def __init__(self, parent: Window, id: int=ID_ANY, pos: Union[Point, _TwoInts]=DefaultPosition, size: Union[Size, _TwoInts]=DefaultSize, style: int=0, name: str='') -> None:
-        ...
-
+    def __init__(self, parent: Window, id: int=ID_ANY, pos: Union[Point, _TwoInts]=DefaultPosition, size: Union[Size, _TwoInts]=DefaultSize, style: int=0, name: str='') -> None: ...
     @overload
     def __init__(self) -> None:
         """
@@ -51527,6 +49913,7 @@ class Simplebook(BookCtrlBase):
         """
         GetClassDefaultAttributes(variant=WINDOW_VARIANT_NORMAL) -> VisualAttributes
         """
+
 # end of class Simplebook
 
 #-- end-simplebook --#
@@ -51547,9 +49934,7 @@ class VListBox(VScrolledWindow):
     """
 
     @overload
-    def __init__(self, parent: Window, id: int=ID_ANY, pos: Union[Point, _TwoInts]=DefaultPosition, size: Union[Size, _TwoInts]=DefaultSize, style: int=0, name: str=VListBoxNameStr) -> None:
-        ...
-
+    def __init__(self, parent: Window, id: int=ID_ANY, pos: Union[Point, _TwoInts]=DefaultPosition, size: Union[Size, _TwoInts]=DefaultSize, style: int=0, name: str=VListBoxNameStr) -> None: ...
     @overload
     def __init__(self) -> None:
         """
@@ -51565,9 +49950,7 @@ class VListBox(VScrolledWindow):
         """
 
     @overload
-    def SetMargins(self, x: int, y: int) -> None:
-        ...
-
+    def SetMargins(self, x: int, y: int) -> None: ...
     @overload
     def SetMargins(self, pt: Union[Point, _TwoInts]) -> None:
         """
@@ -51719,7 +50102,7 @@ class VListBox(VScrolledWindow):
         unset.
         """
 
-    def SetSelectionBackground(self, col: Union[Colour, wx.Colour, _ThreeInts, _FourInts, str, None]) -> None:
+    def SetSelectionBackground(self, col: Union[Colour, _ThreeInts, _FourInts, str, None]) -> None:
         """
         SetSelectionBackground(col) -> None
         
@@ -51738,6 +50121,7 @@ class VListBox(VScrolledWindow):
         """
         GetClassDefaultAttributes(variant=WINDOW_VARIANT_NORMAL) -> VisualAttributes
         """
+
     @property
     def ItemCount(self) -> int: ...
     @ItemCount.setter
@@ -51755,8 +50139,7 @@ class VListBox(VScrolledWindow):
     @property
     def SelectionBackground(self) -> Colour: ...
     @SelectionBackground.setter
-    def SelectionBackground(self, value: Union[Colour, wx.Colour, _ThreeInts, _FourInts, str, None], /) -> None: ...
-
+    def SelectionBackground(self, value: Union[Colour, _ThreeInts, _FourInts, str, None], /) -> None: ...
     def OnDrawItem(self, dc: DC, rect: Union[Rect, _FourInts], n: int) -> None:
         """
         OnDrawItem(dc, rect, n) -> None
@@ -51787,6 +50170,7 @@ class VListBox(VScrolledWindow):
         The derived class must implement this method to return the height of
         the specified item (in pixels).
         """
+
 # end of class VListBox
 
 #-- end-vlbox --#
@@ -51802,9 +50186,7 @@ class ActivityIndicator(Control):
     """
 
     @overload
-    def __init__(self, parent: Window, winid: int=ID_ANY, pos: Union[Point, _TwoInts]=DefaultPosition, size: Union[Size, _TwoInts]=DefaultSize, style: int=0, name: str="activityindicator") -> None:
-        ...
-
+    def __init__(self, parent: Window, winid: int=ID_ANY, pos: Union[Point, _TwoInts]=DefaultPosition, size: Union[Size, _TwoInts]=DefaultSize, style: int=0, name: str="activityindicator") -> None: ...
     @overload
     def __init__(self) -> None:
         """
@@ -51848,6 +50230,7 @@ class ActivityIndicator(Control):
         """
         GetClassDefaultAttributes(variant=WINDOW_VARIANT_NORMAL) -> VisualAttributes
         """
+
 # end of class ActivityIndicator
 
 #-- end-activityindicator --#
@@ -51863,9 +50246,7 @@ class CollapsibleHeaderCtrl(Control):
     """
 
     @overload
-    def __init__(self, parent: Window, id: int=ID_ANY, label: str="", pos: Union[Point, _TwoInts]=DefaultPosition, size: Union[Size, _TwoInts]=DefaultSize, style: int=BORDER_NONE, validator: Validator=DefaultValidator, name: str=CollapsibleHeaderCtrlNameStr) -> None:
-        ...
-
+    def __init__(self, parent: Window, id: int=ID_ANY, label: str="", pos: Union[Point, _TwoInts]=DefaultPosition, size: Union[Size, _TwoInts]=DefaultSize, style: int=BORDER_NONE, validator: Validator=DefaultValidator, name: str=CollapsibleHeaderCtrlNameStr) -> None: ...
     @overload
     def __init__(self) -> None:
         """
@@ -51901,6 +50282,7 @@ class CollapsibleHeaderCtrl(Control):
         """
         GetClassDefaultAttributes(variant=WINDOW_VARIANT_NORMAL) -> VisualAttributes
         """
+
 # end of class CollapsibleHeaderCtrl
 
 
@@ -51915,9 +50297,7 @@ class NonOwnedWindow(Window):
     """
 
     @overload
-    def SetShape(self, path: GraphicsPath) -> bool:
-        ...
-
+    def SetShape(self, path: GraphicsPath) -> bool: ...
     @overload
     def SetShape(self, region: Region) -> bool:
         """
@@ -51927,6 +50307,7 @@ class NonOwnedWindow(Window):
         If the platform supports it, sets the shape of the window to that
         depicted by region.
         """
+
 # end of class NonOwnedWindow
 
 #-- end-nonownedwnd --#
@@ -51973,13 +50354,12 @@ class TopLevelWindow(NonOwnedWindow):
         """
         Class used with SaveGeometry() and RestoreToGeometry().
         """
+
     # end of class GeometrySerializer
 
 
     @overload
-    def __init__(self, parent: Optional[Window], id: int=ID_ANY, title: str='', pos: Union[Point, _TwoInts]=DefaultPosition, size: Union[Size, _TwoInts]=DefaultSize, style: int=DEFAULT_FRAME_STYLE, name: str=FrameNameStr) -> None:
-        ...
-
+    def __init__(self, parent: Optional[Window], id: int=ID_ANY, title: str='', pos: Union[Point, _TwoInts]=DefaultPosition, size: Union[Size, _TwoInts]=DefaultSize, style: int=DEFAULT_FRAME_STYLE, name: str=FrameNameStr) -> None: ...
     @overload
     def __init__(self) -> None:
         """
@@ -52208,9 +50588,7 @@ class TopLevelWindow(NonOwnedWindow):
         """
 
     @overload
-    def SetSizeHints(self, minSize: Union[Size, _TwoInts], maxSize: Union[Size, _TwoInts]=DefaultSize, incSize: Union[Size, _TwoInts]=DefaultSize) -> None:
-        ...
-
+    def SetSizeHints(self, minSize: Union[Size, _TwoInts], maxSize: Union[Size, _TwoInts]=DefaultSize, incSize: Union[Size, _TwoInts]=DefaultSize) -> None: ...
     @overload
     def SetSizeHints(self, minW: int, minH: int, maxW: int=-1, maxH: int=-1, incW: int=-1, incH: int=-1) -> None:
         """
@@ -52331,6 +50709,7 @@ class TopLevelWindow(NonOwnedWindow):
         """
         MacGetTopLevelWindowRef() -> Any
         """
+
     @property
     def DefaultItem(self) -> Window: ...
     @DefaultItem.setter
@@ -52355,12 +50734,12 @@ class TopLevelWindow(NonOwnedWindow):
     def MacMetalAppearance(self) -> bool: ...
     @MacMetalAppearance.setter
     def MacMetalAppearance(self, value: bool, /) -> None: ...
-
     @staticmethod
     def GetClassDefaultAttributes(variant: WindowVariant=WINDOW_VARIANT_NORMAL) -> VisualAttributes:
         """
         GetClassDefaultAttributes(variant=WINDOW_VARIANT_NORMAL) -> VisualAttributes
         """
+
 # end of class TopLevelWindow
 
 #-- end-toplevel --#
@@ -52392,9 +50771,7 @@ class Dialog(TopLevelWindow):
     """
 
     @overload
-    def __init__(self, parent: Optional[Window], id: int=ID_ANY, title: str='', pos: Union[Point, _TwoInts]=DefaultPosition, size: Union[Size, _TwoInts]=DefaultSize, style: int=DEFAULT_DIALOG_STYLE, name: str=DialogNameStr) -> None:
-        ...
-
+    def __init__(self, parent: Optional[Window], id: int=ID_ANY, title: str='', pos: Union[Point, _TwoInts]=DefaultPosition, size: Union[Size, _TwoInts]=DefaultSize, style: int=DEFAULT_DIALOG_STYLE, name: str=DialogNameStr) -> None: ...
     @overload
     def __init__(self) -> None:
         """
@@ -52702,15 +51079,8 @@ class Dialog(TopLevelWindow):
         GetClassDefaultAttributes(variant=WINDOW_VARIANT_NORMAL) -> VisualAttributes
         """
 
-    def __enter__(self):
-        """
-        
-        """
-
-    def __exit__(self, exc_type, exc_val, exc_tb):
-        """
-        
-        """
+    def __enter__(self): ...
+    def __exit__(self, exc_type, exc_val, exc_tb): ...
     @property
     def AffirmativeId(self) -> int: ...
     @AffirmativeId.setter
@@ -52772,6 +51142,7 @@ class DialogLayoutAdapter:
         Override this to perform layout adaptation, such as making parts of
         the dialog scroll and resizing the dialog to fit the display.
         """
+
 # end of class DialogLayoutAdapter
 
 
@@ -52809,6 +51180,7 @@ class WindowModalDialogEvent(CommandEvent):
         
         Clone the event.
         """
+
     @property
     def Dialog(self) -> Dialog: ...
     @property
@@ -52888,6 +51260,7 @@ class DirDialog(Dialog):
         """
         GetClassDefaultAttributes(variant=WINDOW_VARIANT_NORMAL) -> VisualAttributes
         """
+
     @property
     def Message(self) -> str: ...
     @Message.setter
@@ -52939,9 +51312,7 @@ class GenericDirCtrl(Control):
     """
 
     @overload
-    def __init__(self, parent: Window, id: int=ID_ANY, dir: str=DirDialogDefaultFolderStr, pos: Union[Point, _TwoInts]=DefaultPosition, size: Union[Size, _TwoInts]=DefaultSize, style: int=DIRCTRL_DEFAULT_STYLE, filter: str='', defaultFilter: int=0, name: str=TreeCtrlNameStr) -> None:
-        ...
-
+    def __init__(self, parent: Window, id: int=ID_ANY, dir: str=DirDialogDefaultFolderStr, pos: Union[Point, _TwoInts]=DefaultPosition, size: Union[Size, _TwoInts]=DefaultSize, style: int=DIRCTRL_DEFAULT_STYLE, filter: str='', defaultFilter: int=0, name: str=TreeCtrlNameStr) -> None: ...
     @overload
     def __init__(self) -> None:
         """
@@ -53024,9 +51395,7 @@ class GenericDirCtrl(Control):
         """
 
     @overload
-    def GetPath(self, itemId: TreeItemId) -> str:
-        ...
-
+    def GetPath(self, itemId: TreeItemId) -> str: ...
     @overload
     def GetPath(self) -> str:
         """
@@ -53130,6 +51499,7 @@ class GenericDirCtrl(Control):
         """
         GetClassDefaultAttributes(variant=WINDOW_VARIANT_NORMAL) -> VisualAttributes
         """
+
     @property
     def DefaultPath(self) -> str: ...
     @DefaultPath.setter
@@ -53166,9 +51536,7 @@ class DirFilterListCtrl(Choice):
     """
 
     @overload
-    def __init__(self, parent: GenericDirCtrl, id: int=ID_ANY, pos: Union[Point, _TwoInts]=DefaultPosition, size: Union[Size, _TwoInts]=DefaultSize, style: int=0) -> None:
-        ...
-
+    def __init__(self, parent: GenericDirCtrl, id: int=ID_ANY, pos: Union[Point, _TwoInts]=DefaultPosition, size: Union[Size, _TwoInts]=DefaultSize, style: int=0) -> None: ...
     @overload
     def __init__(self) -> None:
         """
@@ -53190,6 +51558,7 @@ class DirFilterListCtrl(Choice):
         """
         FillFilterList(filter, defaultFilter) -> None
         """
+
 # end of class DirFilterListCtrl
 
 
@@ -53388,6 +51757,7 @@ class FileDialog(Dialog):
         """
         GetClassDefaultAttributes(variant=WINDOW_VARIANT_NORMAL) -> VisualAttributes
         """
+
     @property
     def CurrentlySelectedFilename(self) -> str: ...
     @property
@@ -53464,6 +51834,7 @@ class FileDialogButton(FileDialogCustomControl):
     """
     Represents a custom button inside wxFileDialog.
     """
+
 # end of class FileDialogButton
 
 
@@ -53485,6 +51856,7 @@ class FileDialogChoice(FileDialogCustomControl):
         
         Set the selection to the item with the given index.
         """
+
     @property
     def Selection(self) -> int: ...
     @Selection.setter
@@ -53510,6 +51882,7 @@ class FileDialogCheckBox(FileDialogCustomControl):
         
         Check or uncheck the checkbox.
         """
+
     @property
     def Value(self) -> bool: ...
     @Value.setter
@@ -53549,6 +51922,7 @@ class FileDialogCustomControl(EvtHandler):
         
         Disable this control.
         """
+
 # end of class FileDialogCustomControl
 
 
@@ -53599,6 +51973,7 @@ class FileDialogCustomize:
         
         Add a static text with the given contents.
         """
+
 # end of class FileDialogCustomize
 
 
@@ -53630,6 +52005,7 @@ class FileDialogCustomizeHook:
         Should typically be overridden to save the values of the custom
         controls when the dialog is accepted.
         """
+
 # end of class FileDialogCustomizeHook
 
 
@@ -53651,6 +52027,7 @@ class FileDialogRadioButton(FileDialogCustomControl):
         
         Select the value of the radio button.
         """
+
     @property
     def Value(self) -> bool: ...
     @Value.setter
@@ -53669,6 +52046,7 @@ class FileDialogStaticText(FileDialogCustomControl):
         
         Set the text shown in the label.
         """
+
 # end of class FileDialogStaticText
 
 
@@ -53690,6 +52068,7 @@ class FileDialogTextCtrl(FileDialogCustomControl):
         
         Set the current control value.
         """
+
     @property
     def Value(self) -> str: ...
     @Value.setter
@@ -53712,9 +52091,7 @@ class Frame(TopLevelWindow):
     """
 
     @overload
-    def __init__(self, parent: Optional[Window], id: int=ID_ANY, title: str='', pos: Union[Point, _TwoInts]=DefaultPosition, size: Union[Size, _TwoInts]=DefaultSize, style: int=DEFAULT_FRAME_STYLE, name: str=FrameNameStr) -> None:
-        ...
-
+    def __init__(self, parent: Optional[Window], id: int=ID_ANY, title: str='', pos: Union[Point, _TwoInts]=DefaultPosition, size: Union[Size, _TwoInts]=DefaultSize, style: int=DEFAULT_FRAME_STYLE, name: str=FrameNameStr) -> None: ...
     @overload
     def __init__(self) -> None:
         """
@@ -53872,6 +52249,7 @@ class Frame(TopLevelWindow):
         """
         PopStatusText(number=0) -> None
         """
+
     @property
     def MenuBar(self) -> MenuBar: ...
     @MenuBar.setter
@@ -53888,12 +52266,12 @@ class Frame(TopLevelWindow):
     def ToolBar(self) -> ToolBar: ...
     @ToolBar.setter
     def ToolBar(self, value: ToolBar, /) -> None: ...
-
     @staticmethod
     def GetClassDefaultAttributes(variant: WindowVariant=WINDOW_VARIANT_NORMAL) -> VisualAttributes:
         """
         GetClassDefaultAttributes(variant=WINDOW_VARIANT_NORMAL) -> VisualAttributes
         """
+
 # end of class Frame
 
 #-- end-frame --#
@@ -54035,6 +52413,7 @@ class MessageDialog(Dialog):
         """
         GetClassDefaultAttributes(variant=WINDOW_VARIANT_NORMAL) -> VisualAttributes
         """
+
     @property
     def CancelLabel(self) -> str: ...
     @property
@@ -54209,6 +52588,7 @@ class GenericMessageDialog(Dialog):
         """
         GetClassDefaultAttributes(variant=WINDOW_VARIANT_NORMAL) -> VisualAttributes
         """
+
     @property
     def CancelLabel(self) -> str: ...
     @property
@@ -54237,7 +52617,6 @@ class GenericMessageDialog(Dialog):
     def OKLabel(self, value: MessageDialogButtonLabel, /) -> None: ...
     @property
     def YesLabel(self) -> str: ...
-
     def AddMessageDialogCheckBox(self, sizer: Sizer) -> None:
         """
         AddMessageDialogCheckBox(sizer) -> None
@@ -54251,6 +52630,7 @@ class GenericMessageDialog(Dialog):
         
         Can be overridden to provide more contents for the dialog
         """
+
 # end of class GenericMessageDialog
 
 #-- end-msgdlg --#
@@ -54348,6 +52728,7 @@ class RichMessageDialog(GenericMessageDialog):
         """
         GetClassDefaultAttributes(variant=WINDOW_VARIANT_NORMAL) -> VisualAttributes
         """
+
     @property
     def CheckBoxText(self) -> str: ...
     @property
@@ -54463,6 +52844,7 @@ class GenericProgressDialog(Dialog):
         """
         GetClassDefaultAttributes(variant=WINDOW_VARIANT_NORMAL) -> VisualAttributes
         """
+
     @property
     def Message(self) -> str: ...
     @property
@@ -54566,6 +52948,7 @@ class ProgressDialog(GenericProgressDialog):
         """
         GetClassDefaultAttributes(variant=WINDOW_VARIANT_NORMAL) -> VisualAttributes
         """
+
     @property
     def Message(self) -> str: ...
     @property
@@ -54590,9 +52973,7 @@ class PopupWindow(NonOwnedWindow):
     """
 
     @overload
-    def __init__(self, parent: Window, flags: int=BORDER_NONE) -> None:
-        ...
-
+    def __init__(self, parent: Window, flags: int=BORDER_NONE) -> None: ...
     @overload
     def __init__(self) -> None:
         """
@@ -54623,6 +53004,7 @@ class PopupWindow(NonOwnedWindow):
         """
         GetClassDefaultAttributes(variant=WINDOW_VARIANT_NORMAL) -> VisualAttributes
         """
+
 # end of class PopupWindow
 
 
@@ -54636,9 +53018,7 @@ class PopupTransientWindow(PopupWindow):
     """
 
     @overload
-    def __init__(self, parent: Window, flags: int=BORDER_NONE) -> None:
-        ...
-
+    def __init__(self, parent: Window, flags: int=BORDER_NONE) -> None: ...
     @overload
     def __init__(self) -> None:
         """
@@ -54683,6 +53063,7 @@ class PopupTransientWindow(PopupWindow):
         This is called when the popup is disappeared because of anything else
         but direct call to Dismiss().
         """
+
 # end of class PopupTransientWindow
 
 #-- end-popupwin --#
@@ -54716,6 +53097,7 @@ class TipWindow(Window):
         """
         GetClassDefaultAttributes(variant=WINDOW_VARIANT_NORMAL) -> VisualAttributes
         """
+
 # end of class TipWindow
 
 #-- end-tipwin --#
@@ -54786,14 +53168,14 @@ class ColourData(Object):
         (slider).
         """
 
-    def SetColour(self, colour: Union[Colour, wx.Colour, _ThreeInts, _FourInts, str, None]) -> None:
+    def SetColour(self, colour: Union[Colour, _ThreeInts, _FourInts, str, None]) -> None:
         """
         SetColour(colour) -> None
         
         Sets the default colour for the colour dialog.
         """
 
-    def SetCustomColour(self, i: int, colour: Union[Colour, wx.Colour, _ThreeInts, _FourInts, str, None]) -> None:
+    def SetCustomColour(self, i: int, colour: Union[Colour, _ThreeInts, _FourInts, str, None]) -> None:
         """
         SetCustomColour(i, colour) -> None
         
@@ -54815,6 +53197,7 @@ class ColourData(Object):
         Decodes the given string, which should be in the same format returned
         by ToString(), and sets the internal colours.
         """
+
     @property
     def ChooseAlpha(self) -> bool: ...
     @ChooseAlpha.setter
@@ -54826,7 +53209,7 @@ class ColourData(Object):
     @property
     def Colour(self) -> Colour: ...
     @Colour.setter
-    def Colour(self, value: Union[Colour, wx.Colour, _ThreeInts, _FourInts, str, None], /) -> None: ...
+    def Colour(self, value: Union[Colour, _ThreeInts, _FourInts, str, None], /) -> None: ...
 # end of class ColourData
 
 
@@ -54871,6 +53254,7 @@ class ColourDialog(Dialog):
         """
         GetClassDefaultAttributes(variant=WINDOW_VARIANT_NORMAL) -> VisualAttributes
         """
+
     @property
     def ColourData(self) -> ColourData: ...
 # end of class ColourDialog
@@ -54885,9 +53269,7 @@ class ColourDialogEvent(CommandEvent):
     """
 
     @overload
-    def __init__(self, evtType: EventType, dialog: ColourDialog, colour: Union[Colour, wx.Colour, _ThreeInts, _FourInts, str, None]) -> None:
-        ...
-
+    def __init__(self, evtType: EventType, dialog: ColourDialog, colour: Union[Colour, _ThreeInts, _FourInts, str, None]) -> None: ...
     @overload
     def __init__(self) -> None:
         """
@@ -54904,21 +53286,22 @@ class ColourDialogEvent(CommandEvent):
         Retrieve the colour the user has just selected.
         """
 
-    def SetColour(self, colour: Union[Colour, wx.Colour, _ThreeInts, _FourInts, str, None]) -> None:
+    def SetColour(self, colour: Union[Colour, _ThreeInts, _FourInts, str, None]) -> None:
         """
         SetColour(colour) -> None
         
         Set the colour to be sent with the event.
         """
+
     @property
     def Colour(self) -> Colour: ...
     @Colour.setter
-    def Colour(self, value: Union[Colour, wx.Colour, _ThreeInts, _FourInts, str, None], /) -> None: ...
+    def Colour(self, value: Union[Colour, _ThreeInts, _FourInts, str, None], /) -> None: ...
 # end of class ColourDialogEvent
 
 
 
-def GetColourFromUser(parent: Window, colInit: Union[Colour, wx.Colour, _ThreeInts, _FourInts, str, None], caption: str='', data: Optional[ColourData]=None) -> Colour:
+def GetColourFromUser(parent: Window, colInit: Union[Colour, _ThreeInts, _FourInts, str, None], caption: str='', data: Optional[ColourData]=None) -> Colour:
     """
     GetColourFromUser(parent, colInit, caption='', data=None) -> Colour
     
@@ -54944,9 +53327,7 @@ class MultiChoiceDialog(Dialog):
     """
 
     @overload
-    def __init__(self, parent: Optional[Window], message: str, caption: str, choices: list[str], style: int=CHOICEDLG_STYLE, pos: Union[Point, _TwoInts]=DefaultPosition) -> None:
-        ...
-
+    def __init__(self, parent: Optional[Window], message: str, caption: str, choices: list[str], style: int=CHOICEDLG_STYLE, pos: Union[Point, _TwoInts]=DefaultPosition) -> None: ...
     @overload
     def __init__(self, parent: Optional[Window], message: str, caption: str, n: int, choices: str, style: int=CHOICEDLG_STYLE, pos: Union[Point, _TwoInts]=DefaultPosition) -> None:
         """
@@ -54983,6 +53364,7 @@ class MultiChoiceDialog(Dialog):
         """
         GetClassDefaultAttributes(variant=WINDOW_VARIANT_NORMAL) -> VisualAttributes
         """
+
     @property
     def Selections(self) -> list[int]: ...
     @Selections.setter
@@ -55039,6 +53421,7 @@ class SingleChoiceDialog(Dialog):
         """
         GetClassDefaultAttributes(variant=WINDOW_VARIANT_NORMAL) -> VisualAttributes
         """
+
     @property
     def Selection(self) -> int: ...
     @Selection.setter
@@ -55051,16 +53434,13 @@ class SingleChoiceDialog(Dialog):
 
 
 @overload
-def GetSingleChoice(message: str, caption: str, n: int, choices: str, parent: Optional[Window]=None, x: int=DefaultCoord, y: int=DefaultCoord, centre: bool=True, width: int=CHOICE_WIDTH, height: int=CHOICE_HEIGHT, initialSelection: int=0) -> str:    ...
-
-
-@overload
-def GetSingleChoice(message: str, caption: str, choices: list[str], initialSelection: int, parent: Optional[Window]=None) -> str:    ...
-
+def GetSingleChoice(message: str, caption: str, n: int, choices: str, parent: Optional[Window]=None, x: int=DefaultCoord, y: int=DefaultCoord, centre: bool=True, width: int=CHOICE_WIDTH, height: int=CHOICE_HEIGHT, initialSelection: int=0) -> str: ...
 
 @overload
-def GetSingleChoice(message: str, caption: str, n: int, choices: str, initialSelection: int, parent: Optional[Window]=None) -> str:    ...
+def GetSingleChoice(message: str, caption: str, choices: list[str], initialSelection: int, parent: Optional[Window]=None) -> str: ...
 
+@overload
+def GetSingleChoice(message: str, caption: str, n: int, choices: str, initialSelection: int, parent: Optional[Window]=None) -> str: ...
 @overload
 def GetSingleChoice(message: str, caption: str, aChoices: list[str], parent: Optional[Window]=None, x: int=DefaultCoord, y: int=DefaultCoord, centre: bool=True, width: int=CHOICE_WIDTH, height: int=CHOICE_HEIGHT, initialSelection: int=0) -> str:
     """
@@ -55141,6 +53521,7 @@ class FindDialogEvent(CommandEvent):
         Return the string to replace the search string with (only for replace
         and replace all events).
         """
+
     @property
     def Dialog(self) -> FindReplaceDialog: ...
     @property
@@ -55207,6 +53588,7 @@ class FindReplaceData(Object):
         
         Set the replacement string (used as initial value by the dialog).
         """
+
     @property
     def FindString(self) -> str: ...
     @FindString.setter
@@ -55233,9 +53615,7 @@ class FindReplaceDialog(Dialog):
     """
 
     @overload
-    def __init__(self, parent: Optional[Window], data: FindReplaceData, title: str='', style: int=0) -> None:
-        ...
-
+    def __init__(self, parent: Optional[Window], data: FindReplaceData, title: str='', style: int=0) -> None: ...
     @overload
     def __init__(self) -> None:
         """
@@ -55266,6 +53646,7 @@ class FindReplaceDialog(Dialog):
         """
         GetClassDefaultAttributes(variant=WINDOW_VARIANT_NORMAL) -> VisualAttributes
         """
+
     @property
     def Data(self) -> FindReplaceData: ...
 # end of class FindReplaceDialog
@@ -55315,6 +53696,7 @@ class MDIClientWindow(Window):
         """
         GetClassDefaultAttributes(variant=WINDOW_VARIANT_NORMAL) -> VisualAttributes
         """
+
 # end of class MDIClientWindow
 
 
@@ -55329,9 +53711,7 @@ class MDIParentFrame(Frame):
     """
 
     @overload
-    def __init__(self, parent: Optional[Window], id: int=ID_ANY, title: str='', pos: Union[Point, _TwoInts]=DefaultPosition, size: Union[Size, _TwoInts]=DefaultSize, style: int=DEFAULT_FRAME_STYLE|VSCROLL|HSCROLL, name: str=FrameNameStr) -> None:
-        ...
-
+    def __init__(self, parent: Optional[Window], id: int=ID_ANY, title: str='', pos: Union[Point, _TwoInts]=DefaultPosition, size: Union[Size, _TwoInts]=DefaultSize, style: int=DEFAULT_FRAME_STYLE|VSCROLL|HSCROLL, name: str=FrameNameStr) -> None: ...
     @overload
     def __init__(self) -> None:
         """
@@ -55433,6 +53813,7 @@ class MDIParentFrame(Frame):
         """
         GetClassDefaultAttributes(variant=WINDOW_VARIANT_NORMAL) -> VisualAttributes
         """
+
     @property
     def ActiveChild(self) -> MDIChildFrame: ...
     @property
@@ -55454,9 +53835,7 @@ class MDIChildFrame(MDIChildFrameBase):
     """
 
     @overload
-    def __init__(self, parent: Optional[MDIParentFrame], id: int=ID_ANY, title: str='', pos: Union[Point, _TwoInts]=DefaultPosition, size: Union[Size, _TwoInts]=DefaultSize, style: int=DEFAULT_FRAME_STYLE, name: str=FrameNameStr) -> None:
-        ...
-
+    def __init__(self, parent: Optional[MDIParentFrame], id: int=ID_ANY, title: str='', pos: Union[Point, _TwoInts]=DefaultPosition, size: Union[Size, _TwoInts]=DefaultSize, style: int=DEFAULT_FRAME_STYLE, name: str=FrameNameStr) -> None: ...
     @overload
     def __init__(self) -> None:
         """
@@ -55514,6 +53893,7 @@ class MDIChildFrame(MDIChildFrameBase):
         """
         GetClassDefaultAttributes(variant=WINDOW_VARIANT_NORMAL) -> VisualAttributes
         """
+
     @property
     def MDIParent(self) -> MDIParentFrame: ...
 # end of class MDIChildFrame
@@ -55615,7 +53995,7 @@ class FontData(Object):
         only).
         """
 
-    def SetColour(self, colour: Union[Colour, wx.Colour, _ThreeInts, _FourInts, str, None]) -> None:
+    def SetColour(self, colour: Union[Colour, _ThreeInts, _FourInts, str, None]) -> None:
         """
         SetColour(colour) -> None
         
@@ -55643,6 +54023,7 @@ class FontData(Object):
         Determines whether the Help button will be displayed in the font
         dialog (Windows only).
         """
+
     @property
     def AllowSymbols(self) -> bool: ...
     @AllowSymbols.setter
@@ -55654,7 +54035,7 @@ class FontData(Object):
     @property
     def Colour(self) -> Colour: ...
     @Colour.setter
-    def Colour(self, value: Union[Colour, wx.Colour, _ThreeInts, _FourInts, str, None], /) -> None: ...
+    def Colour(self, value: Union[Colour, _ThreeInts, _FourInts, str, None], /) -> None: ...
     @property
     def InitialFont(self) -> Font: ...
     @InitialFont.setter
@@ -55676,13 +54057,9 @@ class FontDialog(Dialog):
     """
 
     @overload
-    def __init__(self, parent: Optional[Window]) -> None:
-        ...
-
+    def __init__(self, parent: Optional[Window]) -> None: ...
     @overload
-    def __init__(self, parent: Optional[Window], data: FontData) -> None:
-        ...
-
+    def __init__(self, parent: Optional[Window], data: FontData) -> None: ...
     @overload
     def __init__(self) -> None:
         """
@@ -55701,9 +54078,7 @@ class FontDialog(Dialog):
         """
 
     @overload
-    def Create(self, parent: Window, data: FontData) -> bool:
-        ...
-
+    def Create(self, parent: Window, data: FontData) -> bool: ...
     @overload
     def Create(self, parent: Window) -> bool:
         """
@@ -55726,6 +54101,7 @@ class FontDialog(Dialog):
         """
         GetClassDefaultAttributes(variant=WINDOW_VARIANT_NORMAL) -> VisualAttributes
         """
+
     @property
     def FontData(self) -> FontData: ...
 # end of class FontDialog
@@ -55755,9 +54131,7 @@ class RearrangeList(CheckListBox):
     """
 
     @overload
-    def __init__(self, parent: Window, id: int=ID_ANY, pos: Union[Point, _TwoInts]=DefaultPosition, size: Union[Size, _TwoInts]=DefaultSize, order: list[int]=[], items: list[str]=[], style: int=0, validator: Validator=DefaultValidator, name: str=RearrangeListNameStr) -> None:
-        ...
-
+    def __init__(self, parent: Window, id: int=ID_ANY, pos: Union[Point, _TwoInts]=DefaultPosition, size: Union[Size, _TwoInts]=DefaultSize, order: list[int]=[], items: list[str]=[], style: int=0, validator: Validator=DefaultValidator, name: str=RearrangeListNameStr) -> None: ...
     @overload
     def __init__(self) -> None:
         """
@@ -55816,6 +54190,7 @@ class RearrangeList(CheckListBox):
         """
         GetClassDefaultAttributes(variant=WINDOW_VARIANT_NORMAL) -> VisualAttributes
         """
+
     @property
     def CurrentOrder(self) -> list[int]: ...
 # end of class RearrangeList
@@ -55831,9 +54206,7 @@ class RearrangeCtrl(Panel):
     """
 
     @overload
-    def __init__(self, parent: Window, id: int=ID_ANY, pos: Union[Point, _TwoInts]=DefaultPosition, size: Union[Size, _TwoInts]=DefaultSize, order: list[int]=[], items: list[str]=[], style: int=0, validator: Validator=DefaultValidator, name: str=RearrangeListNameStr) -> None:
-        ...
-
+    def __init__(self, parent: Window, id: int=ID_ANY, pos: Union[Point, _TwoInts]=DefaultPosition, size: Union[Size, _TwoInts]=DefaultSize, order: list[int]=[], items: list[str]=[], style: int=0, validator: Validator=DefaultValidator, name: str=RearrangeListNameStr) -> None: ...
     @overload
     def __init__(self) -> None:
         """
@@ -55864,6 +54237,7 @@ class RearrangeCtrl(Panel):
         """
         GetClassDefaultAttributes(variant=WINDOW_VARIANT_NORMAL) -> VisualAttributes
         """
+
     @property
     def List(self) -> RearrangeList: ...
 # end of class RearrangeCtrl
@@ -55878,9 +54252,7 @@ class RearrangeDialog(Dialog):
     """
 
     @overload
-    def __init__(self, parent: Optional[Window], message: str, title: str='', order: list[int]=[], items: list[str]=[], pos: Union[Point, _TwoInts]=DefaultPosition, name: str=RearrangeDialogNameStr) -> None:
-        ...
-
+    def __init__(self, parent: Optional[Window], message: str, title: str='', order: list[int]=[], items: list[str]=[], pos: Union[Point, _TwoInts]=DefaultPosition, name: str=RearrangeDialogNameStr) -> None: ...
     @overload
     def __init__(self) -> None:
         """
@@ -55925,6 +54297,7 @@ class RearrangeDialog(Dialog):
         """
         GetClassDefaultAttributes(variant=WINDOW_VARIANT_NORMAL) -> VisualAttributes
         """
+
     @property
     def List(self) -> RearrangeList: ...
     @property
@@ -55943,9 +54316,7 @@ class MiniFrame(Frame):
     """
 
     @overload
-    def __init__(self, parent: Optional[Window], id: int=ID_ANY, title: str='', pos: Union[Point, _TwoInts]=DefaultPosition, size: Union[Size, _TwoInts]=DefaultSize, style: int=CAPTION|RESIZE_BORDER, name: str=FrameNameStr) -> None:
-        ...
-
+    def __init__(self, parent: Optional[Window], id: int=ID_ANY, title: str='', pos: Union[Point, _TwoInts]=DefaultPosition, size: Union[Size, _TwoInts]=DefaultSize, style: int=CAPTION|RESIZE_BORDER, name: str=FrameNameStr) -> None: ...
     @overload
     def __init__(self) -> None:
         """
@@ -55967,6 +54338,7 @@ class MiniFrame(Frame):
         """
         GetClassDefaultAttributes(variant=WINDOW_VARIANT_NORMAL) -> VisualAttributes
         """
+
 # end of class MiniFrame
 
 #-- end-minifram --#
@@ -55985,9 +54357,7 @@ class TextEntryDialog(Dialog):
     """
 
     @overload
-    def __init__(self, parent: Optional[Window], message: str, caption: str=GetTextFromUserPromptStr, value: str='', style: int=TextEntryDialogStyle, pos: Union[Point, _TwoInts]=DefaultPosition) -> None:
-        ...
-
+    def __init__(self, parent: Optional[Window], message: str, caption: str=GetTextFromUserPromptStr, value: str='', style: int=TextEntryDialogStyle, pos: Union[Point, _TwoInts]=DefaultPosition) -> None: ...
     @overload
     def __init__(self) -> None:
         """
@@ -56047,6 +54417,7 @@ class TextEntryDialog(Dialog):
         """
         GetClassDefaultAttributes(variant=WINDOW_VARIANT_NORMAL) -> VisualAttributes
         """
+
     @property
     def Value(self) -> str: ...
     @Value.setter
@@ -56075,6 +54446,7 @@ class PasswordEntryDialog(TextEntryDialog):
         """
         GetClassDefaultAttributes(variant=WINDOW_VARIANT_NORMAL) -> VisualAttributes
         """
+
 # end of class PasswordEntryDialog
 
 
@@ -56108,9 +54480,7 @@ class NumberEntryDialog(Dialog):
     """
 
     @overload
-    def __init__(self, parent: Optional[Window], message: str, prompt: str, caption: str, value: int, min: int, max: int, pos: Union[Point, _TwoInts]=DefaultPosition) -> None:
-        ...
-
+    def __init__(self, parent: Optional[Window], message: str, prompt: str, caption: str, value: int, min: int, max: int, pos: Union[Point, _TwoInts]=DefaultPosition) -> None: ...
     @overload
     def __init__(self) -> None:
         """
@@ -56139,6 +54509,7 @@ class NumberEntryDialog(Dialog):
         """
         GetClassDefaultAttributes(variant=WINDOW_VARIANT_NORMAL) -> VisualAttributes
         """
+
     @property
     def Value(self) -> int: ...
 # end of class NumberEntryDialog
@@ -56197,9 +54568,7 @@ class PowerEvent(Event):
     """
 
     @overload
-    def __init__(self, evtType: EventType) -> None:
-        ...
-
+    def __init__(self, evtType: EventType) -> None: ...
     @overload
     def __init__(self) -> None:
         """
@@ -56224,6 +54593,7 @@ class PowerEvent(Event):
         
         Returns whether Veto has been called.
         """
+
 # end of class PowerEvent
 
 
@@ -56247,6 +54617,7 @@ class PowerResource:
         
         Release a previously acquired power resource.
         """
+
 # end of class PowerResource
 
 
@@ -56271,15 +54642,8 @@ class PowerResourceBlocker:
         Returns whether the power resource could be acquired.
         """
 
-    def __enter__(self):
-        """
-        
-        """
-
-    def __exit__(self, exc_type, exc_val, exc_tb):
-        """
-        
-        """
+    def __enter__(self): ...
+    def __exit__(self, exc_type, exc_val, exc_tb): ...
 # end of class PowerResourceBlocker
 
 
@@ -56769,12 +55133,10 @@ def Sleep(secs: int) -> None:
 
 
 @overload
-def DecToHex(dec: int) -> str:    ...
-
+def DecToHex(dec: int) -> str: ...
 
 @overload
-def DecToHex(dec: int, ch1: str, ch2: str) -> None:    ...
-
+def DecToHex(dec: int, ch1: str, ch2: str) -> None: ...
 @overload
 def DecToHex(dec: int, buf: str) -> None:
     """
@@ -56788,8 +55150,7 @@ def DecToHex(dec: int, buf: str) -> None:
 
 
 @overload
-def HexToDec(buf: str) -> int:    ...
-
+def HexToDec(buf: str) -> int: ...
 @overload
 def HexToDec(buf: str) -> int:
     """
@@ -56810,9 +55171,7 @@ class WindowDisabler:
     """
 
     @overload
-    def __init__(self, winToSkip: Window, winToSkip2: Optional[Window]=None) -> None:
-        ...
-
+    def __init__(self, winToSkip: Window, winToSkip2: Optional[Window]=None) -> None: ...
     @overload
     def __init__(self, disable: bool=True) -> None:
         """
@@ -56824,15 +55183,8 @@ class WindowDisabler:
         back in its destructor.
         """
 
-    def __enter__(self):
-        """
-        
-        """
-
-    def __exit__(self, exc_type, exc_val, exc_tb):
-        """
-        
-        """
+    def __enter__(self): ...
+    def __exit__(self, exc_type, exc_val, exc_tb): ...
 # end of class WindowDisabler
 
 
@@ -56852,15 +55204,8 @@ class BusyCursor:
         temporarily busy.
         """
 
-    def __enter__(self):
-        """
-        
-        """
-
-    def __exit__(self, exc_type, exc_val, exc_tb):
-        """
-        
-        """
+    def __enter__(self): ...
+    def __exit__(self, exc_type, exc_val, exc_tb): ...
 # end of class BusyCursor
 
 
@@ -56954,6 +55299,7 @@ class VersionInfo:
         
         Get the copyright string.
         """
+
     @property
     def Copyright(self) -> str: ...
     @property
@@ -56986,9 +55332,7 @@ class Process(EvtHandler):
     """
 
     @overload
-    def __init__(self, flags: int) -> None:
-        ...
-
+    def __init__(self, flags: int) -> None: ...
     @overload
     def __init__(self, parent: Optional[EvtHandler]=None, id: int=-1) -> None:
         """
@@ -57124,6 +55468,7 @@ class Process(EvtHandler):
         object which can be used to retrieve the streams connected to the
         standard input, output and error output of the child process.
         """
+
     @property
     def ErrorStream(self) -> InputStream: ...
     @property
@@ -57164,6 +55509,7 @@ class ProcessEvent(Event):
         
         Returns the process id.
         """
+
     @property
     def ExitCode(self) -> int: ...
     @property
@@ -57192,9 +55538,7 @@ class UIActionSimulator:
         """
 
     @overload
-    def MouseMove(self, point: Union[Point, _TwoInts]) -> bool:
-        ...
-
+    def MouseMove(self, point: Union[Point, _TwoInts]) -> bool: ...
     @overload
     def MouseMove(self, x: int, y: int) -> bool:
         """
@@ -57273,6 +55617,7 @@ class UIActionSimulator:
         
         Emulate typing in the keys representing the given string.
         """
+
 # end of class UIActionSimulator
 
 USE_UIACTIONSIMULATOR: int
@@ -57289,9 +55634,7 @@ class SingleInstanceChecker:
     """
 
     @overload
-    def __init__(self, name: str, path: str='') -> None:
-        ...
-
+    def __init__(self, name: str, path: str='') -> None: ...
     @overload
     def __init__(self) -> None:
         """
@@ -57324,6 +55667,7 @@ class SingleInstanceChecker:
         Returns true if another copy of this program is already running and
         false otherwise.
         """
+
 # end of class SingleInstanceChecker
 
 #-- end-snglinst --#
@@ -57376,9 +55720,7 @@ class HelpControllerBase(Object):
         """
 
     @overload
-    def DisplaySection(self, sectionNo: int) -> bool:
-        ...
-
+    def DisplaySection(self, sectionNo: int) -> bool: ...
     @overload
     def DisplaySection(self, section: str) -> bool:
         """
@@ -57468,6 +55810,7 @@ class HelpControllerBase(Object):
         
         Sets detailed viewer information.
         """
+
     @property
     def FrameParameters(self) -> tuple[Frame, Size, Point, bool]: ...
     @FrameParameters.setter
@@ -57485,7 +55828,6 @@ def HelpController(parentWindow=None):
     ``HelpController`` is a factory function that creates and returns an
     instance of the best Help Controller for the platform.
     """
-    pass
 #-- end-help --#
 #-- begin-cshelp --#
 
@@ -57496,9 +55838,7 @@ class HelpProvider:
     """
 
     @overload
-    def AddHelp(self, id: int, text: str) -> None:
-        ...
-
+    def AddHelp(self, id: int, text: str) -> None: ...
     @overload
     def AddHelp(self, window: WindowBase, text: str) -> None:
         """
@@ -57554,6 +55894,7 @@ class HelpProvider:
         
         Set the current, application-wide help provider.
         """
+
 # end of class HelpProvider
 
 
@@ -57563,6 +55904,7 @@ class SimpleHelpProvider(HelpProvider):
     supports only plain text help strings, and shows the string associated
     with the control (if any) in a tooltip.
     """
+
 # end of class SimpleHelpProvider
 
 
@@ -57595,6 +55937,7 @@ class HelpControllerHelpProvider(SimpleHelpProvider):
         
         Sets the help controller associated with this help provider.
         """
+
     @property
     def HelpController(self) -> HelpControllerBase: ...
     @HelpController.setter
@@ -57631,6 +55974,7 @@ class ContextHelp(Object):
         
         Ends context-sensitive help mode.
         """
+
 # end of class ContextHelp
 
 
@@ -57655,6 +55999,7 @@ class ContextHelpButton(BitmapButton):
         """
         GetClassDefaultAttributes(variant=WINDOW_VARIANT_NORMAL) -> VisualAttributes
         """
+
 # end of class ContextHelpButton
 
 #-- end-cshelp --#
@@ -57931,13 +56276,14 @@ class SystemSettings:
         """
 
     @staticmethod
-    def SelectLightDark(colForLight: Union[Colour, wx.Colour, _ThreeInts, _FourInts, str, None], colForDark: Union[Colour, wx.Colour, _ThreeInts, _FourInts, str, None]) -> Colour:
+    def SelectLightDark(colForLight: Union[Colour, _ThreeInts, _FourInts, str, None], colForDark: Union[Colour, _ThreeInts, _FourInts, str, None]) -> Colour:
         """
         SelectLightDark(colForLight, colForDark) -> Colour
         
         Select one of the two colours depending on whether light or dark mode
         is used.
         """
+
 # end of class SystemSettings
 
 
@@ -57968,6 +56314,7 @@ class SystemAppearance:
         Return true if the default window background is significantly darker
         than foreground.
         """
+
     @property
     def Name(self) -> str: ...
 # end of class SystemAppearance
@@ -57993,9 +56340,7 @@ class SystemOptions(Object):
 
     @overload
     @staticmethod
-    def SetOption(name: str, value: int) -> None:
-        ...
-
+    def SetOption(name: str, value: int) -> None: ...
     @overload
     @staticmethod
     def SetOption(name: str, value: str) -> None:
@@ -58038,6 +56383,7 @@ class SystemOptions(Object):
         Returns true if the option with the given name had been set to 0
         value.
         """
+
 # end of class SystemOptions
 
 #-- end-sysopt --#
@@ -58272,6 +56618,7 @@ class ArtProvider(Object):
         This method is similar to CreateBitmap() but can be used when a bitmap
         (or an icon) exists in several sizes.
         """
+
 # end of class ArtProvider
 
 #-- end-artprov --#
@@ -58291,25 +56638,15 @@ class DragImage(Object):
     """
 
     @overload
-    def __init__(self, image: Bitmap, cursor: Cursor=NullCursor) -> None:
-        ...
-
+    def __init__(self, image: Bitmap, cursor: Cursor=NullCursor) -> None: ...
     @overload
-    def __init__(self, image: Icon, cursor: Cursor=NullCursor) -> None:
-        ...
-
+    def __init__(self, image: Icon, cursor: Cursor=NullCursor) -> None: ...
     @overload
-    def __init__(self, text: str, cursor: Cursor=NullCursor) -> None:
-        ...
-
+    def __init__(self, text: str, cursor: Cursor=NullCursor) -> None: ...
     @overload
-    def __init__(self, treeCtrl: TreeCtrl, id: TreeItemId) -> None:
-        ...
-
+    def __init__(self, treeCtrl: TreeCtrl, id: TreeItemId) -> None: ...
     @overload
-    def __init__(self, listCtrl: ListCtrl, id: int) -> None:
-        ...
-
+    def __init__(self, listCtrl: ListCtrl, id: int) -> None: ...
     @overload
     def __init__(self) -> None:
         """
@@ -58325,9 +56662,7 @@ class DragImage(Object):
         """
 
     @overload
-    def BeginDrag(self, hotspot: Union[Point, _TwoInts], window: Window, boundingWindow: Window) -> bool:
-        ...
-
+    def BeginDrag(self, hotspot: Union[Point, _TwoInts], window: Window, boundingWindow: Window) -> bool: ...
     @overload
     def BeginDrag(self, hotspot: Union[Point, _TwoInts], window: Window, fullScreen: bool=False, rect: Optional[Union[Rect, _FourInts]]=None) -> bool:
         """
@@ -58364,6 +56699,7 @@ class DragImage(Object):
         
         Shows the image.
         """
+
 # end of class DragImage
 
 
@@ -58381,25 +56717,15 @@ class GenericDragImage(Object):
     """
 
     @overload
-    def __init__(self, image: Bitmap, cursor: Cursor=NullCursor) -> None:
-        ...
-
+    def __init__(self, image: Bitmap, cursor: Cursor=NullCursor) -> None: ...
     @overload
-    def __init__(self, image: Icon, cursor: Cursor=NullCursor) -> None:
-        ...
-
+    def __init__(self, image: Icon, cursor: Cursor=NullCursor) -> None: ...
     @overload
-    def __init__(self, text: str, cursor: Cursor=NullCursor) -> None:
-        ...
-
+    def __init__(self, text: str, cursor: Cursor=NullCursor) -> None: ...
     @overload
-    def __init__(self, treeCtrl: TreeCtrl, id: TreeItemId) -> None:
-        ...
-
+    def __init__(self, treeCtrl: TreeCtrl, id: TreeItemId) -> None: ...
     @overload
-    def __init__(self, listCtrl: ListCtrl, id: int) -> None:
-        ...
-
+    def __init__(self, listCtrl: ListCtrl, id: int) -> None: ...
     @overload
     def __init__(self) -> None:
         """
@@ -58415,9 +56741,7 @@ class GenericDragImage(Object):
         """
 
     @overload
-    def BeginDrag(self, hotspot: Union[Point, _TwoInts], window: Window, boundingWindow: Window) -> bool:
-        ...
-
+    def BeginDrag(self, hotspot: Union[Point, _TwoInts], window: Window, boundingWindow: Window) -> bool: ...
     @overload
     def BeginDrag(self, hotspot: Union[Point, _TwoInts], window: Window, fullScreen: bool=False, rect: Optional[Union[Rect, _FourInts]]=None) -> bool:
         """
@@ -58478,6 +56802,7 @@ class GenericDragImage(Object):
         Override this if you wish to draw the window contents to the backing
         bitmap yourself.
         """
+
 # end of class GenericDragImage
 
 #-- end-dragimag --#
@@ -58568,6 +56893,7 @@ class PreviewControlBar(Panel):
         """
         GetClassDefaultAttributes(variant=WINDOW_VARIANT_NORMAL) -> VisualAttributes
         """
+
     @property
     def PrintPreview(self) -> PrintPreview: ...
     @property
@@ -58605,6 +56931,7 @@ class PreviewCanvas(ScrolledWindow):
         """
         GetClassDefaultAttributes(variant=WINDOW_VARIANT_NORMAL) -> VisualAttributes
         """
+
 # end of class PreviewCanvas
 
 
@@ -58667,6 +56994,7 @@ class PreviewFrame(Frame):
         """
         GetClassDefaultAttributes(variant=WINDOW_VARIANT_NORMAL) -> VisualAttributes
         """
+
 # end of class PreviewFrame
 
 
@@ -58679,9 +57007,7 @@ class PrintPreview(Object):
     """
 
     @overload
-    def __init__(self, printout: Printout, printoutForPrinting: Printout, data: PrintData) -> None:
-        ...
-
+    def __init__(self, printout: Printout, printoutForPrinting: Printout, data: PrintData) -> None: ...
     @overload
     def __init__(self, printout: Printout, printoutForPrinting: Optional[Printout]=None, data: Optional[PrintDialogData]=None) -> None:
         """
@@ -58827,6 +57153,7 @@ class PrintPreview(Object):
         """
 
     Ok = wx.deprecated(IsOk, 'Use IsOk instead.')
+
     @property
     def Canvas(self) -> PreviewCanvas: ...
     @Canvas.setter
@@ -58928,6 +57255,7 @@ class Printer(Object):
         
         Return last error.
         """
+
     @property
     def Abort(self) -> bool: ...
     @property
@@ -59184,6 +57512,7 @@ class Printout(Object):
         Set the device origin of the associated wxDC so that the current
         logical point becomes the new logical origin.
         """
+
     @property
     def DC(self) -> DC: ...
     @property
@@ -59225,6 +57554,7 @@ class PrintAbortDialog(Dialog):
         """
         GetClassDefaultAttributes(variant=WINDOW_VARIANT_NORMAL) -> VisualAttributes
         """
+
 # end of class PrintAbortDialog
 
 
@@ -59247,9 +57577,7 @@ class PrintDialog(Object):
     """
 
     @overload
-    def __init__(self, parent: Window, data: PrintData) -> None:
-        ...
-
+    def __init__(self, parent: Window, data: PrintData) -> None: ...
     @overload
     def __init__(self, parent: Window, data: Optional[PrintDialogData]=None) -> None:
         """
@@ -59287,6 +57615,7 @@ class PrintDialog(Object):
         Shows the dialog, returning wxID_OK if the user pressed OK, and
         wxID_CANCEL otherwise.
         """
+
     @property
     def PrintDC(self) -> DC: ...
     @property
@@ -59324,6 +57653,7 @@ class PageSetupDialog(Object):
         Shows the dialog, returning wxID_OK if the user pressed OK, and
         wxID_CANCEL otherwise.
         """
+
     @property
     def PageSetupData(self) -> PageSetupDialogData: ...
 # end of class PageSetupDialog
@@ -59347,9 +57677,7 @@ class FileType:
         """
 
         @overload
-        def __init__(self, filename: str, mimetype: str='') -> None:
-            ...
-
+        def __init__(self, filename: str, mimetype: str='') -> None: ...
         @overload
         def __init__(self) -> None:
             """
@@ -59380,6 +57708,7 @@ class FileType:
             Overridable method for derived classes. Returns empty string by
             default.
             """
+
         @property
         def FileName(self) -> str: ...
         @property
@@ -59395,9 +57724,7 @@ class FileType:
         """
 
     @overload
-    def GetOpenCommand(self, filename: str) -> str:
-        ...
-
+    def GetOpenCommand(self, filename: str) -> str: ...
     @overload
     def GetOpenCommand(self, params: FileType.MessageParameters) -> str:
         """
@@ -59512,6 +57839,7 @@ class FileType:
         the
         icon is found, and the index of the image in that file, if applicable.
         """
+
     @property
     def Description(self) -> str: ...
     @property
@@ -59544,17 +57872,11 @@ class FileTypeInfo:
     """
 
     @overload
-    def __init__(self, mimeType: str) -> None:
-        ...
-
+    def __init__(self, mimeType: str) -> None: ...
     @overload
-    def __init__(self, mimeType: str, openCmd: str, printCmd: str, description: str, extension: str) -> None:
-        ...
-
+    def __init__(self, mimeType: str, openCmd: str, printCmd: str, description: str, extension: str) -> None: ...
     @overload
-    def __init__(self, sArray: list[str]) -> None:
-        ...
-
+    def __init__(self, sArray: list[str]) -> None: ...
     @overload
     def __init__(self) -> None:
         """
@@ -59670,6 +57992,7 @@ class FileTypeInfo:
         
         Get the index of the icon within the icon file.
         """
+
     @property
     def Description(self) -> str: ...
     @Description.setter
@@ -59773,6 +58096,7 @@ class MimeTypesManager:
         same as wildcard or if it has the same category and the subtype of
         wildcard is '*'.
         """
+
 # end of class MimeTypesManager
 
 TheMimeTypesManager: MimeTypesManager
@@ -59789,9 +58113,7 @@ class BusyInfo:
     """
 
     @overload
-    def __init__(self, msg: str, parent: Optional[Window]=None) -> None:
-        ...
-
+    def __init__(self, msg: str, parent: Optional[Window]=None) -> None: ...
     @overload
     def __init__(self, flags: BusyInfoFlags) -> None:
         """
@@ -59817,15 +58139,8 @@ class BusyInfo:
         markup.
         """
 
-    def __enter__(self):
-        """
-        
-        """
-
-    def __exit__(self, exc_type, exc_val, exc_tb):
-        """
-        
-        """
+    def __enter__(self): ...
+    def __exit__(self, exc_type, exc_val, exc_tb): ...
 # end of class BusyInfo
 
 
@@ -59878,14 +58193,14 @@ class BusyInfoFlags:
         Same as Text() but doesn't interpret the string as containing markup.
         """
 
-    def Foreground(self, foreground: Union[Colour, wx.Colour, _ThreeInts, _FourInts, str, None]) -> BusyInfoFlags:
+    def Foreground(self, foreground: Union[Colour, _ThreeInts, _FourInts, str, None]) -> BusyInfoFlags:
         """
         Foreground(foreground) -> BusyInfoFlags
         
         Sets the foreground colour of the title and text strings.
         """
 
-    def Background(self, background: Union[Colour, wx.Colour, _ThreeInts, _FourInts, str, None]) -> BusyInfoFlags:
+    def Background(self, background: Union[Colour, _ThreeInts, _FourInts, str, None]) -> BusyInfoFlags:
         """
         Background(background) -> BusyInfoFlags
         
@@ -59898,6 +58213,7 @@ class BusyInfoFlags:
         
         Sets the transparency of wxBusyInfo window.
         """
+
 # end of class BusyInfoFlags
 
 #-- end-busyinfo --#
@@ -59914,13 +58230,9 @@ class Caret:
     """
 
     @overload
-    def __init__(self, window: Window, size: Union[Size, _TwoInts]) -> None:
-        ...
-
+    def __init__(self, window: Window, size: Union[Size, _TwoInts]) -> None: ...
     @overload
-    def __init__(self) -> None:
-        ...
-
+    def __init__(self) -> None: ...
     @overload
     def __init__(self, window: Window, width: int, height: int) -> None:
         """
@@ -59933,9 +58245,7 @@ class Caret:
         """
 
     @overload
-    def Create(self, window: Window, size: Union[Size, _TwoInts]) -> bool:
-        ...
-
+    def Create(self, window: Window, size: Union[Size, _TwoInts]) -> bool: ...
     @overload
     def Create(self, window: Window, width: int, height: int) -> bool:
         """
@@ -59960,9 +58270,7 @@ class Caret:
         """
 
     @overload
-    def Move(self, pt: Union[Point, _TwoInts]) -> None:
-        ...
-
+    def Move(self, pt: Union[Point, _TwoInts]) -> None: ...
     @overload
     def Move(self, x: int, y: int) -> None:
         """
@@ -59973,9 +58281,7 @@ class Caret:
         """
 
     @overload
-    def SetSize(self, size: Union[Size, _TwoInts]) -> None:
-        ...
-
+    def SetSize(self, size: Union[Size, _TwoInts]) -> None: ...
     @overload
     def SetSize(self, width: int, height: int) -> None:
         """
@@ -60049,6 +58355,7 @@ class Caret:
         """
         __bool__() -> bool
         """
+
     @property
     def Position(self) -> Point: ...
     @property
@@ -60147,6 +58454,7 @@ class FontEnumerator:
         
         Invalidate cache used by some of the methods of this class internally.
         """
+
 # end of class FontEnumerator
 
 #-- end-fontenum --#
@@ -60278,6 +58586,7 @@ class FontMapper:
         
         Set the current font mapper object and return previous one (may be NULL).
         """
+
 # end of class FontMapper
 
 #-- end-fontmap --#
@@ -60293,9 +58602,7 @@ class MouseEventsManager(EvtHandler):
     """
 
     @overload
-    def __init__(self, win: Window) -> None:
-        ...
-
+    def __init__(self, win: Window) -> None: ...
     @overload
     def __init__(self) -> None:
         """
@@ -60371,6 +58678,7 @@ class MouseEventsManager(EvtHandler):
         Must be overridden to reset the item appearance changed by
         MouseClickBegin().
         """
+
 # end of class MouseEventsManager
 
 #-- end-mousemanager --#
@@ -60412,9 +58720,7 @@ class FileHistory(Object):
         """
 
     @overload
-    def AddFilesToMenu(self, menu: Menu) -> None:
-        ...
-
+    def AddFilesToMenu(self, menu: Menu) -> None: ...
     @overload
     def AddFilesToMenu(self) -> None:
         """
@@ -60517,6 +58823,7 @@ class FileHistory(Object):
         
         Get the current style of the menu item labels.
         """
+
     @property
     def BaseId(self) -> int: ...
     @BaseId.setter
@@ -60584,6 +58891,7 @@ class Command(Object):
         
         Override this member function to un-execute a previous Do.
         """
+
     @property
     def Name(self) -> str: ...
 # end of class Command
@@ -60767,6 +59075,7 @@ class CommandProcessor(Object):
         
         Undoes the last command executed.
         """
+
     @property
     def Commands(self) -> CommandList: ...
     @property
@@ -60900,6 +59209,7 @@ class FileSystemWatcher(EvtHandler):
         
         Associates the file system watcher with the given handler object.
         """
+
     @property
     def WatchedPathsCount(self) -> int: ...
 # end of class FileSystemWatcher
@@ -60915,13 +59225,9 @@ class FileSystemWatcherEvent(Event):
     """
 
     @overload
-    def __init__(self, changeType: int, warningType: FSWWarningType, errorMsg: str, watchid: int=ID_ANY) -> None:
-        ...
-
+    def __init__(self, changeType: int, warningType: FSWWarningType, errorMsg: str, watchid: int=ID_ANY) -> None: ...
     @overload
-    def __init__(self, changeType: int, path: str, newPath: str, watchid: int=ID_ANY) -> None:
-        ...
-
+    def __init__(self, changeType: int, path: str, newPath: str, watchid: int=ID_ANY) -> None: ...
     @overload
     def __init__(self, changeType: int=0, watchid: int=ID_ANY) -> None:
         """
@@ -60988,6 +59294,7 @@ class FileSystemWatcherEvent(Event):
         """
         Clone() -> Event
         """
+
     @property
     def ChangeType(self) -> int: ...
     @property
@@ -61057,6 +59364,7 @@ class PreferencesEditor:
         
         Returns whether the preferences dialog is shown modally.
         """
+
 # end of class PreferencesEditor
 
 
@@ -61099,6 +59407,7 @@ class PreferencesPage:
         
         Create a window for this page.
         """
+
     @property
     def Icon(self) -> BitmapBundle: ...
     @property
@@ -61151,6 +59460,7 @@ class StockPreferencesPage(PreferencesPage):
         
         Reimplemented to return stock icon on macOS.
         """
+
     @property
     def Icon(self) -> BitmapBundle: ...
     @property
@@ -61201,6 +59511,7 @@ class ModalDialogHook:
         
         Called by wxWidgets after dismissing the modal dialog.
         """
+
 # end of class ModalDialogHook
 
 #-- end-modalhook --#
@@ -61215,9 +59526,7 @@ class UniChar:
     """
 
     @overload
-    def __init__(self, c: int) -> None:
-        ...
-
+    def __init__(self, c: int) -> None: ...
     @overload
     def __init__(self, c: int) -> None:
         """
@@ -61252,9 +59561,7 @@ class UniChar:
 
     @overload
     @staticmethod
-    def IsBMP(value: int) -> bool:
-        ...
-
+    def IsBMP(value: int) -> bool: ...
     @overload
     def IsBMP(self) -> bool:
         """
@@ -61267,9 +59574,7 @@ class UniChar:
 
     @overload
     @staticmethod
-    def IsSupplementary(value: int) -> bool:
-        ...
-
+    def IsSupplementary(value: int) -> bool: ...
     @overload
     def IsSupplementary(self) -> bool:
         """
@@ -61282,9 +59587,7 @@ class UniChar:
 
     @overload
     @staticmethod
-    def HighSurrogate(value: int) -> Uint16:
-        ...
-
+    def HighSurrogate(value: int) -> Uint16: ...
     @overload
     def HighSurrogate(self) -> Uint16:
         """
@@ -61296,9 +59599,7 @@ class UniChar:
 
     @overload
     @staticmethod
-    def LowSurrogate(value: int) -> Uint16:
-        ...
-
+    def LowSurrogate(value: int) -> Uint16: ...
     @overload
     def LowSurrogate(self) -> Uint16:
         """
@@ -61307,6 +59608,7 @@ class UniChar:
         
         Returns the low surrogate code unit for the supplementary character.
         """
+
     @property
     def Value(self) -> value_type: ...
 # end of class UniChar
